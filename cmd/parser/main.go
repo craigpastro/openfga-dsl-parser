@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/craigpastro/openfga-dsl-parser"
+	parser "github.com/craigpastro/openfga-dsl-parser"
 )
 
 func main() {

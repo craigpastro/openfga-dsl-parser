@@ -118,7 +118,7 @@ func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	})
 }
 
-func Parse(data string) []*pb.TypeDefinition {
+func MustParse(data string) []*pb.TypeDefinition {
 	is := antlr.NewInputStream(data)
 
 	// Create the Lexer

@@ -24,5 +24,5 @@ func main() {
 		data = os.Args[1]
 	}
 
-	fmt.Println(parser.Parse(data))
+	fmt.Println(parser.MustParse(data))
 }

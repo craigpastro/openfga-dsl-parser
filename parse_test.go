@@ -184,7 +184,7 @@ type document
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			if diff := cmp.Diff(test.output, Parse(test.input), opts); diff != "" {
+			if diff := cmp.Diff(test.output, MustParse(test.input), opts); diff != "" {
 				t.Error(diff)
 			}
 		})

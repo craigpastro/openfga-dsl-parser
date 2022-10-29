@@ -105,8 +105,8 @@ func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
 }
 
 func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
-	base := l.pop()
 	subtract := l.pop()
+	base := l.pop()
 
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_Difference{

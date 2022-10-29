@@ -15,6 +15,7 @@ var opts = cmpopts.IgnoreUnexported(
 	pb.Userset_Union{},
 	pb.Usersets{},
 	pb.TupleToUserset{},
+	pb.Difference{},
 )
 
 // Only testing one type definition as don't want to deal with ordering
@@ -171,6 +172,36 @@ type document
 													},
 												},
 											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "Test4",
+			input: `
+type document
+	relations
+		define viewer as writer but not banned`,
+			output: []*pb.TypeDefinition{
+				{
+					Type: "document",
+					Relations: map[string]*pb.Userset{
+						"viewer": {
+							Userset: &pb.Userset_Difference{
+								Difference: &pb.Difference{
+									Base: &pb.Userset{
+										Userset: &pb.Userset_ComputedUserset{
+											ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
+										},
+									},
+									Subtract: &pb.Userset{
+										Userset: &pb.Userset_ComputedUserset{
+											ComputedUserset: &pb.ObjectRelation{Relation: "banned"},
 										},
 									},
 								},

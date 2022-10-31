@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"errors"
+
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
@@ -133,4 +135,25 @@ func MustParse(data string) []*pb.TypeDefinition {
 	antlr.ParseTreeWalkerDefault.Walk(l, p.Prog())
 
 	return l.typeDefinitions
+}
+
+func Parse(data string) ([]*pb.TypeDefinition, error) {
+	var err error
+	var typeDefinitions []*pb.TypeDefinition
+
+	defer func() {
+		if r := recover(); r != nil {
+			switch x := r.(type) {
+			case string:
+				err = errors.New(x)
+			case error:
+				err = x
+			}
+			typeDefinitions = nil
+		}
+	}()
+
+	typeDefinitions = MustParse(data)
+
+	return typeDefinitions, err
 }

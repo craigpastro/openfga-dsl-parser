@@ -3,15 +3,19 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
 	parser "github.com/craigpastro/openfga-dsl-parser"
+	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func main() {
 	var filename string
 	flag.StringVar(&filename, "f", "", "specify a file to read")
+
+	var prettyPrint bool
+	flag.BoolVar(&prettyPrint, "p", false, "pretty print the output")
 	flag.Parse()
 
 	var data string
@@ -22,14 +26,17 @@ func main() {
 		}
 		data = string(bytes)
 	} else {
-		data = os.Args[1]
+		data = os.Args[len(os.Args)-1]
 	}
 
-	typeDefinitions, err := parser.Parse(data)
-	if err != nil {
-		log.Fatal(err)
+	output := &pb.AuthorizationModel{
+		SchemaVersion:   "1.0",
+		TypeDefinitions: parser.MustParse(data),
 	}
 
-	// TODO: output proper JSON. Need to add a TypeDefinitions to the api and then we can protojson it.
-	fmt.Println(typeDefinitions)
+	if prettyPrint {
+		fmt.Println(protojson.MarshalOptions{Multiline: true}.Format(output))
+	} else {
+		fmt.Println(protojson.MarshalOptions{}.Format(output))
+	}
 }

@@ -31,10 +31,7 @@ func (l *openFGAListener) pop() *pb.Userset {
 		panic("stack is empty unable to pop")
 	}
 
-	// Get the last value from the stack.
 	result := l.stack[len(l.stack)-1]
-
-	// Remove the last element from the stack.
 	l.stack = l.stack[:len(l.stack)-1]
 
 	return result
@@ -137,10 +134,7 @@ func MustParse(data string) []*pb.TypeDefinition {
 	return l.typeDefinitions
 }
 
-func Parse(data string) ([]*pb.TypeDefinition, error) {
-	var err error
-	var typeDefinitions []*pb.TypeDefinition
-
+func Parse(data string) (typeDefinitions []*pb.TypeDefinition, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			switch x := r.(type) {

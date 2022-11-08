@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	parser "github.com/craigpastro/openfga-dsl-parser"
@@ -11,16 +12,19 @@ import (
 )
 
 func main() {
-	var filename string
-	flag.StringVar(&filename, "f", "", "specify a file to read")
+	var readFile string
+	flag.StringVar(&readFile, "f", "", "specify a file to read")
 
 	var prettyPrint bool
 	flag.BoolVar(&prettyPrint, "p", false, "pretty print the output")
+
+	var outFile string
+	flag.StringVar(&outFile, "o", "", "output to a file")
 	flag.Parse()
 
 	var data string
-	if filename != "" {
-		bytes, err := os.ReadFile(filename)
+	if readFile != "" {
+		bytes, err := os.ReadFile(readFile)
 		if err != nil {
 			panic(err)
 		}
@@ -29,14 +33,28 @@ func main() {
 		data = os.Args[len(os.Args)-1]
 	}
 
-	output := &pb.AuthorizationModel{
-		SchemaVersion:   "1.0",
-		TypeDefinitions: parser.MustParse(data),
+	typeDefinitions, err := parser.Parse(data)
+	if err != nil {
+		log.Fatalf("error parsing: %s", err)
 	}
 
+	model := &pb.AuthorizationModel{
+		SchemaVersion:   "1.0",
+		TypeDefinitions: typeDefinitions,
+	}
+
+	var output string
 	if prettyPrint {
-		fmt.Println(protojson.MarshalOptions{Multiline: true}.Format(output))
+		output = protojson.MarshalOptions{Multiline: true}.Format(model)
 	} else {
-		fmt.Println(protojson.MarshalOptions{}.Format(output))
+		output = protojson.MarshalOptions{}.Format(model)
+	}
+
+	if outFile != "" {
+		if err := os.WriteFile(outFile, []byte(output), 0644); err != nil {
+			log.Fatalln(err)
+		}
+	} else {
+		fmt.Println(output)
 	}
 }

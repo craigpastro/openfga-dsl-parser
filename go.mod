@@ -1,9 +1,10 @@
-module github.com/craigpastro/openfga-dsl-parser
+module github.com/craigpastro/openfga-dsl-parser/v2
 
 go 1.19
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20220911224424-aa1f1f12a846
+	github.com/craigpastro/openfga-dsl-parser v0.0.0-20221108194739-cf3b8075615c
 	github.com/google/go-cmp v0.5.8
 	go.buf.build/openfga/go/openfga/api v1.2.35
 	google.golang.org/protobuf v1.28.1

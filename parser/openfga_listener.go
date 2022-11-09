@@ -8,63 +8,75 @@ import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 type OpenFGAListener interface {
 	antlr.ParseTreeListener
 
-	// EnterProg is called when entering the prog production.
-	EnterProg(c *ProgContext)
+	// EnterStart is called when entering the start production.
+	EnterStart(c *StartContext)
 
 	// EnterTypedef is called when entering the typedef production.
 	EnterTypedef(c *TypedefContext)
 
-	// EnterRelations is called when entering the relations production.
-	EnterRelations(c *RelationsContext)
+	// EnterRelation is called when entering the relation production.
+	EnterRelation(c *RelationContext)
+
+	// EnterTypes is called when entering the types production.
+	EnterTypes(c *TypesContext)
 
 	// EnterComputedUserset is called when entering the computedUserset production.
 	EnterComputedUserset(c *ComputedUsersetContext)
 
-	// EnterIntersection is called when entering the intersection production.
-	EnterIntersection(c *IntersectionContext)
+	// EnterRelationReferences is called when entering the relationReferences production.
+	EnterRelationReferences(c *RelationReferencesContext)
 
-	// EnterThis is called when entering the this production.
-	EnterThis(c *ThisContext)
+	// EnterType is called when entering the type production.
+	EnterType(c *TypeContext)
 
-	// EnterExclusion is called when entering the exclusion production.
-	EnterExclusion(c *ExclusionContext)
-
-	// EnterUnion is called when entering the union production.
-	EnterUnion(c *UnionContext)
+	// EnterTypeAndRelation is called when entering the typeAndRelation production.
+	EnterTypeAndRelation(c *TypeAndRelationContext)
 
 	// EnterTupleToUserset is called when entering the tupleToUserset production.
 	EnterTupleToUserset(c *TupleToUsersetContext)
 
-	// EnterGrouping is called when entering the grouping production.
-	EnterGrouping(c *GroupingContext)
+	// EnterUnion is called when entering the union production.
+	EnterUnion(c *UnionContext)
 
-	// ExitProg is called when exiting the prog production.
-	ExitProg(c *ProgContext)
+	// EnterIntersection is called when entering the intersection production.
+	EnterIntersection(c *IntersectionContext)
+
+	// EnterExclusion is called when entering the exclusion production.
+	EnterExclusion(c *ExclusionContext)
+
+	// ExitStart is called when exiting the start production.
+	ExitStart(c *StartContext)
 
 	// ExitTypedef is called when exiting the typedef production.
 	ExitTypedef(c *TypedefContext)
 
-	// ExitRelations is called when exiting the relations production.
-	ExitRelations(c *RelationsContext)
+	// ExitRelation is called when exiting the relation production.
+	ExitRelation(c *RelationContext)
+
+	// ExitTypes is called when exiting the types production.
+	ExitTypes(c *TypesContext)
 
 	// ExitComputedUserset is called when exiting the computedUserset production.
 	ExitComputedUserset(c *ComputedUsersetContext)
 
-	// ExitIntersection is called when exiting the intersection production.
-	ExitIntersection(c *IntersectionContext)
+	// ExitRelationReferences is called when exiting the relationReferences production.
+	ExitRelationReferences(c *RelationReferencesContext)
 
-	// ExitThis is called when exiting the this production.
-	ExitThis(c *ThisContext)
+	// ExitType is called when exiting the type production.
+	ExitType(c *TypeContext)
 
-	// ExitExclusion is called when exiting the exclusion production.
-	ExitExclusion(c *ExclusionContext)
-
-	// ExitUnion is called when exiting the union production.
-	ExitUnion(c *UnionContext)
+	// ExitTypeAndRelation is called when exiting the typeAndRelation production.
+	ExitTypeAndRelation(c *TypeAndRelationContext)
 
 	// ExitTupleToUserset is called when exiting the tupleToUserset production.
 	ExitTupleToUserset(c *TupleToUsersetContext)
 
-	// ExitGrouping is called when exiting the grouping production.
-	ExitGrouping(c *GroupingContext)
+	// ExitUnion is called when exiting the union production.
+	ExitUnion(c *UnionContext)
+
+	// ExitIntersection is called when exiting the intersection production.
+	ExitIntersection(c *IntersectionContext)
+
+	// ExitExclusion is called when exiting the exclusion production.
+	ExitExclusion(c *ExclusionContext)
 }

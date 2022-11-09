@@ -117,7 +117,7 @@ func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
 	})
 }
 
-func (l *openFGAListener) ExitExclusion(ctx *parser.ExclusionContext) {
+func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	subtract := l.pop()
 	base := l.pop()
 
@@ -162,6 +162,7 @@ func (l *openFGAListener) getMetadata() *pb.Metadata {
 			relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: directlyRelatedUserTypes}
 		}
 	}
+
 	return &pb.Metadata{Relations: relations}
 }
 

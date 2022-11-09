@@ -1,223 +1,46 @@
 package parser
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/pelletier/go-toml/v2"
+	"github.com/stretchr/testify/require"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
-var opts = cmpopts.IgnoreUnexported(
-	pb.TypeDefinition{},
-	pb.Userset{},
-	pb.ObjectRelation{},
-	pb.Userset_Union{},
-	pb.Usersets{},
-	pb.TupleToUserset{},
-	pb.Difference{},
-)
+const testdata = "testdata"
 
-// Only testing one type definition as don't want to deal with ordering
+type parseTests struct {
+	Tests []parseTest `yaml:"tests"`
+}
+
+type parseTest struct {
+	Name  string
+	Model string
+	Json  string
+}
+
 func TestParser(t *testing.T) {
-	tests := []struct {
-		name   string
-		input  string
-		output []*pb.TypeDefinition
-	}{
-		{
-			name: "Test1",
-			input: `
-type document
-	relations
-		define parent as self
-		define viewer as self or viewer from parent
-`,
-			output: []*pb.TypeDefinition{
-				{
-					Type: "document",
-					Relations: map[string]*pb.Userset{
-						"parent": {
-							Userset: &pb.Userset_This{},
-						},
-						"viewer": {
-							Userset: &pb.Userset_Union{
-								Union: &pb.Usersets{
-									Child: []*pb.Userset{
-										{
-											Userset: &pb.Userset_This{},
-										},
-										{
-											Userset: &pb.Userset_TupleToUserset{
-												TupleToUserset: &pb.TupleToUserset{
-													Tupleset:        &pb.ObjectRelation{Relation: "parent"},
-													ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			name: "Test2",
-			input: `
-type document
-	relations
-		define parent as (reader and writer) or (viewer and editor)
-`,
-			output: []*pb.TypeDefinition{
-				{
-					Type: "document",
-					Relations: map[string]*pb.Userset{
-						"parent": {
-							Userset: &pb.Userset_Union{
-								Union: &pb.Usersets{
-									Child: []*pb.Userset{
-										{
-											Userset: &pb.Userset_Intersection{
-												Intersection: &pb.Usersets{
-													Child: []*pb.Userset{
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "reader"},
-															},
-														},
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
-															},
-														},
-													},
-												},
-											},
-										},
-										{
-											Userset: &pb.Userset_Intersection{
-												Intersection: &pb.Usersets{
-													Child: []*pb.Userset{
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
-															},
-														},
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "editor"},
-															},
-														},
-													},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			name: "Test3",
-			input: `
-type document
-	relations
-		define parent as (reader or writer) and (viewer or editor)
-`,
-			output: []*pb.TypeDefinition{
-				{
-					Type: "document",
-					Relations: map[string]*pb.Userset{
-						"parent": {
-							Userset: &pb.Userset_Intersection{
-								Intersection: &pb.Usersets{
-									Child: []*pb.Userset{
-										{
-											Userset: &pb.Userset_Union{
-												Union: &pb.Usersets{
-													Child: []*pb.Userset{
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "reader"},
-															},
-														},
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
-															},
-														},
-													},
-												},
-											},
-										},
-										{
-											Userset: &pb.Userset_Union{
-												Union: &pb.Usersets{
-													Child: []*pb.Userset{
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
-															},
-														},
-														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "editor"},
-															},
-														},
-													},
-												},
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			name: "Test4",
-			input: `
-type document
-	relations
-		define viewer as writer but not banned`,
-			output: []*pb.TypeDefinition{
-				{
-					Type: "document",
-					Relations: map[string]*pb.Userset{
-						"viewer": {
-							Userset: &pb.Userset_Difference{
-								Difference: &pb.Difference{
-									Base: &pb.Userset{
-										Userset: &pb.Userset_ComputedUserset{
-											ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
-										},
-									},
-									Subtract: &pb.Userset{
-										Userset: &pb.Userset_ComputedUserset{
-											ComputedUserset: &pb.ObjectRelation{Relation: "banned"},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	}
+	data, err := os.ReadFile(filepath.Join(testdata, "tests.toml"))
+	require.NoError(t, err)
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if diff := cmp.Diff(test.output, MustParse(test.input), opts); diff != "" {
-				t.Error(diff)
+	var tests parseTests
+	err = toml.Unmarshal(data, &tests)
+	require.NoError(t, err)
+
+	for _, test := range tests.Tests {
+		t.Run(test.Name, func(t *testing.T) {
+			model := &pb.AuthorizationModel{
+				SchemaVersion:   "1.1",
+				TypeDefinitions: MustParse(test.Model),
 			}
+			bytes, err := protojson.Marshal(model)
+			require.NoError(t, err)
+
+			require.JSONEq(t, test.Json, string(bytes))
 		})
 	}
 }

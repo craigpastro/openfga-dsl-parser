@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	parser "github.com/craigpastro/openfga-dsl-parser"
+	parser "github.com/craigpastro/openfga-dsl-parser/v2"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	model := &pb.AuthorizationModel{
-		SchemaVersion:   "1.0",
+		SchemaVersion:   "1.1",
 		TypeDefinitions: typeDefinitions,
 	}
 

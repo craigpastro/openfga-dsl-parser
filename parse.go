@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/craigpastro/openfga-dsl-parser/parser"
+	"github.com/craigpastro/openfga-dsl-parser/v2/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 )
 
@@ -12,46 +12,60 @@ type openFGAListener struct {
 	*parser.BaseOpenFGAListener
 
 	typeDefinitions []*pb.TypeDefinition
-	relations       map[string]*pb.Userset
-	stack           []*pb.Userset
+	relations       map[string]*pb.Relation
+
+	rewrite  []*pb.Userset
+	typeInfo []*pb.RelationReference
 }
 
 func newOpenFGAListener() *openFGAListener {
 	return &openFGAListener{
-		relations: map[string]*pb.Userset{},
+		relations: map[string]*pb.Relation{},
 	}
 }
 
-func (l *openFGAListener) push(u *pb.Userset) {
-	l.stack = append(l.stack, u)
-}
-
-func (l *openFGAListener) pop() *pb.Userset {
-	if len(l.stack) < 1 {
-		panic("stack is empty unable to pop")
-	}
-
-	result := l.stack[len(l.stack)-1]
-	l.stack = l.stack[:len(l.stack)-1]
-
-	return result
-}
-
-func (l *openFGAListener) ExitTypedef(ctx *parser.TypedefContext) {
+func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) {
 	objectType := ctx.GetObjectType().GetText()
 
 	l.typeDefinitions = append(l.typeDefinitions, &pb.TypeDefinition{
 		Type:      objectType,
-		Relations: l.relations,
+		Relations: l.getRelations(),
+		Metadata:  l.getMetadata(),
 	})
 
 	// Clear the relations map
-	l.relations = map[string]*pb.Userset{}
+	l.relations = map[string]*pb.Relation{}
 }
 
-func (l *openFGAListener) ExitRelations(ctx *parser.RelationsContext) {
-	relation := ctx.GetRelation().GetText()
-	l.relations[relation] = l.pop()
+func (l *openFGAListener) ExitRelation(ctx *parser.RelationContext) {
+	name := ctx.GetName().GetText()
+
+	var typeInfo *pb.RelationTypeInfo
+	if l.typeInfo != nil {
+		typeInfo = &pb.RelationTypeInfo{DirectlyRelatedUserTypes: l.typeInfo}
+	}
+
+	l.relations[name] = &pb.Relation{
+		Name:     name,
+		Rewrite:  l.pop(),
+		TypeInfo: typeInfo,
+	}
+
+	// Clear the typeInfo array
+	l.typeInfo = nil
+}
+
+func (l *openFGAListener) ExitType(ctx *parser.TypeContext) {
+	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
+		Type: ctx.GetT().GetText(),
+	})
+}
+
+func (l *openFGAListener) ExitTypeAndRelation(ctx *parser.TypeAndRelationContext) {
+	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
+		Type:     ctx.GetT().GetText(),
+		Relation: ctx.GetR().GetText(),
+	})
 }
 
 func (l *openFGAListener) ExitThis(_ *parser.ThisContext) {
@@ -117,6 +131,41 @@ func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	})
 }
 
+func (l *openFGAListener) push(u *pb.Userset) {
+	l.rewrite = append(l.rewrite, u)
+}
+
+func (l *openFGAListener) pop() *pb.Userset {
+	if len(l.rewrite) < 1 {
+		panic("stack is empty unable to pop")
+	}
+
+	result := l.rewrite[len(l.rewrite)-1]
+	l.rewrite = l.rewrite[:len(l.rewrite)-1]
+
+	return result
+}
+
+func (l *openFGAListener) getRelations() map[string]*pb.Userset {
+	relations := map[string]*pb.Userset{}
+	for name, relation := range l.relations {
+		relations[name] = relation.GetRewrite()
+	}
+	return relations
+}
+
+func (l *openFGAListener) getMetadata() *pb.Metadata {
+	relations := map[string]*pb.RelationMetadata{}
+	for name, relation := range l.relations {
+		directlyRelatedUserTypes := relation.GetTypeInfo().GetDirectlyRelatedUserTypes()
+		if directlyRelatedUserTypes != nil {
+			relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: directlyRelatedUserTypes}
+		}
+	}
+
+	return &pb.Metadata{Relations: relations}
+}
+
 func MustParse(data string) []*pb.TypeDefinition {
 	is := antlr.NewInputStream(data)
 
@@ -129,7 +178,7 @@ func MustParse(data string) []*pb.TypeDefinition {
 
 	// Finally parse the expression
 	l := newOpenFGAListener()
-	antlr.ParseTreeWalkerDefault.Walk(l, p.Prog())
+	antlr.ParseTreeWalkerDefault.Walk(l, p.Start())
 
 	return l.typeDefinitions
 }

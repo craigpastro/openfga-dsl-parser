@@ -8,14 +8,26 @@ import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 type OpenFGAListener interface {
 	antlr.ParseTreeListener
 
-	// EnterProg is called when entering the prog production.
-	EnterProg(c *ProgContext)
+	// EnterStart is called when entering the start production.
+	EnterStart(c *StartContext)
 
-	// EnterTypedef is called when entering the typedef production.
-	EnterTypedef(c *TypedefContext)
+	// EnterTypeDefinition is called when entering the typeDefinition production.
+	EnterTypeDefinition(c *TypeDefinitionContext)
 
-	// EnterRelations is called when entering the relations production.
-	EnterRelations(c *RelationsContext)
+	// EnterRelation is called when entering the relation production.
+	EnterRelation(c *RelationContext)
+
+	// EnterTypeRestriction is called when entering the typeRestriction production.
+	EnterTypeRestriction(c *TypeRestrictionContext)
+
+	// EnterRelationReferences is called when entering the relationReferences production.
+	EnterRelationReferences(c *RelationReferencesContext)
+
+	// EnterType is called when entering the type production.
+	EnterType(c *TypeContext)
+
+	// EnterTypeAndRelation is called when entering the typeAndRelation production.
+	EnterTypeAndRelation(c *TypeAndRelationContext)
 
 	// EnterComputedUserset is called when entering the computedUserset production.
 	EnterComputedUserset(c *ComputedUsersetContext)
@@ -38,14 +50,26 @@ type OpenFGAListener interface {
 	// EnterGrouping is called when entering the grouping production.
 	EnterGrouping(c *GroupingContext)
 
-	// ExitProg is called when exiting the prog production.
-	ExitProg(c *ProgContext)
+	// ExitStart is called when exiting the start production.
+	ExitStart(c *StartContext)
 
-	// ExitTypedef is called when exiting the typedef production.
-	ExitTypedef(c *TypedefContext)
+	// ExitTypeDefinition is called when exiting the typeDefinition production.
+	ExitTypeDefinition(c *TypeDefinitionContext)
 
-	// ExitRelations is called when exiting the relations production.
-	ExitRelations(c *RelationsContext)
+	// ExitRelation is called when exiting the relation production.
+	ExitRelation(c *RelationContext)
+
+	// ExitTypeRestriction is called when exiting the typeRestriction production.
+	ExitTypeRestriction(c *TypeRestrictionContext)
+
+	// ExitRelationReferences is called when exiting the relationReferences production.
+	ExitRelationReferences(c *RelationReferencesContext)
+
+	// ExitType is called when exiting the type production.
+	ExitType(c *TypeContext)
+
+	// ExitTypeAndRelation is called when exiting the typeAndRelation production.
+	ExitTypeAndRelation(c *TypeAndRelationContext)
 
 	// ExitComputedUserset is called when exiting the computedUserset production.
 	ExitComputedUserset(c *ComputedUsersetContext)

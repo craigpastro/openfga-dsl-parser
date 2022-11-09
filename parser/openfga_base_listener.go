@@ -21,23 +21,47 @@ func (s *BaseOpenFGAListener) EnterEveryRule(ctx antlr.ParserRuleContext) {}
 // ExitEveryRule is called when any rule is exited.
 func (s *BaseOpenFGAListener) ExitEveryRule(ctx antlr.ParserRuleContext) {}
 
-// EnterProg is called when production prog is entered.
-func (s *BaseOpenFGAListener) EnterProg(ctx *ProgContext) {}
+// EnterStart is called when production start is entered.
+func (s *BaseOpenFGAListener) EnterStart(ctx *StartContext) {}
 
-// ExitProg is called when production prog is exited.
-func (s *BaseOpenFGAListener) ExitProg(ctx *ProgContext) {}
+// ExitStart is called when production start is exited.
+func (s *BaseOpenFGAListener) ExitStart(ctx *StartContext) {}
 
-// EnterTypedef is called when production typedef is entered.
-func (s *BaseOpenFGAListener) EnterTypedef(ctx *TypedefContext) {}
+// EnterTypeDefinition is called when production typeDefinition is entered.
+func (s *BaseOpenFGAListener) EnterTypeDefinition(ctx *TypeDefinitionContext) {}
 
-// ExitTypedef is called when production typedef is exited.
-func (s *BaseOpenFGAListener) ExitTypedef(ctx *TypedefContext) {}
+// ExitTypeDefinition is called when production typeDefinition is exited.
+func (s *BaseOpenFGAListener) ExitTypeDefinition(ctx *TypeDefinitionContext) {}
 
-// EnterRelations is called when production relations is entered.
-func (s *BaseOpenFGAListener) EnterRelations(ctx *RelationsContext) {}
+// EnterRelation is called when production relation is entered.
+func (s *BaseOpenFGAListener) EnterRelation(ctx *RelationContext) {}
 
-// ExitRelations is called when production relations is exited.
-func (s *BaseOpenFGAListener) ExitRelations(ctx *RelationsContext) {}
+// ExitRelation is called when production relation is exited.
+func (s *BaseOpenFGAListener) ExitRelation(ctx *RelationContext) {}
+
+// EnterTypeRestriction is called when production typeRestriction is entered.
+func (s *BaseOpenFGAListener) EnterTypeRestriction(ctx *TypeRestrictionContext) {}
+
+// ExitTypeRestriction is called when production typeRestriction is exited.
+func (s *BaseOpenFGAListener) ExitTypeRestriction(ctx *TypeRestrictionContext) {}
+
+// EnterRelationReferences is called when production relationReferences is entered.
+func (s *BaseOpenFGAListener) EnterRelationReferences(ctx *RelationReferencesContext) {}
+
+// ExitRelationReferences is called when production relationReferences is exited.
+func (s *BaseOpenFGAListener) ExitRelationReferences(ctx *RelationReferencesContext) {}
+
+// EnterType is called when production type is entered.
+func (s *BaseOpenFGAListener) EnterType(ctx *TypeContext) {}
+
+// ExitType is called when production type is exited.
+func (s *BaseOpenFGAListener) ExitType(ctx *TypeContext) {}
+
+// EnterTypeAndRelation is called when production typeAndRelation is entered.
+func (s *BaseOpenFGAListener) EnterTypeAndRelation(ctx *TypeAndRelationContext) {}
+
+// ExitTypeAndRelation is called when production typeAndRelation is exited.
+func (s *BaseOpenFGAListener) ExitTypeAndRelation(ctx *TypeAndRelationContext) {}
 
 // EnterComputedUserset is called when production computedUserset is entered.
 func (s *BaseOpenFGAListener) EnterComputedUserset(ctx *ComputedUsersetContext) {}

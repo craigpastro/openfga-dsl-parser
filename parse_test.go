@@ -20,7 +20,7 @@ type parseTests struct {
 type parseTest struct {
 	Name  string
 	Model string
-	Json  string
+	JSON  string
 }
 
 func TestParser(t *testing.T) {
@@ -40,7 +40,7 @@ func TestParser(t *testing.T) {
 			bytes, err := protojson.Marshal(model)
 			require.NoError(t, err)
 
-			require.JSONEq(t, test.Json, string(bytes))
+			require.JSONEq(t, test.JSON, string(bytes))
 		})
 	}
 }

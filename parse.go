@@ -18,44 +18,13 @@ type openFGAListener struct {
 	typeInfo []*pb.RelationReference
 }
 
-func (l *openFGAListener) push(u *pb.Userset) {
-	l.rewrite = append(l.rewrite, u)
-}
-
-func (l *openFGAListener) pop() *pb.Userset {
-	if len(l.rewrite) < 1 {
-		panic("stack is empty unable to pop")
-	}
-
-	result := l.rewrite[len(l.rewrite)-1]
-	l.rewrite = l.rewrite[:len(l.rewrite)-1]
-
-	return result
-}
-
-func (l *openFGAListener) getRelations() map[string]*pb.Userset {
-	relations := map[string]*pb.Userset{}
-	for name, relation := range l.relations {
-		relations[name] = relation.GetRewrite()
-	}
-	return relations
-}
-
-func (l *openFGAListener) getMetadata() *pb.Metadata {
-	relations := map[string]*pb.RelationMetadata{}
-	for name, relation := range l.relations {
-		relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: relation.GetTypeInfo().GetDirectlyRelatedUserTypes()}
-	}
-	return &pb.Metadata{Relations: relations}
-}
-
 func newOpenFGAListener() *openFGAListener {
 	return &openFGAListener{
 		relations: map[string]*pb.Relation{},
 	}
 }
 
-func (l *openFGAListener) ExitTypedef(ctx *parser.TypedefContext) {
+func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) {
 	objectType := ctx.GetObjectType().GetText()
 
 	l.typeDefinitions = append(l.typeDefinitions, &pb.TypeDefinition{
@@ -93,84 +62,98 @@ func (l *openFGAListener) ExitTypeAndRelation(ctx *parser.TypeAndRelationContext
 	})
 }
 
-func (l *openFGAListener) ExitTypes(_ *parser.TypesContext) {
+func (l *openFGAListener) ExitThis(_ *parser.ThisContext) {
 	l.push(&pb.Userset{Userset: &pb.Userset_This{}})
+}
+
+func (l *openFGAListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) {
+	l.push(&pb.Userset{
+		Userset: &pb.Userset_TupleToUserset{
+			TupleToUserset: &pb.TupleToUserset{
+				Tupleset:        &pb.ObjectRelation{Relation: ctx.GetTupleset().GetText()},
+				ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
+			},
+		},
+	})
 }
 
 func (l *openFGAListener) ExitComputedUserset(ctx *parser.ComputedUsersetContext) {
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_ComputedUserset{
-			ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetId().GetText()},
+			ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
 		},
 	})
 }
 
-func (l *openFGAListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) {
-	computedUserset := l.pop()
-
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_TupleToUserset{
-			TupleToUserset: &pb.TupleToUserset{
-				Tupleset:        &pb.ObjectRelation{Relation: ctx.GetId().GetText()},
-				ComputedUserset: computedUserset.GetComputedUserset(),
-			},
-		},
-	})
-}
-
-func (l *openFGAListener) ExitUnion(ctx *parser.UnionContext) {
+func (l *openFGAListener) ExitUnion(_ *parser.UnionContext) {
+	right := l.pop()
 	left := l.pop()
 
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_Union{
 			Union: &pb.Usersets{
-				Child: []*pb.Userset{
-					left,
-					{
-						Userset: &pb.Userset_ComputedUserset{
-							ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetId().GetText()},
-						},
-					},
-				},
+				Child: []*pb.Userset{left, right},
 			},
 		},
 	})
 }
 
-func (l *openFGAListener) ExitIntersection(ctx *parser.IntersectionContext) {
+func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
+	right := l.pop()
 	left := l.pop()
 
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_Intersection{
 			Intersection: &pb.Usersets{
-				Child: []*pb.Userset{
-					left,
-					{
-						Userset: &pb.Userset_ComputedUserset{
-							ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetId().GetText()},
-						},
-					},
-				},
+				Child: []*pb.Userset{left, right},
 			},
 		},
 	})
 }
 
 func (l *openFGAListener) ExitExclusion(ctx *parser.ExclusionContext) {
+	subtract := l.pop()
 	base := l.pop()
 
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_Difference{
 			Difference: &pb.Difference{
-				Base: base,
-				Subtract: &pb.Userset{
-					Userset: &pb.Userset_ComputedUserset{
-						ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetId().GetText()},
-					},
-				},
+				Base:     base,
+				Subtract: subtract,
 			},
 		},
 	})
+}
+
+func (l *openFGAListener) push(u *pb.Userset) {
+	l.rewrite = append(l.rewrite, u)
+}
+
+func (l *openFGAListener) pop() *pb.Userset {
+	if len(l.rewrite) < 1 {
+		panic("stack is empty unable to pop")
+	}
+
+	result := l.rewrite[len(l.rewrite)-1]
+	l.rewrite = l.rewrite[:len(l.rewrite)-1]
+
+	return result
+}
+
+func (l *openFGAListener) getRelations() map[string]*pb.Userset {
+	relations := map[string]*pb.Userset{}
+	for name, relation := range l.relations {
+		relations[name] = relation.GetRewrite()
+	}
+	return relations
+}
+
+func (l *openFGAListener) getMetadata() *pb.Metadata {
+	relations := map[string]*pb.RelationMetadata{}
+	for name, relation := range l.relations {
+		relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: relation.GetTypeInfo().GetDirectlyRelatedUserTypes()}
+	}
+	return &pb.Metadata{Relations: relations}
 }
 
 func MustParse(data string) []*pb.TypeDefinition {

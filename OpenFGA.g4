@@ -1,25 +1,26 @@
 grammar OpenFGA;
 
-start: typedef+ EOF;
+start: typeDefinition+ EOF;
 
-typedef: 'type' objectType=ID ('relations' relation+)? ;
+typeDefinition: 'type' objectType=ID ('relations' relation+)? ;
 
-relation: 'define' name=ID ':' typesOrID rewrite? ;
+relation: 'define' name=ID typeRestriction? 'as' rewrite ;
 
-typesOrID: '[' relationReferences ']' # types
-    | id=ID                           # computedUserset
-    ;
+typeRestriction: ':' '[' relationReferences ']' ;
 
-relationReferences: head=relationReference (',' tail=relationReferences)* ;
+relationReferences: relationReference (',' relationReferences)* ;
 
 relationReference: t=ID  # type
     | t=ID '#' r=ID      # typeAndRelation
     ;
 
-rewrite: 'from' id=ID  # tupleToUserset
-    | ('or' id=ID)+    # union
-    | ('and' id=ID)+   # intersection
-    | 'but not' id=ID  # exclusion
+rewrite: 'self'                              # this
+    | computedUserset=ID 'from' tupleset=ID  # tupleToUserset
+    | rewrite 'or' rewrite                   # union
+    | rewrite 'and' rewrite                  # intersection
+    | rewrite 'but not' rewrite              # exclusion
+    | computedUserset=ID                     # computedUserset
+    | '(' rewrite ')'                        # grouping
     ;
 
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;

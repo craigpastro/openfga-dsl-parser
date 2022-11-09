@@ -33,50 +33,54 @@ var openfgaParserStaticData struct {
 func openfgaParserInit() {
 	staticData := &openfgaParserStaticData
 	staticData.literalNames = []string{
-		"", "'type'", "'relations'", "'define'", "':'", "'['", "']'", "','",
-		"'#'", "'from'", "'or'", "'and'", "'but not'",
+		"", "'type'", "'relations'", "'define'", "'as'", "':'", "'['", "']'",
+		"','", "'#'", "'self'", "'from'", "'or'", "'and'", "'but not'", "'('",
+		"')'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "ID", "WS",
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+		"ID", "WS",
 	}
 	staticData.ruleNames = []string{
-		"start", "typedef", "relation", "typesOrID", "relationReferences", "relationReference",
-		"rewrite",
+		"start", "typeDefinition", "relation", "typeRestriction", "relationReferences",
+		"relationReference", "rewrite",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 14, 78, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 18, 85, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 1, 0, 4, 0, 16, 8, 0, 11, 0, 12, 0, 17, 1, 0,
 		1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 26, 8, 1, 11, 1, 12, 1, 27, 3, 1, 30,
-		8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 37, 8, 2, 1, 3, 1, 3, 1, 3, 1,
-		3, 1, 3, 3, 3, 44, 8, 3, 1, 4, 1, 4, 1, 4, 5, 4, 49, 8, 4, 10, 4, 12, 4,
-		52, 9, 4, 1, 5, 1, 5, 1, 5, 1, 5, 3, 5, 58, 8, 5, 1, 6, 1, 6, 1, 6, 1,
-		6, 4, 6, 64, 8, 6, 11, 6, 12, 6, 65, 1, 6, 1, 6, 4, 6, 70, 8, 6, 11, 6,
-		12, 6, 71, 1, 6, 1, 6, 3, 6, 76, 8, 6, 1, 6, 0, 0, 7, 0, 2, 4, 6, 8, 10,
-		12, 0, 0, 82, 0, 15, 1, 0, 0, 0, 2, 21, 1, 0, 0, 0, 4, 31, 1, 0, 0, 0,
-		6, 43, 1, 0, 0, 0, 8, 45, 1, 0, 0, 0, 10, 57, 1, 0, 0, 0, 12, 75, 1, 0,
-		0, 0, 14, 16, 3, 2, 1, 0, 15, 14, 1, 0, 0, 0, 16, 17, 1, 0, 0, 0, 17, 15,
-		1, 0, 0, 0, 17, 18, 1, 0, 0, 0, 18, 19, 1, 0, 0, 0, 19, 20, 5, 0, 0, 1,
-		20, 1, 1, 0, 0, 0, 21, 22, 5, 1, 0, 0, 22, 29, 5, 13, 0, 0, 23, 25, 5,
-		2, 0, 0, 24, 26, 3, 4, 2, 0, 25, 24, 1, 0, 0, 0, 26, 27, 1, 0, 0, 0, 27,
-		25, 1, 0, 0, 0, 27, 28, 1, 0, 0, 0, 28, 30, 1, 0, 0, 0, 29, 23, 1, 0, 0,
-		0, 29, 30, 1, 0, 0, 0, 30, 3, 1, 0, 0, 0, 31, 32, 5, 3, 0, 0, 32, 33, 5,
-		13, 0, 0, 33, 34, 5, 4, 0, 0, 34, 36, 3, 6, 3, 0, 35, 37, 3, 12, 6, 0,
-		36, 35, 1, 0, 0, 0, 36, 37, 1, 0, 0, 0, 37, 5, 1, 0, 0, 0, 38, 39, 5, 5,
-		0, 0, 39, 40, 3, 8, 4, 0, 40, 41, 5, 6, 0, 0, 41, 44, 1, 0, 0, 0, 42, 44,
-		5, 13, 0, 0, 43, 38, 1, 0, 0, 0, 43, 42, 1, 0, 0, 0, 44, 7, 1, 0, 0, 0,
-		45, 50, 3, 10, 5, 0, 46, 47, 5, 7, 0, 0, 47, 49, 3, 8, 4, 0, 48, 46, 1,
-		0, 0, 0, 49, 52, 1, 0, 0, 0, 50, 48, 1, 0, 0, 0, 50, 51, 1, 0, 0, 0, 51,
-		9, 1, 0, 0, 0, 52, 50, 1, 0, 0, 0, 53, 58, 5, 13, 0, 0, 54, 55, 5, 13,
-		0, 0, 55, 56, 5, 8, 0, 0, 56, 58, 5, 13, 0, 0, 57, 53, 1, 0, 0, 0, 57,
-		54, 1, 0, 0, 0, 58, 11, 1, 0, 0, 0, 59, 60, 5, 9, 0, 0, 60, 76, 5, 13,
-		0, 0, 61, 62, 5, 10, 0, 0, 62, 64, 5, 13, 0, 0, 63, 61, 1, 0, 0, 0, 64,
-		65, 1, 0, 0, 0, 65, 63, 1, 0, 0, 0, 65, 66, 1, 0, 0, 0, 66, 76, 1, 0, 0,
-		0, 67, 68, 5, 11, 0, 0, 68, 70, 5, 13, 0, 0, 69, 67, 1, 0, 0, 0, 70, 71,
-		1, 0, 0, 0, 71, 69, 1, 0, 0, 0, 71, 72, 1, 0, 0, 0, 72, 76, 1, 0, 0, 0,
-		73, 74, 5, 12, 0, 0, 74, 76, 5, 13, 0, 0, 75, 59, 1, 0, 0, 0, 75, 63, 1,
-		0, 0, 0, 75, 69, 1, 0, 0, 0, 75, 73, 1, 0, 0, 0, 76, 13, 1, 0, 0, 0, 10,
-		17, 27, 29, 36, 43, 50, 57, 65, 71, 75,
+		8, 1, 1, 2, 1, 2, 1, 2, 3, 2, 35, 8, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1,
+		3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 5, 4, 48, 8, 4, 10, 4, 12, 4, 51, 9, 4,
+		1, 5, 1, 5, 1, 5, 1, 5, 3, 5, 57, 8, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1,
+		6, 1, 6, 1, 6, 1, 6, 1, 6, 3, 6, 69, 8, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6,
+		1, 6, 1, 6, 1, 6, 1, 6, 5, 6, 80, 8, 6, 10, 6, 12, 6, 83, 9, 6, 1, 6, 0,
+		1, 12, 7, 0, 2, 4, 6, 8, 10, 12, 0, 0, 89, 0, 15, 1, 0, 0, 0, 2, 21, 1,
+		0, 0, 0, 4, 31, 1, 0, 0, 0, 6, 39, 1, 0, 0, 0, 8, 44, 1, 0, 0, 0, 10, 56,
+		1, 0, 0, 0, 12, 68, 1, 0, 0, 0, 14, 16, 3, 2, 1, 0, 15, 14, 1, 0, 0, 0,
+		16, 17, 1, 0, 0, 0, 17, 15, 1, 0, 0, 0, 17, 18, 1, 0, 0, 0, 18, 19, 1,
+		0, 0, 0, 19, 20, 5, 0, 0, 1, 20, 1, 1, 0, 0, 0, 21, 22, 5, 1, 0, 0, 22,
+		29, 5, 17, 0, 0, 23, 25, 5, 2, 0, 0, 24, 26, 3, 4, 2, 0, 25, 24, 1, 0,
+		0, 0, 26, 27, 1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 27, 28, 1, 0, 0, 0, 28, 30,
+		1, 0, 0, 0, 29, 23, 1, 0, 0, 0, 29, 30, 1, 0, 0, 0, 30, 3, 1, 0, 0, 0,
+		31, 32, 5, 3, 0, 0, 32, 34, 5, 17, 0, 0, 33, 35, 3, 6, 3, 0, 34, 33, 1,
+		0, 0, 0, 34, 35, 1, 0, 0, 0, 35, 36, 1, 0, 0, 0, 36, 37, 5, 4, 0, 0, 37,
+		38, 3, 12, 6, 0, 38, 5, 1, 0, 0, 0, 39, 40, 5, 5, 0, 0, 40, 41, 5, 6, 0,
+		0, 41, 42, 3, 8, 4, 0, 42, 43, 5, 7, 0, 0, 43, 7, 1, 0, 0, 0, 44, 49, 3,
+		10, 5, 0, 45, 46, 5, 8, 0, 0, 46, 48, 3, 8, 4, 0, 47, 45, 1, 0, 0, 0, 48,
+		51, 1, 0, 0, 0, 49, 47, 1, 0, 0, 0, 49, 50, 1, 0, 0, 0, 50, 9, 1, 0, 0,
+		0, 51, 49, 1, 0, 0, 0, 52, 57, 5, 17, 0, 0, 53, 54, 5, 17, 0, 0, 54, 55,
+		5, 9, 0, 0, 55, 57, 5, 17, 0, 0, 56, 52, 1, 0, 0, 0, 56, 53, 1, 0, 0, 0,
+		57, 11, 1, 0, 0, 0, 58, 59, 6, 6, -1, 0, 59, 69, 5, 10, 0, 0, 60, 61, 5,
+		17, 0, 0, 61, 62, 5, 11, 0, 0, 62, 69, 5, 17, 0, 0, 63, 69, 5, 17, 0, 0,
+		64, 65, 5, 15, 0, 0, 65, 66, 3, 12, 6, 0, 66, 67, 5, 16, 0, 0, 67, 69,
+		1, 0, 0, 0, 68, 58, 1, 0, 0, 0, 68, 60, 1, 0, 0, 0, 68, 63, 1, 0, 0, 0,
+		68, 64, 1, 0, 0, 0, 69, 81, 1, 0, 0, 0, 70, 71, 10, 5, 0, 0, 71, 72, 5,
+		12, 0, 0, 72, 80, 3, 12, 6, 6, 73, 74, 10, 4, 0, 0, 74, 75, 5, 13, 0, 0,
+		75, 80, 3, 12, 6, 5, 76, 77, 10, 3, 0, 0, 77, 78, 5, 14, 0, 0, 78, 80,
+		3, 12, 6, 4, 79, 70, 1, 0, 0, 0, 79, 73, 1, 0, 0, 0, 79, 76, 1, 0, 0, 0,
+		80, 83, 1, 0, 0, 0, 81, 79, 1, 0, 0, 0, 81, 82, 1, 0, 0, 0, 82, 13, 1,
+		0, 0, 0, 83, 81, 1, 0, 0, 0, 9, 17, 27, 29, 34, 49, 56, 68, 79, 81,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -127,16 +131,20 @@ const (
 	OpenFGAParserT__9  = 10
 	OpenFGAParserT__10 = 11
 	OpenFGAParserT__11 = 12
-	OpenFGAParserID    = 13
-	OpenFGAParserWS    = 14
+	OpenFGAParserT__12 = 13
+	OpenFGAParserT__13 = 14
+	OpenFGAParserT__14 = 15
+	OpenFGAParserT__15 = 16
+	OpenFGAParserID    = 17
+	OpenFGAParserWS    = 18
 )
 
 // OpenFGAParser rules.
 const (
 	OpenFGAParserRULE_start              = 0
-	OpenFGAParserRULE_typedef            = 1
+	OpenFGAParserRULE_typeDefinition     = 1
 	OpenFGAParserRULE_relation           = 2
-	OpenFGAParserRULE_typesOrID          = 3
+	OpenFGAParserRULE_typeRestriction    = 3
 	OpenFGAParserRULE_relationReferences = 4
 	OpenFGAParserRULE_relationReference  = 5
 	OpenFGAParserRULE_rewrite            = 6
@@ -184,20 +192,20 @@ func (s *StartContext) EOF() antlr.TerminalNode {
 	return s.GetToken(OpenFGAParserEOF, 0)
 }
 
-func (s *StartContext) AllTypedef() []ITypedefContext {
+func (s *StartContext) AllTypeDefinition() []ITypeDefinitionContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(ITypedefContext); ok {
+		if _, ok := ctx.(ITypeDefinitionContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]ITypedefContext, len)
+	tst := make([]ITypeDefinitionContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(ITypedefContext); ok {
-			tst[i] = t.(ITypedefContext)
+		if t, ok := ctx.(ITypeDefinitionContext); ok {
+			tst[i] = t.(ITypeDefinitionContext)
 			i++
 		}
 	}
@@ -205,11 +213,11 @@ func (s *StartContext) AllTypedef() []ITypedefContext {
 	return tst
 }
 
-func (s *StartContext) Typedef(i int) ITypedefContext {
+func (s *StartContext) TypeDefinition(i int) ITypeDefinitionContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITypedefContext); ok {
+		if _, ok := ctx.(ITypeDefinitionContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -222,7 +230,7 @@ func (s *StartContext) Typedef(i int) ITypedefContext {
 		return nil
 	}
 
-	return t.(ITypedefContext)
+	return t.(ITypeDefinitionContext)
 }
 
 func (s *StartContext) GetRuleContext() antlr.RuleContext {
@@ -277,7 +285,7 @@ func (p *OpenFGAParser) Start() (localctx IStartContext) {
 	for ok := true; ok; ok = _la == OpenFGAParserT__0 {
 		{
 			p.SetState(14)
-			p.Typedef()
+			p.TypeDefinition()
 		}
 
 		p.SetState(17)
@@ -292,8 +300,8 @@ func (p *OpenFGAParser) Start() (localctx IStartContext) {
 	return localctx
 }
 
-// ITypedefContext is an interface to support dynamic dispatch.
-type ITypedefContext interface {
+// ITypeDefinitionContext is an interface to support dynamic dispatch.
+type ITypeDefinitionContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
@@ -305,47 +313,47 @@ type ITypedefContext interface {
 	// SetObjectType sets the objectType token.
 	SetObjectType(antlr.Token)
 
-	// IsTypedefContext differentiates from other interfaces.
-	IsTypedefContext()
+	// IsTypeDefinitionContext differentiates from other interfaces.
+	IsTypeDefinitionContext()
 }
 
-type TypedefContext struct {
+type TypeDefinitionContext struct {
 	*antlr.BaseParserRuleContext
 	parser     antlr.Parser
 	objectType antlr.Token
 }
 
-func NewEmptyTypedefContext() *TypedefContext {
-	var p = new(TypedefContext)
+func NewEmptyTypeDefinitionContext() *TypeDefinitionContext {
+	var p = new(TypeDefinitionContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = OpenFGAParserRULE_typedef
+	p.RuleIndex = OpenFGAParserRULE_typeDefinition
 	return p
 }
 
-func (*TypedefContext) IsTypedefContext() {}
+func (*TypeDefinitionContext) IsTypeDefinitionContext() {}
 
-func NewTypedefContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypedefContext {
-	var p = new(TypedefContext)
+func NewTypeDefinitionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypeDefinitionContext {
+	var p = new(TypeDefinitionContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = OpenFGAParserRULE_typedef
+	p.RuleIndex = OpenFGAParserRULE_typeDefinition
 
 	return p
 }
 
-func (s *TypedefContext) GetParser() antlr.Parser { return s.parser }
+func (s *TypeDefinitionContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TypedefContext) GetObjectType() antlr.Token { return s.objectType }
+func (s *TypeDefinitionContext) GetObjectType() antlr.Token { return s.objectType }
 
-func (s *TypedefContext) SetObjectType(v antlr.Token) { s.objectType = v }
+func (s *TypeDefinitionContext) SetObjectType(v antlr.Token) { s.objectType = v }
 
-func (s *TypedefContext) ID() antlr.TerminalNode {
+func (s *TypeDefinitionContext) ID() antlr.TerminalNode {
 	return s.GetToken(OpenFGAParserID, 0)
 }
 
-func (s *TypedefContext) AllRelation() []IRelationContext {
+func (s *TypeDefinitionContext) AllRelation() []IRelationContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -366,7 +374,7 @@ func (s *TypedefContext) AllRelation() []IRelationContext {
 	return tst
 }
 
-func (s *TypedefContext) Relation(i int) IRelationContext {
+func (s *TypeDefinitionContext) Relation(i int) IRelationContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -386,32 +394,32 @@ func (s *TypedefContext) Relation(i int) IRelationContext {
 	return t.(IRelationContext)
 }
 
-func (s *TypedefContext) GetRuleContext() antlr.RuleContext {
+func (s *TypeDefinitionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *TypedefContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *TypeDefinitionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *TypedefContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *TypeDefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.EnterTypedef(s)
+		listenerT.EnterTypeDefinition(s)
 	}
 }
 
-func (s *TypedefContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *TypeDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.ExitTypedef(s)
+		listenerT.ExitTypeDefinition(s)
 	}
 }
 
-func (p *OpenFGAParser) Typedef() (localctx ITypedefContext) {
+func (p *OpenFGAParser) TypeDefinition() (localctx ITypeDefinitionContext) {
 	this := p
 	_ = this
 
-	localctx = NewTypedefContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, OpenFGAParserRULE_typedef)
+	localctx = NewTypeDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, OpenFGAParserRULE_typeDefinition)
 	var _la int
 
 	defer func() {
@@ -440,7 +448,7 @@ func (p *OpenFGAParser) Typedef() (localctx ITypedefContext) {
 
 		var _m = p.Match(OpenFGAParserID)
 
-		localctx.(*TypedefContext).objectType = _m
+		localctx.(*TypeDefinitionContext).objectType = _m
 	}
 	p.SetState(29)
 	p.GetErrorHandler().Sync(p)
@@ -520,26 +528,6 @@ func (s *RelationContext) GetName() antlr.Token { return s.name }
 
 func (s *RelationContext) SetName(v antlr.Token) { s.name = v }
 
-func (s *RelationContext) TypesOrID() ITypesOrIDContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITypesOrIDContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(ITypesOrIDContext)
-}
-
-func (s *RelationContext) ID() antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, 0)
-}
-
 func (s *RelationContext) Rewrite() IRewriteContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
@@ -554,6 +542,26 @@ func (s *RelationContext) Rewrite() IRewriteContext {
 	}
 
 	return t.(IRewriteContext)
+}
+
+func (s *RelationContext) ID() antlr.TerminalNode {
+	return s.GetToken(OpenFGAParserID, 0)
+}
+
+func (s *RelationContext) TypeRestriction() ITypeRestrictionContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ITypeRestrictionContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ITypeRestrictionContext)
 }
 
 func (s *RelationContext) GetRuleContext() antlr.RuleContext {
@@ -612,98 +620,68 @@ func (p *OpenFGAParser) Relation() (localctx IRelationContext) {
 
 		localctx.(*RelationContext).name = _m
 	}
-	{
-		p.SetState(33)
-		p.Match(OpenFGAParserT__3)
-	}
-	{
-		p.SetState(34)
-		p.TypesOrID()
-	}
-	p.SetState(36)
+	p.SetState(34)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&7680) != 0 {
+	if _la == OpenFGAParserT__4 {
 		{
-			p.SetState(35)
-			p.Rewrite()
+			p.SetState(33)
+			p.TypeRestriction()
 		}
 
+	}
+	{
+		p.SetState(36)
+		p.Match(OpenFGAParserT__3)
+	}
+	{
+		p.SetState(37)
+		p.rewrite(0)
 	}
 
 	return localctx
 }
 
-// ITypesOrIDContext is an interface to support dynamic dispatch.
-type ITypesOrIDContext interface {
+// ITypeRestrictionContext is an interface to support dynamic dispatch.
+type ITypeRestrictionContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsTypesOrIDContext differentiates from other interfaces.
-	IsTypesOrIDContext()
+	// IsTypeRestrictionContext differentiates from other interfaces.
+	IsTypeRestrictionContext()
 }
 
-type TypesOrIDContext struct {
+type TypeRestrictionContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyTypesOrIDContext() *TypesOrIDContext {
-	var p = new(TypesOrIDContext)
+func NewEmptyTypeRestrictionContext() *TypeRestrictionContext {
+	var p = new(TypeRestrictionContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = OpenFGAParserRULE_typesOrID
+	p.RuleIndex = OpenFGAParserRULE_typeRestriction
 	return p
 }
 
-func (*TypesOrIDContext) IsTypesOrIDContext() {}
+func (*TypeRestrictionContext) IsTypeRestrictionContext() {}
 
-func NewTypesOrIDContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypesOrIDContext {
-	var p = new(TypesOrIDContext)
+func NewTypeRestrictionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypeRestrictionContext {
+	var p = new(TypeRestrictionContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = OpenFGAParserRULE_typesOrID
+	p.RuleIndex = OpenFGAParserRULE_typeRestriction
 
 	return p
 }
 
-func (s *TypesOrIDContext) GetParser() antlr.Parser { return s.parser }
+func (s *TypeRestrictionContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TypesOrIDContext) CopyFrom(ctx *TypesOrIDContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
-}
-
-func (s *TypesOrIDContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *TypesOrIDContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-type TypesContext struct {
-	*TypesOrIDContext
-}
-
-func NewTypesContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TypesContext {
-	var p = new(TypesContext)
-
-	p.TypesOrIDContext = NewEmptyTypesOrIDContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*TypesOrIDContext))
-
-	return p
-}
-
-func (s *TypesContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *TypesContext) RelationReferences() IRelationReferencesContext {
+func (s *TypeRestrictionContext) RelationReferences() IRelationReferencesContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IRelationReferencesContext); ok {
@@ -719,63 +697,32 @@ func (s *TypesContext) RelationReferences() IRelationReferencesContext {
 	return t.(IRelationReferencesContext)
 }
 
-func (s *TypesContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.EnterTypes(s)
-	}
-}
-
-func (s *TypesContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.ExitTypes(s)
-	}
-}
-
-type ComputedUsersetContext struct {
-	*TypesOrIDContext
-	id antlr.Token
-}
-
-func NewComputedUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ComputedUsersetContext {
-	var p = new(ComputedUsersetContext)
-
-	p.TypesOrIDContext = NewEmptyTypesOrIDContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*TypesOrIDContext))
-
-	return p
-}
-
-func (s *ComputedUsersetContext) GetId() antlr.Token { return s.id }
-
-func (s *ComputedUsersetContext) SetId(v antlr.Token) { s.id = v }
-
-func (s *ComputedUsersetContext) GetRuleContext() antlr.RuleContext {
+func (s *TypeRestrictionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ComputedUsersetContext) ID() antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, 0)
+func (s *TypeRestrictionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ComputedUsersetContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *TypeRestrictionContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.EnterComputedUserset(s)
+		listenerT.EnterTypeRestriction(s)
 	}
 }
 
-func (s *ComputedUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *TypeRestrictionContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(OpenFGAListener); ok {
-		listenerT.ExitComputedUserset(s)
+		listenerT.ExitTypeRestriction(s)
 	}
 }
 
-func (p *OpenFGAParser) TypesOrID() (localctx ITypesOrIDContext) {
+func (p *OpenFGAParser) TypeRestriction() (localctx ITypeRestrictionContext) {
 	this := p
 	_ = this
 
-	localctx = NewTypesOrIDContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, OpenFGAParserRULE_typesOrID)
+	localctx = NewTypeRestrictionContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, OpenFGAParserRULE_typeRestriction)
 
 	defer func() {
 		p.ExitRule()
@@ -793,39 +740,22 @@ func (p *OpenFGAParser) TypesOrID() (localctx ITypesOrIDContext) {
 		}
 	}()
 
-	p.SetState(43)
-	p.GetErrorHandler().Sync(p)
-
-	switch p.GetTokenStream().LA(1) {
-	case OpenFGAParserT__4:
-		localctx = NewTypesContext(p, localctx)
-		p.EnterOuterAlt(localctx, 1)
-		{
-			p.SetState(38)
-			p.Match(OpenFGAParserT__4)
-		}
-		{
-			p.SetState(39)
-			p.RelationReferences()
-		}
-		{
-			p.SetState(40)
-			p.Match(OpenFGAParserT__5)
-		}
-
-	case OpenFGAParserID:
-		localctx = NewComputedUsersetContext(p, localctx)
-		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(42)
-
-			var _m = p.Match(OpenFGAParserID)
-
-			localctx.(*ComputedUsersetContext).id = _m
-		}
-
-	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(39)
+		p.Match(OpenFGAParserT__4)
+	}
+	{
+		p.SetState(40)
+		p.Match(OpenFGAParserT__5)
+	}
+	{
+		p.SetState(41)
+		p.RelationReferences()
+	}
+	{
+		p.SetState(42)
+		p.Match(OpenFGAParserT__6)
 	}
 
 	return localctx
@@ -838,18 +768,6 @@ type IRelationReferencesContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// GetHead returns the head rule contexts.
-	GetHead() IRelationReferenceContext
-
-	// GetTail returns the tail rule contexts.
-	GetTail() IRelationReferencesContext
-
-	// SetHead sets the head rule contexts.
-	SetHead(IRelationReferenceContext)
-
-	// SetTail sets the tail rule contexts.
-	SetTail(IRelationReferencesContext)
-
 	// IsRelationReferencesContext differentiates from other interfaces.
 	IsRelationReferencesContext()
 }
@@ -857,8 +775,6 @@ type IRelationReferencesContext interface {
 type RelationReferencesContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
-	head   IRelationReferenceContext
-	tail   IRelationReferencesContext
 }
 
 func NewEmptyRelationReferencesContext() *RelationReferencesContext {
@@ -882,14 +798,6 @@ func NewRelationReferencesContext(parser antlr.Parser, parent antlr.ParserRuleCo
 }
 
 func (s *RelationReferencesContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *RelationReferencesContext) GetHead() IRelationReferenceContext { return s.head }
-
-func (s *RelationReferencesContext) GetTail() IRelationReferencesContext { return s.tail }
-
-func (s *RelationReferencesContext) SetHead(v IRelationReferenceContext) { s.head = v }
-
-func (s *RelationReferencesContext) SetTail(v IRelationReferencesContext) { s.tail = v }
 
 func (s *RelationReferencesContext) RelationReference() IRelationReferenceContext {
 	var t antlr.RuleContext
@@ -995,34 +903,28 @@ func (p *OpenFGAParser) RelationReferences() (localctx IRelationReferencesContex
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(45)
-
-		var _x = p.RelationReference()
-
-		localctx.(*RelationReferencesContext).head = _x
+		p.SetState(44)
+		p.RelationReference()
 	}
-	p.SetState(50)
+	p.SetState(49)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
-				p.SetState(46)
-				p.Match(OpenFGAParserT__6)
+				p.SetState(45)
+				p.Match(OpenFGAParserT__7)
 			}
 			{
-				p.SetState(47)
-
-				var _x = p.RelationReferences()
-
-				localctx.(*RelationReferencesContext).tail = _x
+				p.SetState(46)
+				p.RelationReferences()
 			}
 
 		}
-		p.SetState(52)
+		p.SetState(51)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
 	}
 
 	return localctx
@@ -1188,14 +1090,14 @@ func (p *OpenFGAParser) RelationReference() (localctx IRelationReferenceContext)
 		}
 	}()
 
-	p.SetState(57)
+	p.SetState(56)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(53)
+			p.SetState(52)
 
 			var _m = p.Match(OpenFGAParserID)
 
@@ -1206,18 +1108,18 @@ func (p *OpenFGAParser) RelationReference() (localctx IRelationReferenceContext)
 		localctx = NewTypeAndRelationContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(54)
+			p.SetState(53)
 
 			var _m = p.Match(OpenFGAParserID)
 
 			localctx.(*TypeAndRelationContext).t = _m
 		}
 		{
-			p.SetState(55)
-			p.Match(OpenFGAParserT__7)
+			p.SetState(54)
+			p.Match(OpenFGAParserT__8)
 		}
 		{
-			p.SetState(56)
+			p.SetState(55)
 
 			var _m = p.Match(OpenFGAParserID)
 
@@ -1279,9 +1181,47 @@ func (s *RewriteContext) ToStringTree(ruleNames []string, recog antlr.Recognizer
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
+type ComputedUsersetContext struct {
+	*RewriteContext
+	computedUserset antlr.Token
+}
+
+func NewComputedUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ComputedUsersetContext {
+	var p = new(ComputedUsersetContext)
+
+	p.RewriteContext = NewEmptyRewriteContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*RewriteContext))
+
+	return p
+}
+
+func (s *ComputedUsersetContext) GetComputedUserset() antlr.Token { return s.computedUserset }
+
+func (s *ComputedUsersetContext) SetComputedUserset(v antlr.Token) { s.computedUserset = v }
+
+func (s *ComputedUsersetContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ComputedUsersetContext) ID() antlr.TerminalNode {
+	return s.GetToken(OpenFGAParserID, 0)
+}
+
+func (s *ComputedUsersetContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.EnterComputedUserset(s)
+	}
+}
+
+func (s *ComputedUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.ExitComputedUserset(s)
+	}
+}
+
 type IntersectionContext struct {
 	*RewriteContext
-	id antlr.Token
 }
 
 func NewIntersectionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *IntersectionContext {
@@ -1294,20 +1234,49 @@ func NewIntersectionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *I
 	return p
 }
 
-func (s *IntersectionContext) GetId() antlr.Token { return s.id }
-
-func (s *IntersectionContext) SetId(v antlr.Token) { s.id = v }
-
 func (s *IntersectionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *IntersectionContext) AllID() []antlr.TerminalNode {
-	return s.GetTokens(OpenFGAParserID)
+func (s *IntersectionContext) AllRewrite() []IRewriteContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IRewriteContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IRewriteContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IRewriteContext); ok {
+			tst[i] = t.(IRewriteContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *IntersectionContext) ID(i int) antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, i)
+func (s *IntersectionContext) Rewrite(i int) IRewriteContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRewriteContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRewriteContext)
 }
 
 func (s *IntersectionContext) EnterRule(listener antlr.ParseTreeListener) {
@@ -1322,9 +1291,38 @@ func (s *IntersectionContext) ExitRule(listener antlr.ParseTreeListener) {
 	}
 }
 
+type ThisContext struct {
+	*RewriteContext
+}
+
+func NewThisContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ThisContext {
+	var p = new(ThisContext)
+
+	p.RewriteContext = NewEmptyRewriteContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*RewriteContext))
+
+	return p
+}
+
+func (s *ThisContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ThisContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.EnterThis(s)
+	}
+}
+
+func (s *ThisContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.ExitThis(s)
+	}
+}
+
 type ExclusionContext struct {
 	*RewriteContext
-	id antlr.Token
 }
 
 func NewExclusionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExclusionContext {
@@ -1337,16 +1335,49 @@ func NewExclusionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *Excl
 	return p
 }
 
-func (s *ExclusionContext) GetId() antlr.Token { return s.id }
-
-func (s *ExclusionContext) SetId(v antlr.Token) { s.id = v }
-
 func (s *ExclusionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ExclusionContext) ID() antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, 0)
+func (s *ExclusionContext) AllRewrite() []IRewriteContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IRewriteContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IRewriteContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IRewriteContext); ok {
+			tst[i] = t.(IRewriteContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *ExclusionContext) Rewrite(i int) IRewriteContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRewriteContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRewriteContext)
 }
 
 func (s *ExclusionContext) EnterRule(listener antlr.ParseTreeListener) {
@@ -1363,7 +1394,6 @@ func (s *ExclusionContext) ExitRule(listener antlr.ParseTreeListener) {
 
 type UnionContext struct {
 	*RewriteContext
-	id antlr.Token
 }
 
 func NewUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionContext {
@@ -1376,20 +1406,49 @@ func NewUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionCon
 	return p
 }
 
-func (s *UnionContext) GetId() antlr.Token { return s.id }
-
-func (s *UnionContext) SetId(v antlr.Token) { s.id = v }
-
 func (s *UnionContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UnionContext) AllID() []antlr.TerminalNode {
-	return s.GetTokens(OpenFGAParserID)
+func (s *UnionContext) AllRewrite() []IRewriteContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IRewriteContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IRewriteContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IRewriteContext); ok {
+			tst[i] = t.(IRewriteContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *UnionContext) ID(i int) antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, i)
+func (s *UnionContext) Rewrite(i int) IRewriteContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRewriteContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRewriteContext)
 }
 
 func (s *UnionContext) EnterRule(listener antlr.ParseTreeListener) {
@@ -1406,7 +1465,8 @@ func (s *UnionContext) ExitRule(listener antlr.ParseTreeListener) {
 
 type TupleToUsersetContext struct {
 	*RewriteContext
-	id antlr.Token
+	computedUserset antlr.Token
+	tupleset        antlr.Token
 }
 
 func NewTupleToUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TupleToUsersetContext {
@@ -1419,16 +1479,24 @@ func NewTupleToUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) 
 	return p
 }
 
-func (s *TupleToUsersetContext) GetId() antlr.Token { return s.id }
+func (s *TupleToUsersetContext) GetComputedUserset() antlr.Token { return s.computedUserset }
 
-func (s *TupleToUsersetContext) SetId(v antlr.Token) { s.id = v }
+func (s *TupleToUsersetContext) GetTupleset() antlr.Token { return s.tupleset }
+
+func (s *TupleToUsersetContext) SetComputedUserset(v antlr.Token) { s.computedUserset = v }
+
+func (s *TupleToUsersetContext) SetTupleset(v antlr.Token) { s.tupleset = v }
 
 func (s *TupleToUsersetContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *TupleToUsersetContext) ID() antlr.TerminalNode {
-	return s.GetToken(OpenFGAParserID, 0)
+func (s *TupleToUsersetContext) AllID() []antlr.TerminalNode {
+	return s.GetTokens(OpenFGAParserID)
+}
+
+func (s *TupleToUsersetContext) ID(i int) antlr.TerminalNode {
+	return s.GetToken(OpenFGAParserID, i)
 }
 
 func (s *TupleToUsersetContext) EnterRule(listener antlr.ParseTreeListener) {
@@ -1443,16 +1511,70 @@ func (s *TupleToUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 	}
 }
 
+type GroupingContext struct {
+	*RewriteContext
+}
+
+func NewGroupingContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *GroupingContext {
+	var p = new(GroupingContext)
+
+	p.RewriteContext = NewEmptyRewriteContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*RewriteContext))
+
+	return p
+}
+
+func (s *GroupingContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *GroupingContext) Rewrite() IRewriteContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRewriteContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRewriteContext)
+}
+
+func (s *GroupingContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.EnterGrouping(s)
+	}
+}
+
+func (s *GroupingContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(OpenFGAListener); ok {
+		listenerT.ExitGrouping(s)
+	}
+}
+
 func (p *OpenFGAParser) Rewrite() (localctx IRewriteContext) {
+	return p.rewrite(0)
+}
+
+func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 	this := p
 	_ = this
 
-	localctx = NewRewriteContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, OpenFGAParserRULE_rewrite)
-	var _la int
+	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+	_parentState := p.GetState()
+	localctx = NewRewriteContext(p, p.GetParserRuleContext(), _parentState)
+	var _prevctx IRewriteContext = localctx
+	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
+	_startState := 12
+	p.EnterRecursionRule(localctx, 12, OpenFGAParserRULE_rewrite, _p)
 
 	defer func() {
-		p.ExitRule()
+		p.UnrollRecursionContexts(_parentctx)
 	}()
 
 	defer func() {
@@ -1467,93 +1589,180 @@ func (p *OpenFGAParser) Rewrite() (localctx IRewriteContext) {
 		}
 	}()
 
-	p.SetState(75)
-	p.GetErrorHandler().Sync(p)
+	var _alt int
 
-	switch p.GetTokenStream().LA(1) {
-	case OpenFGAParserT__8:
-		localctx = NewTupleToUsersetContext(p, localctx)
-		p.EnterOuterAlt(localctx, 1)
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(68)
+	p.GetErrorHandler().Sync(p)
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	case 1:
+		localctx = NewThisContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+
 		{
 			p.SetState(59)
-			p.Match(OpenFGAParserT__8)
+			p.Match(OpenFGAParserT__9)
 		}
+
+	case 2:
+		localctx = NewTupleToUsersetContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
 		{
 			p.SetState(60)
 
 			var _m = p.Match(OpenFGAParserID)
 
-			localctx.(*TupleToUsersetContext).id = _m
-		}
-
-	case OpenFGAParserT__9:
-		localctx = NewUnionContext(p, localctx)
-		p.EnterOuterAlt(localctx, 2)
-		p.SetState(63)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		for ok := true; ok; ok = _la == OpenFGAParserT__9 {
-			{
-				p.SetState(61)
-				p.Match(OpenFGAParserT__9)
-			}
-			{
-				p.SetState(62)
-
-				var _m = p.Match(OpenFGAParserID)
-
-				localctx.(*UnionContext).id = _m
-			}
-
-			p.SetState(65)
-			p.GetErrorHandler().Sync(p)
-			_la = p.GetTokenStream().LA(1)
-		}
-
-	case OpenFGAParserT__10:
-		localctx = NewIntersectionContext(p, localctx)
-		p.EnterOuterAlt(localctx, 3)
-		p.SetState(69)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		for ok := true; ok; ok = _la == OpenFGAParserT__10 {
-			{
-				p.SetState(67)
-				p.Match(OpenFGAParserT__10)
-			}
-			{
-				p.SetState(68)
-
-				var _m = p.Match(OpenFGAParserID)
-
-				localctx.(*IntersectionContext).id = _m
-			}
-
-			p.SetState(71)
-			p.GetErrorHandler().Sync(p)
-			_la = p.GetTokenStream().LA(1)
-		}
-
-	case OpenFGAParserT__11:
-		localctx = NewExclusionContext(p, localctx)
-		p.EnterOuterAlt(localctx, 4)
-		{
-			p.SetState(73)
-			p.Match(OpenFGAParserT__11)
+			localctx.(*TupleToUsersetContext).computedUserset = _m
 		}
 		{
-			p.SetState(74)
+			p.SetState(61)
+			p.Match(OpenFGAParserT__10)
+		}
+		{
+			p.SetState(62)
 
 			var _m = p.Match(OpenFGAParserID)
 
-			localctx.(*ExclusionContext).id = _m
+			localctx.(*TupleToUsersetContext).tupleset = _m
 		}
 
-	default:
-		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	case 3:
+		localctx = NewComputedUsersetContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+		{
+			p.SetState(63)
+
+			var _m = p.Match(OpenFGAParserID)
+
+			localctx.(*ComputedUsersetContext).computedUserset = _m
+		}
+
+	case 4:
+		localctx = NewGroupingContext(p, localctx)
+		p.SetParserRuleContext(localctx)
+		_prevctx = localctx
+		{
+			p.SetState(64)
+			p.Match(OpenFGAParserT__14)
+		}
+		{
+			p.SetState(65)
+			p.rewrite(0)
+		}
+		{
+			p.SetState(66)
+			p.Match(OpenFGAParserT__15)
+		}
+
+	}
+	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
+	p.SetState(81)
+	p.GetErrorHandler().Sync(p)
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+
+	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		if _alt == 1 {
+			if p.GetParseListeners() != nil {
+				p.TriggerExitRuleEvent()
+			}
+			_prevctx = localctx
+			p.SetState(79)
+			p.GetErrorHandler().Sync(p)
+			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext()) {
+			case 1:
+				localctx = NewUnionContext(p, NewRewriteContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, OpenFGAParserRULE_rewrite)
+				p.SetState(70)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+				}
+				{
+					p.SetState(71)
+					p.Match(OpenFGAParserT__11)
+				}
+				{
+					p.SetState(72)
+					p.rewrite(6)
+				}
+
+			case 2:
+				localctx = NewIntersectionContext(p, NewRewriteContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, OpenFGAParserRULE_rewrite)
+				p.SetState(73)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+				}
+				{
+					p.SetState(74)
+					p.Match(OpenFGAParserT__12)
+				}
+				{
+					p.SetState(75)
+					p.rewrite(5)
+				}
+
+			case 3:
+				localctx = NewExclusionContext(p, NewRewriteContext(p, _parentctx, _parentState))
+				p.PushNewRecursionContext(localctx, _startState, OpenFGAParserRULE_rewrite)
+				p.SetState(76)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+				}
+				{
+					p.SetState(77)
+					p.Match(OpenFGAParserT__13)
+				}
+				{
+					p.SetState(78)
+					p.rewrite(4)
+				}
+
+			}
+
+		}
+		p.SetState(83)
+		p.GetErrorHandler().Sync(p)
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
 	}
 
 	return localctx
+}
+
+func (p *OpenFGAParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
+	switch ruleIndex {
+	case 6:
+		var t *RewriteContext = nil
+		if localctx != nil {
+			t = localctx.(*RewriteContext)
+		}
+		return p.Rewrite_Sempred(t, predIndex)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(ruleIndex))
+	}
+}
+
+func (p *OpenFGAParser) Rewrite_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+	this := p
+	_ = this
+
+	switch predIndex {
+	case 0:
+		return p.Precpred(p.GetParserRuleContext(), 5)
+
+	case 1:
+		return p.Precpred(p.GetParserRuleContext(), 4)
+
+	case 2:
+		return p.Precpred(p.GetParserRuleContext(), 3)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(predIndex))
+	}
 }

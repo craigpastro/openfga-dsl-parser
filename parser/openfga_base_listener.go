@@ -27,11 +27,11 @@ func (s *BaseOpenFGAListener) EnterStart(ctx *StartContext) {}
 // ExitStart is called when production start is exited.
 func (s *BaseOpenFGAListener) ExitStart(ctx *StartContext) {}
 
-// EnterTypedef is called when production typedef is entered.
-func (s *BaseOpenFGAListener) EnterTypedef(ctx *TypedefContext) {}
+// EnterTypeDefinition is called when production typeDefinition is entered.
+func (s *BaseOpenFGAListener) EnterTypeDefinition(ctx *TypeDefinitionContext) {}
 
-// ExitTypedef is called when production typedef is exited.
-func (s *BaseOpenFGAListener) ExitTypedef(ctx *TypedefContext) {}
+// ExitTypeDefinition is called when production typeDefinition is exited.
+func (s *BaseOpenFGAListener) ExitTypeDefinition(ctx *TypeDefinitionContext) {}
 
 // EnterRelation is called when production relation is entered.
 func (s *BaseOpenFGAListener) EnterRelation(ctx *RelationContext) {}
@@ -39,17 +39,11 @@ func (s *BaseOpenFGAListener) EnterRelation(ctx *RelationContext) {}
 // ExitRelation is called when production relation is exited.
 func (s *BaseOpenFGAListener) ExitRelation(ctx *RelationContext) {}
 
-// EnterTypes is called when production types is entered.
-func (s *BaseOpenFGAListener) EnterTypes(ctx *TypesContext) {}
+// EnterTypeRestriction is called when production typeRestriction is entered.
+func (s *BaseOpenFGAListener) EnterTypeRestriction(ctx *TypeRestrictionContext) {}
 
-// ExitTypes is called when production types is exited.
-func (s *BaseOpenFGAListener) ExitTypes(ctx *TypesContext) {}
-
-// EnterComputedUserset is called when production computedUserset is entered.
-func (s *BaseOpenFGAListener) EnterComputedUserset(ctx *ComputedUsersetContext) {}
-
-// ExitComputedUserset is called when production computedUserset is exited.
-func (s *BaseOpenFGAListener) ExitComputedUserset(ctx *ComputedUsersetContext) {}
+// ExitTypeRestriction is called when production typeRestriction is exited.
+func (s *BaseOpenFGAListener) ExitTypeRestriction(ctx *TypeRestrictionContext) {}
 
 // EnterRelationReferences is called when production relationReferences is entered.
 func (s *BaseOpenFGAListener) EnterRelationReferences(ctx *RelationReferencesContext) {}
@@ -69,17 +63,11 @@ func (s *BaseOpenFGAListener) EnterTypeAndRelation(ctx *TypeAndRelationContext) 
 // ExitTypeAndRelation is called when production typeAndRelation is exited.
 func (s *BaseOpenFGAListener) ExitTypeAndRelation(ctx *TypeAndRelationContext) {}
 
-// EnterTupleToUserset is called when production tupleToUserset is entered.
-func (s *BaseOpenFGAListener) EnterTupleToUserset(ctx *TupleToUsersetContext) {}
+// EnterComputedUserset is called when production computedUserset is entered.
+func (s *BaseOpenFGAListener) EnterComputedUserset(ctx *ComputedUsersetContext) {}
 
-// ExitTupleToUserset is called when production tupleToUserset is exited.
-func (s *BaseOpenFGAListener) ExitTupleToUserset(ctx *TupleToUsersetContext) {}
-
-// EnterUnion is called when production union is entered.
-func (s *BaseOpenFGAListener) EnterUnion(ctx *UnionContext) {}
-
-// ExitUnion is called when production union is exited.
-func (s *BaseOpenFGAListener) ExitUnion(ctx *UnionContext) {}
+// ExitComputedUserset is called when production computedUserset is exited.
+func (s *BaseOpenFGAListener) ExitComputedUserset(ctx *ComputedUsersetContext) {}
 
 // EnterIntersection is called when production intersection is entered.
 func (s *BaseOpenFGAListener) EnterIntersection(ctx *IntersectionContext) {}
@@ -87,8 +75,32 @@ func (s *BaseOpenFGAListener) EnterIntersection(ctx *IntersectionContext) {}
 // ExitIntersection is called when production intersection is exited.
 func (s *BaseOpenFGAListener) ExitIntersection(ctx *IntersectionContext) {}
 
+// EnterThis is called when production this is entered.
+func (s *BaseOpenFGAListener) EnterThis(ctx *ThisContext) {}
+
+// ExitThis is called when production this is exited.
+func (s *BaseOpenFGAListener) ExitThis(ctx *ThisContext) {}
+
 // EnterExclusion is called when production exclusion is entered.
 func (s *BaseOpenFGAListener) EnterExclusion(ctx *ExclusionContext) {}
 
 // ExitExclusion is called when production exclusion is exited.
 func (s *BaseOpenFGAListener) ExitExclusion(ctx *ExclusionContext) {}
+
+// EnterUnion is called when production union is entered.
+func (s *BaseOpenFGAListener) EnterUnion(ctx *UnionContext) {}
+
+// ExitUnion is called when production union is exited.
+func (s *BaseOpenFGAListener) ExitUnion(ctx *UnionContext) {}
+
+// EnterTupleToUserset is called when production tupleToUserset is entered.
+func (s *BaseOpenFGAListener) EnterTupleToUserset(ctx *TupleToUsersetContext) {}
+
+// ExitTupleToUserset is called when production tupleToUserset is exited.
+func (s *BaseOpenFGAListener) ExitTupleToUserset(ctx *TupleToUsersetContext) {}
+
+// EnterGrouping is called when production grouping is entered.
+func (s *BaseOpenFGAListener) EnterGrouping(ctx *GroupingContext) {}
+
+// ExitGrouping is called when production grouping is exited.
+func (s *BaseOpenFGAListener) ExitGrouping(ctx *GroupingContext) {}

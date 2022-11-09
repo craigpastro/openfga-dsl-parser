@@ -39,10 +39,16 @@ func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) 
 
 func (l *openFGAListener) ExitRelation(ctx *parser.RelationContext) {
 	name := ctx.GetName().GetText()
+
+	var typeInfo *pb.RelationTypeInfo
+	if l.typeInfo != nil {
+		typeInfo = &pb.RelationTypeInfo{DirectlyRelatedUserTypes: l.typeInfo}
+	}
+
 	l.relations[name] = &pb.Relation{
 		Name:     name,
 		Rewrite:  l.pop(),
-		TypeInfo: &pb.RelationTypeInfo{DirectlyRelatedUserTypes: l.typeInfo},
+		TypeInfo: typeInfo,
 	}
 
 	// Clear the typeInfo array
@@ -151,7 +157,10 @@ func (l *openFGAListener) getRelations() map[string]*pb.Userset {
 func (l *openFGAListener) getMetadata() *pb.Metadata {
 	relations := map[string]*pb.RelationMetadata{}
 	for name, relation := range l.relations {
-		relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: relation.GetTypeInfo().GetDirectlyRelatedUserTypes()}
+		directlyRelatedUserTypes := relation.GetTypeInfo().GetDirectlyRelatedUserTypes()
+		if directlyRelatedUserTypes != nil {
+			relations[name] = &pb.RelationMetadata{DirectlyRelatedUserTypes: directlyRelatedUserTypes}
+		}
 	}
 	return &pb.Metadata{Relations: relations}
 }

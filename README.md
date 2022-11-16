@@ -9,16 +9,19 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	parser "github.com/craigpastro/openfga-dsl-parser"
 )
 
 func main() {
-	bytes, err := os.ReadFile(file)
-	// handle error
-		
-	typeDefinitions, err := parser.Parse(string(bytes))
+	model := `
+type document
+  relations
+    define viewer as self
+    define writer as self or writer
+`
+			
+	typeDefinitions, err := parser.Parse(model)
 	// handle error
 	
 	fmt.Println(typeDefinitions)

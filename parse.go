@@ -55,16 +55,27 @@ func (l *openFGAListener) ExitRelation(ctx *parser.RelationContext) {
 	l.typeInfo = nil
 }
 
-func (l *openFGAListener) ExitType(ctx *parser.TypeContext) {
+func (l *openFGAListener) ExitRrType(ctx *parser.RrTypeContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 	})
 }
 
-func (l *openFGAListener) ExitTypeAndRelation(ctx *parser.TypeAndRelationContext) {
+func (l *openFGAListener) ExitRrTypeAndRelation(ctx *parser.RrTypeAndRelationContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
-		Type:     ctx.GetT().GetText(),
-		Relation: ctx.GetR().GetText(),
+		Type: ctx.GetT().GetText(),
+		RelationOrWildcard: &pb.RelationReference_Relation{
+			Relation: ctx.GetR().GetText(),
+		},
+	})
+}
+
+func (l *openFGAListener) ExitRrTypeAndWildcard(ctx *parser.RrTypeAndWildcardContext) {
+	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
+		Type: ctx.GetT().GetText(),
+		RelationOrWildcard: &pb.RelationReference_Wildcard{
+			Wildcard: &pb.Wildcard{},
+		},
 	})
 }
 

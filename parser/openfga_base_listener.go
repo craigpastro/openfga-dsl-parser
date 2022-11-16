@@ -51,17 +51,23 @@ func (s *BaseOpenFGAListener) EnterRelationReferences(ctx *RelationReferencesCon
 // ExitRelationReferences is called when production relationReferences is exited.
 func (s *BaseOpenFGAListener) ExitRelationReferences(ctx *RelationReferencesContext) {}
 
-// EnterType is called when production type is entered.
-func (s *BaseOpenFGAListener) EnterType(ctx *TypeContext) {}
+// EnterRrType is called when production rrType is entered.
+func (s *BaseOpenFGAListener) EnterRrType(ctx *RrTypeContext) {}
 
-// ExitType is called when production type is exited.
-func (s *BaseOpenFGAListener) ExitType(ctx *TypeContext) {}
+// ExitRrType is called when production rrType is exited.
+func (s *BaseOpenFGAListener) ExitRrType(ctx *RrTypeContext) {}
 
-// EnterTypeAndRelation is called when production typeAndRelation is entered.
-func (s *BaseOpenFGAListener) EnterTypeAndRelation(ctx *TypeAndRelationContext) {}
+// EnterRrTypeAndRelation is called when production rrTypeAndRelation is entered.
+func (s *BaseOpenFGAListener) EnterRrTypeAndRelation(ctx *RrTypeAndRelationContext) {}
 
-// ExitTypeAndRelation is called when production typeAndRelation is exited.
-func (s *BaseOpenFGAListener) ExitTypeAndRelation(ctx *TypeAndRelationContext) {}
+// ExitRrTypeAndRelation is called when production rrTypeAndRelation is exited.
+func (s *BaseOpenFGAListener) ExitRrTypeAndRelation(ctx *RrTypeAndRelationContext) {}
+
+// EnterRrTypeAndWildcard is called when production rrTypeAndWildcard is entered.
+func (s *BaseOpenFGAListener) EnterRrTypeAndWildcard(ctx *RrTypeAndWildcardContext) {}
+
+// ExitRrTypeAndWildcard is called when production rrTypeAndWildcard is exited.
+func (s *BaseOpenFGAListener) ExitRrTypeAndWildcard(ctx *RrTypeAndWildcardContext) {}
 
 // EnterComputedUserset is called when production computedUserset is entered.
 func (s *BaseOpenFGAListener) EnterComputedUserset(ctx *ComputedUsersetContext) {}

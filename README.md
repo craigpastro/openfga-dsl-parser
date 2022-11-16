@@ -5,6 +5,12 @@ Generate the `parser` package by:
 antlr -Dlanguage=Go -o parser OpenFGA.g4
 ```
 
+## Install
+
+Install with
+```
+go install github.com/craigpastro/openfga-dsl-parser
+```
 
 ## Wasm module
 

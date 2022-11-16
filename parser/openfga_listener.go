@@ -23,11 +23,14 @@ type OpenFGAListener interface {
 	// EnterRelationReferences is called when entering the relationReferences production.
 	EnterRelationReferences(c *RelationReferencesContext)
 
-	// EnterType is called when entering the type production.
-	EnterType(c *TypeContext)
+	// EnterRrType is called when entering the rrType production.
+	EnterRrType(c *RrTypeContext)
 
-	// EnterTypeAndRelation is called when entering the typeAndRelation production.
-	EnterTypeAndRelation(c *TypeAndRelationContext)
+	// EnterRrTypeAndRelation is called when entering the rrTypeAndRelation production.
+	EnterRrTypeAndRelation(c *RrTypeAndRelationContext)
+
+	// EnterRrTypeAndWildcard is called when entering the rrTypeAndWildcard production.
+	EnterRrTypeAndWildcard(c *RrTypeAndWildcardContext)
 
 	// EnterComputedUserset is called when entering the computedUserset production.
 	EnterComputedUserset(c *ComputedUsersetContext)
@@ -65,11 +68,14 @@ type OpenFGAListener interface {
 	// ExitRelationReferences is called when exiting the relationReferences production.
 	ExitRelationReferences(c *RelationReferencesContext)
 
-	// ExitType is called when exiting the type production.
-	ExitType(c *TypeContext)
+	// ExitRrType is called when exiting the rrType production.
+	ExitRrType(c *RrTypeContext)
 
-	// ExitTypeAndRelation is called when exiting the typeAndRelation production.
-	ExitTypeAndRelation(c *TypeAndRelationContext)
+	// ExitRrTypeAndRelation is called when exiting the rrTypeAndRelation production.
+	ExitRrTypeAndRelation(c *RrTypeAndRelationContext)
+
+	// ExitRrTypeAndWildcard is called when exiting the rrTypeAndWildcard production.
+	ExitRrTypeAndWildcard(c *RrTypeAndWildcardContext)
 
 	// ExitComputedUserset is called when exiting the computedUserset production.
 	ExitComputedUserset(c *ComputedUsersetContext)

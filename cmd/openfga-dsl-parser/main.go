@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	parser "github.com/craigpastro/openfga-dsl-parser/v2"
+	parser "github.com/craigpastro/openfga-dsl-parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 )

@@ -10,8 +10,9 @@ typeRestriction: ':' '[' relationReferences ']' ;
 
 relationReferences: relationReference (',' relationReferences)* ;
 
-relationReference: t=ID  # type
-    | t=ID '#' r=ID      # typeAndRelation
+relationReference: t=ID  # rrType
+    | t=ID '#' r=ID      # rrTypeAndRelation
+    | t=ID ':*'          # rrTypeAndWildcard
     ;
 
 rewrite: 'self'                              # this

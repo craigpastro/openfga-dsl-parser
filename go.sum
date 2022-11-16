@@ -76,8 +76,6 @@ github.com/cncf/xds/go v0.0.0-20210805033703-aa0b78936158/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20210922020428-25de7278fc84/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
-github.com/craigpastro/openfga-dsl-parser v0.0.0-20221108194739-cf3b8075615c h1:MdgDm7yCT8yPViYiW3fpzNeI2pa98Gvp1GBca8T0DbE=
-github.com/craigpastro/openfga-dsl-parser v0.0.0-20221108194739-cf3b8075615c/go.mod h1:ZPAN95jyrvY6/Z4SInS8uwA+a4D2UwEyaX+nRhmclK8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -216,8 +214,8 @@ go.buf.build/openfga/go/envoyproxy/protoc-gen-validate v1.2.7 h1:z+u0Ss3fI6qUbjh
 go.buf.build/openfga/go/envoyproxy/protoc-gen-validate v1.2.7/go.mod h1:vDGPWmgcenDF3BKV1EZjWm1O62Ux8j64NPrvQIbvurg=
 go.buf.build/openfga/go/grpc-ecosystem/grpc-gateway v1.2.46 h1:4/UxOmJ4RSykBiR10PtVAUGLKPGRYpIug7GPnmhqpYI=
 go.buf.build/openfga/go/grpc-ecosystem/grpc-gateway v1.2.46/go.mod h1:WfhNIqSEXCpV/mxdYvyo5KgLNYPsDEom6n2IFagP9PQ=
-go.buf.build/openfga/go/openfga/api v1.2.35 h1:G5IM9HbvJ3bt2zG+kKzM6F78rOpKsW6rzWWzk5rhefg=
-go.buf.build/openfga/go/openfga/api v1.2.35/go.mod h1:gkcP+Zq/lLcXi2GOpjzqecB5hCjwiZSfVq44NLbjJz4=
+go.buf.build/openfga/go/openfga/api v1.2.36 h1:6UN9hb6DMK7sY2UI6TTg1mHbEWB3+fa+m/KFwGLyx9c=
+go.buf.build/openfga/go/openfga/api v1.2.36/go.mod h1:gkcP+Zq/lLcXi2GOpjzqecB5hCjwiZSfVq44NLbjJz4=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=

@@ -296,3 +296,49 @@ json = """
   ]
 }
 """
+
+[[tests]]
+name = "Test5"
+
+model = """
+type user
+
+type document
+	  relations
+		    define viewer: [user, user:*] as self
+"""
+
+json = """
+{
+  "schema_version":  "1.1",
+  "type_definitions":  [
+    {
+      "type": "user",
+      "metadata": {}
+    },
+    {
+      "type":  "document",
+      "relations":  {
+        "viewer":  {
+          "this":  {}
+        }
+      },
+      "metadata":  {
+        "relations":  {
+          "viewer":  {
+            "directly_related_user_types":  [
+              {
+                "type": "user"
+              },
+              {
+                "type": "user",
+                "wildcard": {}
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
+"""

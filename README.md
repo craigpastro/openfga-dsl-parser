@@ -1,16 +1,38 @@
 # OpenFGA DSL Parser
 
-Generate the `parser` package by:
-```
-antlr -Dlanguage=Go -o parser OpenFGA.g4
+OpenFGA DSL Parser is a parser for the OpenFGA DSL.
+
+## Example usage
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	parser "github.com/craigpastro/openfga-dsl-parser"
+)
+
+func main() {
+	bytes, err := os.ReadFile(file)
+	// handle error
+		
+	typeDefinitions, err := parser.Parse(string(bytes))
+	// handle error
+	
+	fmt.Println(typeDefinitions)
+}
 ```
 
-## Install
+## Making changes to the grammer
 
-Install with
-```
-go install github.com/craigpastro/openfga-dsl-parser
-```
+1. Change the grammer in `OpenFGA.g4`.
+2. Regenerate the `parser` package with:
+    ```
+    antlr -Dlanguage=Go -o parser OpenFGA.g4
+    ```
+3. Make the appropriate changes the parsing function. 
 
 ## Wasm module
 

@@ -28,14 +28,14 @@ type document
 }
 ```
 
-## Making changes to the grammer
+## Making changes to the grammar
 
-1. Change the grammer in `OpenFGA.g4`.
+1. Change the grammar in `OpenFGA.g4`.
 2. Regenerate the `parser` package with:
     ```
     antlr -Dlanguage=Go -o parser OpenFGA.g4
     ```
-3. Make the appropriate changes the parsing function. 
+3. Make the appropriate changes to the parsing function. 
 
 ## Wasm module
 

@@ -4,9 +4,13 @@ start: typeDefinition+ EOF;
 
 typeDefinition: 'type' objectType=ID ('relations' relation+)? ;
 
-relation: 'define' name=ID typeRestriction? 'as' rewrite ;
+relation: 'define' name=ID ':' typeRestrictionOrId rewrite? ;
 
-typeRestriction: ':' '[' relationReferences ']' ;
+typeRestrictionOrId: typeRestriction # troiTypeRestriction
+    | computedUserset=ID             # troiId
+    ;
+
+typeRestriction: '[' relationReferences ']' ;
 
 relationReferences: relationReference (',' relationReferences)* ;
 
@@ -15,14 +19,18 @@ relationReference: t=ID  # rrType
     | t=ID ':*'          # rrTypeAndWildcard
     ;
 
-rewrite: 'self'                              # this
-    | computedUserset=ID 'from' tupleset=ID  # tupleToUserset
-    | rewrite 'or' rewrite                   # union
-    | rewrite 'and' rewrite                  # intersection
-    | rewrite 'but not' rewrite              # exclusion
-    | computedUserset=ID                     # computedUserset
-    | '(' rewrite ')'                        # grouping
-    ;
+rewrite: orTTU | ors | ands | exclusion ;
+
+orTTU: 'or' computedUserset=ID 'from' tupleset=ID ;
+
+ors: or ors* ;
+or: 'or' id=ID ;
+
+ands: and ands* ;
+and: 'and' id=ID ;
+
+exclusion: 'but not' id=ID ;
+
 
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 WS: [ \t\n\r\f]+ -> skip ;

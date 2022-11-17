@@ -17,6 +17,12 @@ type OpenFGAListener interface {
 	// EnterRelation is called when entering the relation production.
 	EnterRelation(c *RelationContext)
 
+	// EnterTroiTypeRestriction is called when entering the troiTypeRestriction production.
+	EnterTroiTypeRestriction(c *TroiTypeRestrictionContext)
+
+	// EnterTroiId is called when entering the troiId production.
+	EnterTroiId(c *TroiIdContext)
+
 	// EnterTypeRestriction is called when entering the typeRestriction production.
 	EnterTypeRestriction(c *TypeRestrictionContext)
 
@@ -32,26 +38,26 @@ type OpenFGAListener interface {
 	// EnterRrTypeAndWildcard is called when entering the rrTypeAndWildcard production.
 	EnterRrTypeAndWildcard(c *RrTypeAndWildcardContext)
 
-	// EnterComputedUserset is called when entering the computedUserset production.
-	EnterComputedUserset(c *ComputedUsersetContext)
+	// EnterRewrite is called when entering the rewrite production.
+	EnterRewrite(c *RewriteContext)
 
-	// EnterIntersection is called when entering the intersection production.
-	EnterIntersection(c *IntersectionContext)
+	// EnterOrTTU is called when entering the orTTU production.
+	EnterOrTTU(c *OrTTUContext)
 
-	// EnterThis is called when entering the this production.
-	EnterThis(c *ThisContext)
+	// EnterOrs is called when entering the ors production.
+	EnterOrs(c *OrsContext)
+
+	// EnterOr is called when entering the or production.
+	EnterOr(c *OrContext)
+
+	// EnterAnds is called when entering the ands production.
+	EnterAnds(c *AndsContext)
+
+	// EnterAnd is called when entering the and production.
+	EnterAnd(c *AndContext)
 
 	// EnterExclusion is called when entering the exclusion production.
 	EnterExclusion(c *ExclusionContext)
-
-	// EnterUnion is called when entering the union production.
-	EnterUnion(c *UnionContext)
-
-	// EnterTupleToUserset is called when entering the tupleToUserset production.
-	EnterTupleToUserset(c *TupleToUsersetContext)
-
-	// EnterGrouping is called when entering the grouping production.
-	EnterGrouping(c *GroupingContext)
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
@@ -61,6 +67,12 @@ type OpenFGAListener interface {
 
 	// ExitRelation is called when exiting the relation production.
 	ExitRelation(c *RelationContext)
+
+	// ExitTroiTypeRestriction is called when exiting the troiTypeRestriction production.
+	ExitTroiTypeRestriction(c *TroiTypeRestrictionContext)
+
+	// ExitTroiId is called when exiting the troiId production.
+	ExitTroiId(c *TroiIdContext)
 
 	// ExitTypeRestriction is called when exiting the typeRestriction production.
 	ExitTypeRestriction(c *TypeRestrictionContext)
@@ -77,24 +89,24 @@ type OpenFGAListener interface {
 	// ExitRrTypeAndWildcard is called when exiting the rrTypeAndWildcard production.
 	ExitRrTypeAndWildcard(c *RrTypeAndWildcardContext)
 
-	// ExitComputedUserset is called when exiting the computedUserset production.
-	ExitComputedUserset(c *ComputedUsersetContext)
+	// ExitRewrite is called when exiting the rewrite production.
+	ExitRewrite(c *RewriteContext)
 
-	// ExitIntersection is called when exiting the intersection production.
-	ExitIntersection(c *IntersectionContext)
+	// ExitOrTTU is called when exiting the orTTU production.
+	ExitOrTTU(c *OrTTUContext)
 
-	// ExitThis is called when exiting the this production.
-	ExitThis(c *ThisContext)
+	// ExitOrs is called when exiting the ors production.
+	ExitOrs(c *OrsContext)
+
+	// ExitOr is called when exiting the or production.
+	ExitOr(c *OrContext)
+
+	// ExitAnds is called when exiting the ands production.
+	ExitAnds(c *AndsContext)
+
+	// ExitAnd is called when exiting the and production.
+	ExitAnd(c *AndContext)
 
 	// ExitExclusion is called when exiting the exclusion production.
 	ExitExclusion(c *ExclusionContext)
-
-	// ExitUnion is called when exiting the union production.
-	ExitUnion(c *UnionContext)
-
-	// ExitTupleToUserset is called when exiting the tupleToUserset production.
-	ExitTupleToUserset(c *TupleToUsersetContext)
-
-	// ExitGrouping is called when exiting the grouping production.
-	ExitGrouping(c *GroupingContext)
 }

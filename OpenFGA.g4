@@ -31,6 +31,5 @@ and: 'and' id=ID ;
 
 exclusion: 'but not' id=ID ;
 
-
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 WS: [ \t\n\r\f]+ -> skip ;

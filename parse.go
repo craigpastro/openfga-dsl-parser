@@ -116,43 +116,47 @@ func (l *openFGAListener) ExitOrTTU(ctx *parser.OrTTUContext) {
 	})
 }
 
-func (l *openFGAListener) ExitOr(ctx *parser.OrContext) {
-	rewrite := l.pop()
+func (l *openFGAListener) ExitOrs(_ *parser.OrsContext) {
+	children := l.rewrite
+	l.rewrite = nil
 
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_Union{
 			Union: &pb.Usersets{
-				Child: []*pb.Userset{
-					rewrite,
-					{
-						Userset: &pb.Userset_ComputedUserset{
-							ComputedUserset: &pb.ObjectRelation{
-								Relation: ctx.GetId().GetText(),
-							},
-						},
-					},
-				},
+				Child: children,
+			},
+		},
+	})
+}
+
+func (l *openFGAListener) ExitOr(ctx *parser.OrContext) {
+	l.push(&pb.Userset{
+		Userset: &pb.Userset_ComputedUserset{
+			ComputedUserset: &pb.ObjectRelation{
+				Relation: ctx.GetId().GetText(),
+			},
+		},
+	})
+}
+
+func (l *openFGAListener) ExitAnds(_ *parser.AndsContext) {
+	children := l.rewrite
+	l.rewrite = nil
+
+	l.push(&pb.Userset{
+		Userset: &pb.Userset_Intersection{
+			Intersection: &pb.Usersets{
+				Child: children,
 			},
 		},
 	})
 }
 
 func (l *openFGAListener) ExitAnd(ctx *parser.AndContext) {
-	rewrite := l.pop()
-
 	l.push(&pb.Userset{
-		Userset: &pb.Userset_Intersection{
-			Intersection: &pb.Usersets{
-				Child: []*pb.Userset{
-					rewrite,
-					{
-						Userset: &pb.Userset_ComputedUserset{
-							ComputedUserset: &pb.ObjectRelation{
-								Relation: ctx.GetId().GetText(),
-							},
-						},
-					},
-				},
+		Userset: &pb.Userset_ComputedUserset{
+			ComputedUserset: &pb.ObjectRelation{
+				Relation: ctx.GetId().GetText(),
 			},
 		},
 	})

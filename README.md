@@ -10,15 +10,17 @@ package main
 import (
 	"fmt"
 
-	parser "github.com/craigpastro/openfga-dsl-parser"
+	parser "github.com/craigpastro/openfga-dsl-parser/v2"
 )
 
 func main() {
 	model := `
+type user
+
 type document
   relations
-    define viewer as self
-    define writer as self or writer
+    define viewer: [user] as self
+    define writer: [user] as self or writer
 `
 			
 	typeDefinitions, err := parser.Parse(model)
@@ -31,10 +33,7 @@ type document
 ## Making changes to the grammar
 
 1. Change the grammar in `OpenFGA.g4`.
-2. Regenerate the `parser` package with:
-    ```
-    antlr -Dlanguage=Go -o parser OpenFGA.g4
-    ```
+2. Regenerate the `parser` package by `make gen`.
 3. Make the appropriate changes to the parsing function. 
 
 ## Wasm module

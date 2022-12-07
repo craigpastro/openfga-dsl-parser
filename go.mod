@@ -6,7 +6,7 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20220911224424-aa1f1f12a846
 	github.com/pelletier/go-toml/v2 v2.0.5
 	github.com/stretchr/testify v1.8.0
-	go.buf.build/openfga/go/openfga/api v1.2.36
+	go.buf.build/openfga/go/openfga/api v1.2.43
 	google.golang.org/protobuf v1.28.1
 )
 

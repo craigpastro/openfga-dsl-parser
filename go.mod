@@ -1,4 +1,4 @@
-module github.com/craigpastro/openfga-dsl-parser
+module github.com/craigpastro/openfga-dsl-parser/v2
 
 go 1.19
 

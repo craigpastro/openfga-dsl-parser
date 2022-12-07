@@ -2,6 +2,8 @@
 
 OpenFGA DSL Parser is a parser for the OpenFGA DSL.
 
+v2 parses models with type restrictions (1.1 models).
+
 ## Example usage
 
 ```go

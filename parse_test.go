@@ -45,16 +45,6 @@ func TestParser(t *testing.T) {
 	}
 }
 
-type errorTests struct {
-	Tests []errorTest
-}
-
-type errorTest struct {
-	Name  string
-	Model string
-	Error string
-}
-
 func TestParserErrors(t *testing.T) {
 	tests := []struct {
 		name  string

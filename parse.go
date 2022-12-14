@@ -200,15 +200,16 @@ func (l *openFGAListener) getMetadata() *pb.Metadata {
 	return &pb.Metadata{Relations: relations}
 }
 
-func Must(typeDefinitions []*pb.TypeDefinition, err error) []*pb.TypeDefinition {
+func MustParse(s string) []*pb.TypeDefinition {
+	typeDefinitions, err := Parse(s)
 	if err != nil {
 		panic(err)
 	}
 	return typeDefinitions
 }
 
-func Parse(data string) ([]*pb.TypeDefinition, error) {
-	is := antlr.NewInputStream(data)
+func Parse(s string) ([]*pb.TypeDefinition, error) {
+	is := antlr.NewInputStream(s)
 
 	listener := newOpenFGAListener()
 

@@ -170,7 +170,7 @@ func (l *openFGAListener) push(u *pb.Userset) {
 
 func (l *openFGAListener) pop() *pb.Userset {
 	if len(l.rewrite) < 1 {
-		l.errors = append(l.errors, errors.New("stack is empty unable to pop"))
+		l.errors = append(l.errors, errors.New("missing operand"))
 		return nil
 	}
 

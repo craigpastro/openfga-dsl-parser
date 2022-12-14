@@ -45,27 +45,65 @@ func TestParser(t *testing.T) {
 	}
 }
 
-type errorTests struct {
-	Tests []errorTest
-}
-
-type errorTest struct {
-	Name  string
-	Model string
-	Error string
-}
-
 func TestParserErrors(t *testing.T) {
-	data, err := os.ReadFile(filepath.Join(testdata, "errors.yaml"))
-	require.NoError(t, err)
+	tests := []struct {
+		name  string
+		model string
+	}{
+		{
+			name: "TupleToUsersetWithNoComputedUserset",
+			model: `
+type user
 
-	var tests errorTests
-	err = yaml.Unmarshal(data, &tests)
-	require.NoError(t, err)
+type document
+	relations
+    	define parent: [folder] as self
+        define viewer as parent from
+`,
+		},
+		{
+			name: "UnionWithOneProjection",
+			model: `
+type user
+        
+type document
+	relations
+    	define parent: [folder] as self or
+`,
+		},
+		{
+			name: "IntersectionWithOneProjection",
+			model: `
+type user
+        
+type document
+	relations
+    	define parent: [folder] as self and
+`,
+		},
+		{
+			name: "ExclusionWithNoSubtrahend",
+			model: `
+type user
+        
+type document
+	relations
+    	define parent: [folder] as self but not
+`,
+		},
+		{
+			name: "ColonWithNoType",
+			model: `
+type document
+        relations
+          define parent: as self
+`,
+		},
+	}
 
-	for _, test := range tests.Tests {
-		t.Run(test.Name, func(t *testing.T) {
-			_, err := Parse(test.Model)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			_, err := Parse(test.model)
 			require.Error(t, err)
 		})
 	}

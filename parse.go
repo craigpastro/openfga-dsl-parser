@@ -2,26 +2,48 @@ package parser
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
+	"go.uber.org/multierr"
 )
 
 type openFGAListener struct {
 	*parser.BaseOpenFGAListener
+	*antlr.DefaultErrorListener
 
 	typeDefinitions []*pb.TypeDefinition
 	relations       map[string]*pb.Relation
 
 	rewrite  []*pb.Userset
 	typeInfo []*pb.RelationReference
+
+	errors []error
 }
 
 func newOpenFGAListener() *openFGAListener {
 	return &openFGAListener{
 		relations: map[string]*pb.Relation{},
 	}
+}
+
+type syntaxError struct {
+	line, column int
+	msg          string
+}
+
+func (e *syntaxError) Error() string {
+	return fmt.Sprintf("error at %d:%d: %s", e.line, e.column, e.msg)
+}
+
+func (l *openFGAListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+	l.errors = append(l.errors, &syntaxError{
+		line:   line,
+		column: column,
+		msg:    msg,
+	})
 }
 
 func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) {
@@ -148,7 +170,8 @@ func (l *openFGAListener) push(u *pb.Userset) {
 
 func (l *openFGAListener) pop() *pb.Userset {
 	if len(l.rewrite) < 1 {
-		panic("stack is empty unable to pop")
+		l.errors = append(l.errors, errors.New("stack is empty unable to pop"))
+		return nil
 	}
 
 	result := l.rewrite[len(l.rewrite)-1]
@@ -177,37 +200,38 @@ func (l *openFGAListener) getMetadata() *pb.Metadata {
 	return &pb.Metadata{Relations: relations}
 }
 
-func MustParse(data string) []*pb.TypeDefinition {
-	is := antlr.NewInputStream(data)
-
-	// Create the Lexer
-	lexer := parser.NewOpenFGALexer(is)
-	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
-	// Create the Parser
-	p := parser.NewOpenFGAParser(stream)
-
-	// Finally parse the expression
-	l := newOpenFGAListener()
-	antlr.ParseTreeWalkerDefault.Walk(l, p.Start())
-
-	return l.typeDefinitions
+func Must(typeDefinitions []*pb.TypeDefinition, err error) []*pb.TypeDefinition {
+	if err != nil {
+		panic(err)
+	}
+	return typeDefinitions
 }
 
-func Parse(data string) (typeDefinitions []*pb.TypeDefinition, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			switch x := r.(type) {
-			case string:
-				err = errors.New(x)
-			case error:
-				err = x
-			}
-			typeDefinitions = nil
+func Parse(data string) ([]*pb.TypeDefinition, error) {
+	is := antlr.NewInputStream(data)
+
+	listener := newOpenFGAListener()
+
+	lexer := parser.NewOpenFGALexer(is)
+	lexer.RemoveErrorListeners()
+	lexer.AddErrorListener(listener)
+
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+
+	parser := parser.NewOpenFGAParser(stream)
+	parser.RemoveErrorListeners()
+	parser.AddErrorListener(listener)
+
+	// Finally parse the expression
+	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Start())
+
+	if len(listener.errors) > 0 {
+		var err error
+		for _, e := range listener.errors {
+			err = multierr.Append(err, e)
 		}
-	}()
+		return nil, err
+	}
 
-	typeDefinitions = MustParse(data)
-
-	return typeDefinitions, err
+	return listener.typeDefinitions, nil
 }

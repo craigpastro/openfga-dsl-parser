@@ -1,0 +1,39 @@
+tests:
+  - name: TupleToUsersetWithNoComputedUserset
+    model: |
+      type user
+
+      type document
+        relations
+          define parent: [folder] as self
+          define viewer as parent from
+
+  - name: UnionWithOneProjection
+    model: |
+      type user
+        
+      type document
+        relations
+          define parent: [folder] as self or
+
+  - name: IntersectionWithOneProjection
+    model: |
+      type user
+      
+      type document
+        relations
+          define parent: [folder] as self and
+
+  - name: ExclusionWithNoSubtrahend
+    model: |
+      type user
+      
+      type document
+        relations
+          define parent: [folder] as self but not 
+
+  - name: ColonWithNoType
+    model: |
+      type document
+        relations
+          define parent: as self

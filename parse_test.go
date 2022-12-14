@@ -35,7 +35,7 @@ func TestParser(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			model := &pb.AuthorizationModel{
 				SchemaVersion:   "1.1",
-				TypeDefinitions: Must(Parse(test.Model)),
+				TypeDefinitions: MustParse(test.Model),
 			}
 			bytes, err := protojson.Marshal(model)
 			require.NoError(t, err)

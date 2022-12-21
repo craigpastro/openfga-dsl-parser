@@ -17,8 +17,8 @@ type TupleListener interface {
 	// EnterUserObject is called when entering the userObject production.
 	EnterUserObject(c *UserObjectContext)
 
-	// EnterUserId is called when entering the userId production.
-	EnterUserId(c *UserIdContext)
+	// EnterUserID is called when entering the userID production.
+	EnterUserID(c *UserIDContext)
 
 	// ExitTuple is called when exiting the tuple production.
 	ExitTuple(c *TupleContext)
@@ -29,6 +29,6 @@ type TupleListener interface {
 	// ExitUserObject is called when exiting the userObject production.
 	ExitUserObject(c *UserObjectContext)
 
-	// ExitUserId is called when exiting the userId production.
-	ExitUserId(c *UserIdContext)
+	// ExitUserID is called when exiting the userID production.
+	ExitUserID(c *UserIDContext)
 }

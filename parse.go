@@ -278,27 +278,27 @@ func (l *tupleListener) ExitTuple(ctx *tupleparser.TupleContext) {
 
 	l.tuple.Object = fmt.Sprintf("%s:%s",
 		ctx.GetNamespace().GetText(),
-		ctx.GetObjectId().GetText(),
+		ctx.GetObjectID().GetText(),
 	)
 
 	l.tuple.Relation = ctx.GetRelation().GetText()
 }
 
-func (l *tupleListener) ExitUserId(ctx *tupleparser.UserIdContext) {
-	l.tuple.User = fmt.Sprintf("%s", ctx.GetUserId().GetText())
+func (l *tupleListener) ExitUserID(ctx *tupleparser.UserIDContext) {
+	l.tuple.User = ctx.GetUserID().GetText()
 }
 
 func (l *tupleListener) ExitUserObject(ctx *tupleparser.UserObjectContext) {
 	l.tuple.User = fmt.Sprintf("%s:%s",
 		ctx.GetNamespace().GetText(),
-		ctx.GetObjectId().GetText(),
+		ctx.GetObjectID().GetText(),
 	)
 }
 
 func (l *tupleListener) ExitUserUserset(ctx *tupleparser.UserUsersetContext) {
 	l.tuple.User = fmt.Sprintf("%s:%s#%s",
 		ctx.GetNamespace().GetText(),
-		ctx.GetObjectId().GetText(),
+		ctx.GetObjectID().GetText(),
 		ctx.GetRelation().GetText(),
 	)
 }

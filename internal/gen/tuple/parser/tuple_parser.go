@@ -114,8 +114,8 @@ type ITupleContext interface {
 	// GetNamespace returns the namespace token.
 	GetNamespace() antlr.Token
 
-	// GetObjectId returns the objectId token.
-	GetObjectId() antlr.Token
+	// GetObjectID returns the objectID token.
+	GetObjectID() antlr.Token
 
 	// GetRelation returns the relation token.
 	GetRelation() antlr.Token
@@ -123,8 +123,8 @@ type ITupleContext interface {
 	// SetNamespace sets the namespace token.
 	SetNamespace(antlr.Token)
 
-	// SetObjectId sets the objectId token.
-	SetObjectId(antlr.Token)
+	// SetObjectID sets the objectID token.
+	SetObjectID(antlr.Token)
 
 	// SetRelation sets the relation token.
 	SetRelation(antlr.Token)
@@ -137,7 +137,7 @@ type TupleContext struct {
 	*antlr.BaseParserRuleContext
 	parser    antlr.Parser
 	namespace antlr.Token
-	objectId  antlr.Token
+	objectID  antlr.Token
 	relation  antlr.Token
 }
 
@@ -165,13 +165,13 @@ func (s *TupleContext) GetParser() antlr.Parser { return s.parser }
 
 func (s *TupleContext) GetNamespace() antlr.Token { return s.namespace }
 
-func (s *TupleContext) GetObjectId() antlr.Token { return s.objectId }
+func (s *TupleContext) GetObjectID() antlr.Token { return s.objectID }
 
 func (s *TupleContext) GetRelation() antlr.Token { return s.relation }
 
 func (s *TupleContext) SetNamespace(v antlr.Token) { s.namespace = v }
 
-func (s *TupleContext) SetObjectId(v antlr.Token) { s.objectId = v }
+func (s *TupleContext) SetObjectID(v antlr.Token) { s.objectID = v }
 
 func (s *TupleContext) SetRelation(v antlr.Token) { s.relation = v }
 
@@ -263,7 +263,7 @@ func (p *TupleParser) Tuple() (localctx ITupleContext) {
 
 		var _m = p.Match(TupleParserID)
 
-		localctx.(*TupleContext).objectId = _m
+		localctx.(*TupleContext).objectID = _m
 	}
 	{
 		p.SetState(7)
@@ -345,7 +345,7 @@ func (s *UserContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) s
 type UserUsersetContext struct {
 	*UserContext
 	namespace antlr.Token
-	objectId  antlr.Token
+	objectID  antlr.Token
 	relation  antlr.Token
 }
 
@@ -361,13 +361,13 @@ func NewUserUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *Us
 
 func (s *UserUsersetContext) GetNamespace() antlr.Token { return s.namespace }
 
-func (s *UserUsersetContext) GetObjectId() antlr.Token { return s.objectId }
+func (s *UserUsersetContext) GetObjectID() antlr.Token { return s.objectID }
 
 func (s *UserUsersetContext) GetRelation() antlr.Token { return s.relation }
 
 func (s *UserUsersetContext) SetNamespace(v antlr.Token) { s.namespace = v }
 
-func (s *UserUsersetContext) SetObjectId(v antlr.Token) { s.objectId = v }
+func (s *UserUsersetContext) SetObjectID(v antlr.Token) { s.objectID = v }
 
 func (s *UserUsersetContext) SetRelation(v antlr.Token) { s.relation = v }
 
@@ -398,7 +398,7 @@ func (s *UserUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 type UserObjectContext struct {
 	*UserContext
 	namespace antlr.Token
-	objectId  antlr.Token
+	objectID  antlr.Token
 }
 
 func NewUserObjectContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserObjectContext {
@@ -413,11 +413,11 @@ func NewUserObjectContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *Use
 
 func (s *UserObjectContext) GetNamespace() antlr.Token { return s.namespace }
 
-func (s *UserObjectContext) GetObjectId() antlr.Token { return s.objectId }
+func (s *UserObjectContext) GetObjectID() antlr.Token { return s.objectID }
 
 func (s *UserObjectContext) SetNamespace(v antlr.Token) { s.namespace = v }
 
-func (s *UserObjectContext) SetObjectId(v antlr.Token) { s.objectId = v }
+func (s *UserObjectContext) SetObjectID(v antlr.Token) { s.objectID = v }
 
 func (s *UserObjectContext) GetRuleContext() antlr.RuleContext {
 	return s
@@ -443,13 +443,13 @@ func (s *UserObjectContext) ExitRule(listener antlr.ParseTreeListener) {
 	}
 }
 
-type UserIdContext struct {
+type UserIDContext struct {
 	*UserContext
-	userId antlr.Token
+	userID antlr.Token
 }
 
-func NewUserIdContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserIdContext {
-	var p = new(UserIdContext)
+func NewUserIDContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserIDContext {
+	var p = new(UserIDContext)
 
 	p.UserContext = NewEmptyUserContext()
 	p.parser = parser
@@ -458,27 +458,27 @@ func NewUserIdContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserIdC
 	return p
 }
 
-func (s *UserIdContext) GetUserId() antlr.Token { return s.userId }
+func (s *UserIDContext) GetUserID() antlr.Token { return s.userID }
 
-func (s *UserIdContext) SetUserId(v antlr.Token) { s.userId = v }
+func (s *UserIDContext) SetUserID(v antlr.Token) { s.userID = v }
 
-func (s *UserIdContext) GetRuleContext() antlr.RuleContext {
+func (s *UserIDContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *UserIdContext) ID() antlr.TerminalNode {
+func (s *UserIDContext) ID() antlr.TerminalNode {
 	return s.GetToken(TupleParserID, 0)
 }
 
-func (s *UserIdContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *UserIDContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterUserId(s)
+		listenerT.EnterUserID(s)
 	}
 }
 
-func (s *UserIdContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *UserIDContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitUserId(s)
+		listenerT.ExitUserID(s)
 	}
 }
 
@@ -527,7 +527,7 @@ func (p *TupleParser) User() (localctx IUserContext) {
 
 			var _m = p.Match(TupleParserID)
 
-			localctx.(*UserUsersetContext).objectId = _m
+			localctx.(*UserUsersetContext).objectID = _m
 		}
 		{
 			p.SetState(16)
@@ -560,18 +560,18 @@ func (p *TupleParser) User() (localctx IUserContext) {
 
 			var _m = p.Match(TupleParserID)
 
-			localctx.(*UserObjectContext).objectId = _m
+			localctx.(*UserObjectContext).objectID = _m
 		}
 
 	case 3:
-		localctx = NewUserIdContext(p, localctx)
+		localctx = NewUserIDContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(21)
 
 			var _m = p.Match(TupleParserID)
 
-			localctx.(*UserIdContext).userId = _m
+			localctx.(*UserIDContext).userID = _m
 		}
 
 	}

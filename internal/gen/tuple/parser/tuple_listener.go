@@ -11,36 +11,24 @@ type TupleListener interface {
 	// EnterTuple is called when entering the tuple production.
 	EnterTuple(c *TupleContext)
 
-	// EnterObject is called when entering the object production.
-	EnterObject(c *ObjectContext)
+	// EnterUserUserset is called when entering the userUserset production.
+	EnterUserUserset(c *UserUsersetContext)
 
-	// EnterRelation is called when entering the relation production.
-	EnterRelation(c *RelationContext)
+	// EnterUserObject is called when entering the userObject production.
+	EnterUserObject(c *UserObjectContext)
 
-	// EnterUser_userset is called when entering the user_userset production.
-	EnterUser_userset(c *User_usersetContext)
-
-	// EnterUser_object is called when entering the user_object production.
-	EnterUser_object(c *User_objectContext)
-
-	// EnterUser_id is called when entering the user_id production.
-	EnterUser_id(c *User_idContext)
+	// EnterUserId is called when entering the userId production.
+	EnterUserId(c *UserIdContext)
 
 	// ExitTuple is called when exiting the tuple production.
 	ExitTuple(c *TupleContext)
 
-	// ExitObject is called when exiting the object production.
-	ExitObject(c *ObjectContext)
+	// ExitUserUserset is called when exiting the userUserset production.
+	ExitUserUserset(c *UserUsersetContext)
 
-	// ExitRelation is called when exiting the relation production.
-	ExitRelation(c *RelationContext)
+	// ExitUserObject is called when exiting the userObject production.
+	ExitUserObject(c *UserObjectContext)
 
-	// ExitUser_userset is called when exiting the user_userset production.
-	ExitUser_userset(c *User_usersetContext)
-
-	// ExitUser_object is called when exiting the user_object production.
-	ExitUser_object(c *User_objectContext)
-
-	// ExitUser_id is called when exiting the user_id production.
-	ExitUser_id(c *User_idContext)
+	// ExitUserId is called when exiting the userId production.
+	ExitUserId(c *UserIdContext)
 }

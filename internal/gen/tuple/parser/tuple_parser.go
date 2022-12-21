@@ -33,27 +33,26 @@ var tupleParserStaticData struct {
 func tupleParserInit() {
 	staticData := &tupleParserStaticData
 	staticData.literalNames = []string{
-		"", "'#'", "'@'", "':'",
+		"", "':'", "'#'", "'@'",
 	}
 	staticData.symbolicNames = []string{
 		"", "", "", "", "ID", "WS",
 	}
 	staticData.ruleNames = []string{
-		"tuple", "object", "relation", "user",
+		"tuple", "user",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 5, 30, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1, 0,
-		1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 3,
-		1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 28, 8, 3, 1, 3, 0, 0, 4, 0, 2, 4, 6,
-		0, 0, 27, 0, 8, 1, 0, 0, 0, 2, 15, 1, 0, 0, 0, 4, 19, 1, 0, 0, 0, 6, 27,
-		1, 0, 0, 0, 8, 9, 3, 2, 1, 0, 9, 10, 5, 1, 0, 0, 10, 11, 3, 4, 2, 0, 11,
-		12, 5, 2, 0, 0, 12, 13, 3, 6, 3, 0, 13, 14, 5, 0, 0, 1, 14, 1, 1, 0, 0,
-		0, 15, 16, 5, 4, 0, 0, 16, 17, 5, 3, 0, 0, 17, 18, 5, 4, 0, 0, 18, 3, 1,
-		0, 0, 0, 19, 20, 5, 4, 0, 0, 20, 5, 1, 0, 0, 0, 21, 22, 3, 2, 1, 0, 22,
-		23, 5, 1, 0, 0, 23, 24, 3, 4, 2, 0, 24, 28, 1, 0, 0, 0, 25, 28, 3, 2, 1,
-		0, 26, 28, 5, 4, 0, 0, 27, 21, 1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 27, 26,
-		1, 0, 0, 0, 28, 7, 1, 0, 0, 0, 1, 27,
+		4, 1, 5, 25, 2, 0, 7, 0, 2, 1, 7, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+		1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		3, 1, 23, 8, 1, 1, 1, 0, 0, 2, 0, 2, 0, 0, 24, 0, 4, 1, 0, 0, 0, 2, 22,
+		1, 0, 0, 0, 4, 5, 5, 4, 0, 0, 5, 6, 5, 1, 0, 0, 6, 7, 5, 4, 0, 0, 7, 8,
+		5, 2, 0, 0, 8, 9, 5, 4, 0, 0, 9, 10, 5, 3, 0, 0, 10, 11, 3, 2, 1, 0, 11,
+		12, 5, 0, 0, 1, 12, 1, 1, 0, 0, 0, 13, 14, 5, 4, 0, 0, 14, 15, 5, 1, 0,
+		0, 15, 16, 5, 4, 0, 0, 16, 17, 5, 2, 0, 0, 17, 23, 5, 4, 0, 0, 18, 19,
+		5, 4, 0, 0, 19, 20, 5, 1, 0, 0, 20, 23, 5, 4, 0, 0, 21, 23, 5, 4, 0, 0,
+		22, 13, 1, 0, 0, 0, 22, 18, 1, 0, 0, 0, 22, 21, 1, 0, 0, 0, 23, 3, 1, 0,
+		0, 0, 1, 22,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -101,10 +100,8 @@ const (
 
 // TupleParser rules.
 const (
-	TupleParserRULE_tuple    = 0
-	TupleParserRULE_object   = 1
-	TupleParserRULE_relation = 2
-	TupleParserRULE_user     = 3
+	TupleParserRULE_tuple = 0
+	TupleParserRULE_user  = 1
 )
 
 // ITupleContext is an interface to support dynamic dispatch.
@@ -114,13 +111,34 @@ type ITupleContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// GetNamespace returns the namespace token.
+	GetNamespace() antlr.Token
+
+	// GetObjectId returns the objectId token.
+	GetObjectId() antlr.Token
+
+	// GetRelation returns the relation token.
+	GetRelation() antlr.Token
+
+	// SetNamespace sets the namespace token.
+	SetNamespace(antlr.Token)
+
+	// SetObjectId sets the objectId token.
+	SetObjectId(antlr.Token)
+
+	// SetRelation sets the relation token.
+	SetRelation(antlr.Token)
+
 	// IsTupleContext differentiates from other interfaces.
 	IsTupleContext()
 }
 
 type TupleContext struct {
 	*antlr.BaseParserRuleContext
-	parser antlr.Parser
+	parser    antlr.Parser
+	namespace antlr.Token
+	objectId  antlr.Token
+	relation  antlr.Token
 }
 
 func NewEmptyTupleContext() *TupleContext {
@@ -145,37 +163,17 @@ func NewTupleContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 
 func (s *TupleContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TupleContext) Object() IObjectContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IObjectContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
+func (s *TupleContext) GetNamespace() antlr.Token { return s.namespace }
 
-	if t == nil {
-		return nil
-	}
+func (s *TupleContext) GetObjectId() antlr.Token { return s.objectId }
 
-	return t.(IObjectContext)
-}
+func (s *TupleContext) GetRelation() antlr.Token { return s.relation }
 
-func (s *TupleContext) Relation() IRelationContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IRelationContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
+func (s *TupleContext) SetNamespace(v antlr.Token) { s.namespace = v }
 
-	if t == nil {
-		return nil
-	}
+func (s *TupleContext) SetObjectId(v antlr.Token) { s.objectId = v }
 
-	return t.(IRelationContext)
-}
+func (s *TupleContext) SetRelation(v antlr.Token) { s.relation = v }
 
 func (s *TupleContext) User() IUserContext {
 	var t antlr.RuleContext
@@ -195,6 +193,14 @@ func (s *TupleContext) User() IUserContext {
 
 func (s *TupleContext) EOF() antlr.TerminalNode {
 	return s.GetToken(TupleParserEOF, 0)
+}
+
+func (s *TupleContext) AllID() []antlr.TerminalNode {
+	return s.GetTokens(TupleParserID)
+}
+
+func (s *TupleContext) ID(i int) antlr.TerminalNode {
+	return s.GetToken(TupleParserID, i)
 }
 
 func (s *TupleContext) GetRuleContext() antlr.RuleContext {
@@ -242,256 +248,45 @@ func (p *TupleParser) Tuple() (localctx ITupleContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(8)
-		p.Object()
+		p.SetState(4)
+
+		var _m = p.Match(TupleParserID)
+
+		localctx.(*TupleContext).namespace = _m
 	}
 	{
-		p.SetState(9)
+		p.SetState(5)
 		p.Match(TupleParserT__0)
 	}
 	{
-		p.SetState(10)
-		p.Relation()
+		p.SetState(6)
+
+		var _m = p.Match(TupleParserID)
+
+		localctx.(*TupleContext).objectId = _m
 	}
 	{
-		p.SetState(11)
+		p.SetState(7)
 		p.Match(TupleParserT__1)
 	}
 	{
-		p.SetState(12)
-		p.User()
-	}
-	{
-		p.SetState(13)
-		p.Match(TupleParserEOF)
-	}
-
-	return localctx
-}
-
-// IObjectContext is an interface to support dynamic dispatch.
-type IObjectContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// GetNamespace returns the namespace token.
-	GetNamespace() antlr.Token
-
-	// GetObject_id returns the object_id token.
-	GetObject_id() antlr.Token
-
-	// SetNamespace sets the namespace token.
-	SetNamespace(antlr.Token)
-
-	// SetObject_id sets the object_id token.
-	SetObject_id(antlr.Token)
-
-	// IsObjectContext differentiates from other interfaces.
-	IsObjectContext()
-}
-
-type ObjectContext struct {
-	*antlr.BaseParserRuleContext
-	parser    antlr.Parser
-	namespace antlr.Token
-	object_id antlr.Token
-}
-
-func NewEmptyObjectContext() *ObjectContext {
-	var p = new(ObjectContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TupleParserRULE_object
-	return p
-}
-
-func (*ObjectContext) IsObjectContext() {}
-
-func NewObjectContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ObjectContext {
-	var p = new(ObjectContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = TupleParserRULE_object
-
-	return p
-}
-
-func (s *ObjectContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *ObjectContext) GetNamespace() antlr.Token { return s.namespace }
-
-func (s *ObjectContext) GetObject_id() antlr.Token { return s.object_id }
-
-func (s *ObjectContext) SetNamespace(v antlr.Token) { s.namespace = v }
-
-func (s *ObjectContext) SetObject_id(v antlr.Token) { s.object_id = v }
-
-func (s *ObjectContext) AllID() []antlr.TerminalNode {
-	return s.GetTokens(TupleParserID)
-}
-
-func (s *ObjectContext) ID(i int) antlr.TerminalNode {
-	return s.GetToken(TupleParserID, i)
-}
-
-func (s *ObjectContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *ObjectContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ObjectContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterObject(s)
-	}
-}
-
-func (s *ObjectContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitObject(s)
-	}
-}
-
-func (p *TupleParser) Object() (localctx IObjectContext) {
-	this := p
-	_ = this
-
-	localctx = NewObjectContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, TupleParserRULE_object)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(15)
+		p.SetState(8)
 
 		var _m = p.Match(TupleParserID)
 
-		localctx.(*ObjectContext).namespace = _m
+		localctx.(*TupleContext).relation = _m
 	}
 	{
-		p.SetState(16)
+		p.SetState(9)
 		p.Match(TupleParserT__2)
 	}
 	{
-		p.SetState(17)
-
-		var _m = p.Match(TupleParserID)
-
-		localctx.(*ObjectContext).object_id = _m
+		p.SetState(10)
+		p.User()
 	}
-
-	return localctx
-}
-
-// IRelationContext is an interface to support dynamic dispatch.
-type IRelationContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsRelationContext differentiates from other interfaces.
-	IsRelationContext()
-}
-
-type RelationContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyRelationContext() *RelationContext {
-	var p = new(RelationContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TupleParserRULE_relation
-	return p
-}
-
-func (*RelationContext) IsRelationContext() {}
-
-func NewRelationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RelationContext {
-	var p = new(RelationContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = TupleParserRULE_relation
-
-	return p
-}
-
-func (s *RelationContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *RelationContext) ID() antlr.TerminalNode {
-	return s.GetToken(TupleParserID, 0)
-}
-
-func (s *RelationContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *RelationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *RelationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterRelation(s)
-	}
-}
-
-func (s *RelationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitRelation(s)
-	}
-}
-
-func (p *TupleParser) Relation() (localctx IRelationContext) {
-	this := p
-	_ = this
-
-	localctx = NewRelationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, TupleParserRULE_relation)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(19)
-		p.Match(TupleParserID)
+		p.SetState(11)
+		p.Match(TupleParserEOF)
 	}
 
 	return localctx
@@ -547,12 +342,15 @@ func (s *UserContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) s
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-type User_idContext struct {
+type UserUsersetContext struct {
 	*UserContext
+	namespace antlr.Token
+	objectId  antlr.Token
+	relation  antlr.Token
 }
 
-func NewUser_idContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *User_idContext {
-	var p = new(User_idContext)
+func NewUserUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserUsersetContext {
+	var p = new(UserUsersetContext)
 
 	p.UserContext = NewEmptyUserContext()
 	p.parser = parser
@@ -561,131 +359,126 @@ func NewUser_idContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *User_i
 	return p
 }
 
-func (s *User_idContext) GetRuleContext() antlr.RuleContext {
+func (s *UserUsersetContext) GetNamespace() antlr.Token { return s.namespace }
+
+func (s *UserUsersetContext) GetObjectId() antlr.Token { return s.objectId }
+
+func (s *UserUsersetContext) GetRelation() antlr.Token { return s.relation }
+
+func (s *UserUsersetContext) SetNamespace(v antlr.Token) { s.namespace = v }
+
+func (s *UserUsersetContext) SetObjectId(v antlr.Token) { s.objectId = v }
+
+func (s *UserUsersetContext) SetRelation(v antlr.Token) { s.relation = v }
+
+func (s *UserUsersetContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *User_idContext) ID() antlr.TerminalNode {
+func (s *UserUsersetContext) AllID() []antlr.TerminalNode {
+	return s.GetTokens(TupleParserID)
+}
+
+func (s *UserUsersetContext) ID(i int) antlr.TerminalNode {
+	return s.GetToken(TupleParserID, i)
+}
+
+func (s *UserUsersetContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(TupleListener); ok {
+		listenerT.EnterUserUserset(s)
+	}
+}
+
+func (s *UserUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(TupleListener); ok {
+		listenerT.ExitUserUserset(s)
+	}
+}
+
+type UserObjectContext struct {
+	*UserContext
+	namespace antlr.Token
+	objectId  antlr.Token
+}
+
+func NewUserObjectContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserObjectContext {
+	var p = new(UserObjectContext)
+
+	p.UserContext = NewEmptyUserContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*UserContext))
+
+	return p
+}
+
+func (s *UserObjectContext) GetNamespace() antlr.Token { return s.namespace }
+
+func (s *UserObjectContext) GetObjectId() antlr.Token { return s.objectId }
+
+func (s *UserObjectContext) SetNamespace(v antlr.Token) { s.namespace = v }
+
+func (s *UserObjectContext) SetObjectId(v antlr.Token) { s.objectId = v }
+
+func (s *UserObjectContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *UserObjectContext) AllID() []antlr.TerminalNode {
+	return s.GetTokens(TupleParserID)
+}
+
+func (s *UserObjectContext) ID(i int) antlr.TerminalNode {
+	return s.GetToken(TupleParserID, i)
+}
+
+func (s *UserObjectContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(TupleListener); ok {
+		listenerT.EnterUserObject(s)
+	}
+}
+
+func (s *UserObjectContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(TupleListener); ok {
+		listenerT.ExitUserObject(s)
+	}
+}
+
+type UserIdContext struct {
+	*UserContext
+	userId antlr.Token
+}
+
+func NewUserIdContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserIdContext {
+	var p = new(UserIdContext)
+
+	p.UserContext = NewEmptyUserContext()
+	p.parser = parser
+	p.CopyFrom(ctx.(*UserContext))
+
+	return p
+}
+
+func (s *UserIdContext) GetUserId() antlr.Token { return s.userId }
+
+func (s *UserIdContext) SetUserId(v antlr.Token) { s.userId = v }
+
+func (s *UserIdContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *UserIdContext) ID() antlr.TerminalNode {
 	return s.GetToken(TupleParserID, 0)
 }
 
-func (s *User_idContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *UserIdContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterUser_id(s)
+		listenerT.EnterUserId(s)
 	}
 }
 
-func (s *User_idContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *UserIdContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitUser_id(s)
-	}
-}
-
-type User_usersetContext struct {
-	*UserContext
-}
-
-func NewUser_usersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *User_usersetContext {
-	var p = new(User_usersetContext)
-
-	p.UserContext = NewEmptyUserContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*UserContext))
-
-	return p
-}
-
-func (s *User_usersetContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *User_usersetContext) Object() IObjectContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IObjectContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IObjectContext)
-}
-
-func (s *User_usersetContext) Relation() IRelationContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IRelationContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IRelationContext)
-}
-
-func (s *User_usersetContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterUser_userset(s)
-	}
-}
-
-func (s *User_usersetContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitUser_userset(s)
-	}
-}
-
-type User_objectContext struct {
-	*UserContext
-}
-
-func NewUser_objectContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *User_objectContext {
-	var p = new(User_objectContext)
-
-	p.UserContext = NewEmptyUserContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*UserContext))
-
-	return p
-}
-
-func (s *User_objectContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *User_objectContext) Object() IObjectContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IObjectContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IObjectContext)
-}
-
-func (s *User_objectContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.EnterUser_object(s)
-	}
-}
-
-func (s *User_objectContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(TupleListener); ok {
-		listenerT.ExitUser_object(s)
+		listenerT.ExitUserId(s)
 	}
 }
 
@@ -694,7 +487,7 @@ func (p *TupleParser) User() (localctx IUserContext) {
 	_ = this
 
 	localctx = NewUserContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, TupleParserRULE_user)
+	p.EnterRule(localctx, 2, TupleParserRULE_user)
 
 	defer func() {
 		p.ExitRule()
@@ -712,39 +505,73 @@ func (p *TupleParser) User() (localctx IUserContext) {
 		}
 	}()
 
-	p.SetState(27)
+	p.SetState(22)
 	p.GetErrorHandler().Sync(p)
 	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
 	case 1:
-		localctx = NewUser_usersetContext(p, localctx)
+		localctx = NewUserUsersetContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(21)
-			p.Object()
+			p.SetState(13)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserUsersetContext).namespace = _m
 		}
 		{
-			p.SetState(22)
+			p.SetState(14)
 			p.Match(TupleParserT__0)
 		}
 		{
-			p.SetState(23)
-			p.Relation()
+			p.SetState(15)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserUsersetContext).objectId = _m
+		}
+		{
+			p.SetState(16)
+			p.Match(TupleParserT__1)
+		}
+		{
+			p.SetState(17)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserUsersetContext).relation = _m
 		}
 
 	case 2:
-		localctx = NewUser_objectContext(p, localctx)
+		localctx = NewUserObjectContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(25)
-			p.Object()
+			p.SetState(18)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserObjectContext).namespace = _m
+		}
+		{
+			p.SetState(19)
+			p.Match(TupleParserT__0)
+		}
+		{
+			p.SetState(20)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserObjectContext).objectId = _m
 		}
 
 	case 3:
-		localctx = NewUser_idContext(p, localctx)
+		localctx = NewUserIdContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(26)
-			p.Match(TupleParserID)
+			p.SetState(21)
+
+			var _m = p.Match(TupleParserID)
+
+			localctx.(*UserIdContext).userId = _m
 		}
 
 	}

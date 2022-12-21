@@ -6,9 +6,19 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	dslparser "github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/dsl/parser"
+	tupleparser "github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/tuple/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"go.uber.org/multierr"
 )
+
+type syntaxError struct {
+	line, column int
+	msg          string
+}
+
+func (e *syntaxError) Error() string {
+	return fmt.Sprintf("error at %d:%d: %s", e.line, e.column, e.msg)
+}
 
 type dslListener struct {
 	*dslparser.BaseDSLListener
@@ -27,15 +37,6 @@ func newDSLListener() *dslListener {
 	return &dslListener{
 		relations: map[string]*pb.Relation{},
 	}
-}
-
-type syntaxError struct {
-	line, column int
-	msg          string
-}
-
-func (e *syntaxError) Error() string {
-	return fmt.Sprintf("error at %d:%d: %s", e.line, e.column, e.msg)
 }
 
 func (l *dslListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
@@ -200,15 +201,17 @@ func (l *dslListener) getMetadata() *pb.Metadata {
 	return &pb.Metadata{Relations: relations}
 }
 
-func Must(typeDefinitions []*pb.TypeDefinition, err error) []*pb.TypeDefinition {
+func MustParseDSL(s string) []*pb.TypeDefinition {
+	typeDefinitions, err := ParseDSL(s)
 	if err != nil {
 		panic(err)
 	}
+
 	return typeDefinitions
 }
 
-func ParseDSL(data string) ([]*pb.TypeDefinition, error) {
-	is := antlr.NewInputStream(data)
+func ParseDSL(s string) ([]*pb.TypeDefinition, error) {
+	is := antlr.NewInputStream(s)
 
 	listener := newDSLListener()
 
@@ -222,7 +225,6 @@ func ParseDSL(data string) ([]*pb.TypeDefinition, error) {
 	parser.RemoveErrorListeners()
 	parser.AddErrorListener(listener)
 
-	// Finally parse the expression
 	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Dsl())
 
 	if len(listener.errors) > 0 {
@@ -237,6 +239,102 @@ func ParseDSL(data string) ([]*pb.TypeDefinition, error) {
 }
 
 // Deprecated: please use ParseDSL instead.
-func Parse(data string) ([]*pb.TypeDefinition, error) {
-	return ParseDSL(data)
+func Parse(s string) ([]*pb.TypeDefinition, error) {
+	return ParseDSL(s)
+}
+
+// Deprecated: please use MustParseDSL instead.
+func MustParse(s string) []*pb.TypeDefinition {
+	return MustParseDSL(s)
+}
+
+type tupleListener struct {
+	*tupleparser.BaseTupleListener
+	*antlr.DefaultErrorListener
+
+	tuple *pb.TupleKey
+
+	errors []error
+}
+
+func newTupleListener() *tupleListener {
+	return &tupleListener{
+		tuple: &pb.TupleKey{},
+	}
+}
+
+func (l *tupleListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+	l.errors = append(l.errors, &syntaxError{
+		line:   line,
+		column: column,
+		msg:    msg,
+	})
+}
+
+func (l *tupleListener) ExitTuple(ctx *tupleparser.TupleContext) {
+	if len(l.errors) > 0 {
+		return
+	}
+
+	l.tuple.Object = fmt.Sprintf("%s:%s",
+		ctx.GetNamespace().GetText(),
+		ctx.GetObjectId().GetText(),
+	)
+
+	l.tuple.Relation = ctx.GetRelation().GetText()
+}
+
+func (l *tupleListener) ExitUserId(ctx *tupleparser.UserIdContext) {
+	l.tuple.User = fmt.Sprintf("%s", ctx.GetUserId().GetText())
+}
+
+func (l *tupleListener) ExitUserObject(ctx *tupleparser.UserObjectContext) {
+	l.tuple.User = fmt.Sprintf("%s:%s",
+		ctx.GetNamespace().GetText(),
+		ctx.GetObjectId().GetText(),
+	)
+}
+
+func (l *tupleListener) ExitUserUserset(ctx *tupleparser.UserUsersetContext) {
+	l.tuple.User = fmt.Sprintf("%s:%s#%s",
+		ctx.GetNamespace().GetText(),
+		ctx.GetObjectId().GetText(),
+		ctx.GetRelation().GetText(),
+	)
+}
+
+func ParseTuple(s string) (*pb.TupleKey, error) {
+	is := antlr.NewInputStream(s)
+
+	listener := newTupleListener()
+
+	lexer := tupleparser.NewTupleLexer(is)
+	lexer.RemoveErrorListeners()
+	lexer.AddErrorListener(listener)
+
+	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+
+	parser := tupleparser.NewTupleParser(stream)
+	parser.RemoveErrorListeners()
+	parser.AddErrorListener(listener)
+
+	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Tuple())
+
+	if len(listener.errors) > 0 {
+		var err error
+		for _, e := range listener.errors {
+			err = multierr.Append(err, e)
+		}
+		return nil, err
+	}
+
+	return listener.tuple, nil
+}
+
+func MustParseTuple(s string) *pb.TupleKey {
+	tuple, err := ParseTuple(s)
+	if err != nil {
+		panic(err)
+	}
+	return tuple
 }

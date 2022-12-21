@@ -27,32 +27,20 @@ func (s *BaseTupleListener) EnterTuple(ctx *TupleContext) {}
 // ExitTuple is called when production tuple is exited.
 func (s *BaseTupleListener) ExitTuple(ctx *TupleContext) {}
 
-// EnterObject is called when production object is entered.
-func (s *BaseTupleListener) EnterObject(ctx *ObjectContext) {}
+// EnterUserUserset is called when production userUserset is entered.
+func (s *BaseTupleListener) EnterUserUserset(ctx *UserUsersetContext) {}
 
-// ExitObject is called when production object is exited.
-func (s *BaseTupleListener) ExitObject(ctx *ObjectContext) {}
+// ExitUserUserset is called when production userUserset is exited.
+func (s *BaseTupleListener) ExitUserUserset(ctx *UserUsersetContext) {}
 
-// EnterRelation is called when production relation is entered.
-func (s *BaseTupleListener) EnterRelation(ctx *RelationContext) {}
+// EnterUserObject is called when production userObject is entered.
+func (s *BaseTupleListener) EnterUserObject(ctx *UserObjectContext) {}
 
-// ExitRelation is called when production relation is exited.
-func (s *BaseTupleListener) ExitRelation(ctx *RelationContext) {}
+// ExitUserObject is called when production userObject is exited.
+func (s *BaseTupleListener) ExitUserObject(ctx *UserObjectContext) {}
 
-// EnterUser_userset is called when production user_userset is entered.
-func (s *BaseTupleListener) EnterUser_userset(ctx *User_usersetContext) {}
+// EnterUserId is called when production userId is entered.
+func (s *BaseTupleListener) EnterUserId(ctx *UserIdContext) {}
 
-// ExitUser_userset is called when production user_userset is exited.
-func (s *BaseTupleListener) ExitUser_userset(ctx *User_usersetContext) {}
-
-// EnterUser_object is called when production user_object is entered.
-func (s *BaseTupleListener) EnterUser_object(ctx *User_objectContext) {}
-
-// ExitUser_object is called when production user_object is exited.
-func (s *BaseTupleListener) ExitUser_object(ctx *User_objectContext) {}
-
-// EnterUser_id is called when production user_id is entered.
-func (s *BaseTupleListener) EnterUser_id(ctx *User_idContext) {}
-
-// ExitUser_id is called when production user_id is exited.
-func (s *BaseTupleListener) ExitUser_id(ctx *User_idContext) {}
+// ExitUserId is called when production userId is exited.
+func (s *BaseTupleListener) ExitUserId(ctx *UserIdContext) {}

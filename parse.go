@@ -5,13 +5,13 @@ import (
 	"fmt"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	"github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/parser"
+	dslparser "github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/dsl/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"go.uber.org/multierr"
 )
 
-type openFGAListener struct {
-	*parser.BaseOpenFGAListener
+type dslListener struct {
+	*dslparser.BaseDSLListener
 	*antlr.DefaultErrorListener
 
 	typeDefinitions []*pb.TypeDefinition
@@ -23,8 +23,8 @@ type openFGAListener struct {
 	errors []error
 }
 
-func newOpenFGAListener() *openFGAListener {
-	return &openFGAListener{
+func newDSLListener() *dslListener {
+	return &dslListener{
 		relations: map[string]*pb.Relation{},
 	}
 }
@@ -38,7 +38,7 @@ func (e *syntaxError) Error() string {
 	return fmt.Sprintf("error at %d:%d: %s", e.line, e.column, e.msg)
 }
 
-func (l *openFGAListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
+func (l *dslListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
 	l.errors = append(l.errors, &syntaxError{
 		line:   line,
 		column: column,
@@ -46,7 +46,7 @@ func (l *openFGAListener) SyntaxError(recognizer antlr.Recognizer, offendingSymb
 	})
 }
 
-func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) {
+func (l *dslListener) ExitTypeDefinition(ctx *dslparser.TypeDefinitionContext) {
 	objectType := ctx.GetObjectType().GetText()
 
 	l.typeDefinitions = append(l.typeDefinitions, &pb.TypeDefinition{
@@ -59,7 +59,7 @@ func (l *openFGAListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) 
 	l.relations = map[string]*pb.Relation{}
 }
 
-func (l *openFGAListener) ExitRelation(ctx *parser.RelationContext) {
+func (l *dslListener) ExitRelation(ctx *dslparser.RelationContext) {
 	name := ctx.GetName().GetText()
 
 	var typeInfo *pb.RelationTypeInfo
@@ -77,13 +77,13 @@ func (l *openFGAListener) ExitRelation(ctx *parser.RelationContext) {
 	l.typeInfo = nil
 }
 
-func (l *openFGAListener) ExitRrType(ctx *parser.RrTypeContext) {
+func (l *dslListener) ExitRrType(ctx *dslparser.RrTypeContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 	})
 }
 
-func (l *openFGAListener) ExitRrTypeAndRelation(ctx *parser.RrTypeAndRelationContext) {
+func (l *dslListener) ExitRrTypeAndRelation(ctx *dslparser.RrTypeAndRelationContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 		RelationOrWildcard: &pb.RelationReference_Relation{
@@ -92,7 +92,7 @@ func (l *openFGAListener) ExitRrTypeAndRelation(ctx *parser.RrTypeAndRelationCon
 	})
 }
 
-func (l *openFGAListener) ExitRrTypeAndWildcard(ctx *parser.RrTypeAndWildcardContext) {
+func (l *dslListener) ExitRrTypeAndWildcard(ctx *dslparser.RrTypeAndWildcardContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 		RelationOrWildcard: &pb.RelationReference_Wildcard{
@@ -101,11 +101,11 @@ func (l *openFGAListener) ExitRrTypeAndWildcard(ctx *parser.RrTypeAndWildcardCon
 	})
 }
 
-func (l *openFGAListener) ExitThis(_ *parser.ThisContext) {
+func (l *dslListener) ExitThis(_ *dslparser.ThisContext) {
 	l.push(&pb.Userset{Userset: &pb.Userset_This{}})
 }
 
-func (l *openFGAListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) {
+func (l *dslListener) ExitTupleToUserset(ctx *dslparser.TupleToUsersetContext) {
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_TupleToUserset{
 			TupleToUserset: &pb.TupleToUserset{
@@ -116,7 +116,7 @@ func (l *openFGAListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) 
 	})
 }
 
-func (l *openFGAListener) ExitComputedUserset(ctx *parser.ComputedUsersetContext) {
+func (l *dslListener) ExitComputedUserset(ctx *dslparser.ComputedUsersetContext) {
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_ComputedUserset{
 			ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
@@ -124,7 +124,7 @@ func (l *openFGAListener) ExitComputedUserset(ctx *parser.ComputedUsersetContext
 	})
 }
 
-func (l *openFGAListener) ExitUnion(_ *parser.UnionContext) {
+func (l *dslListener) ExitUnion(_ *dslparser.UnionContext) {
 	right := l.pop()
 	left := l.pop()
 
@@ -137,7 +137,7 @@ func (l *openFGAListener) ExitUnion(_ *parser.UnionContext) {
 	})
 }
 
-func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
+func (l *dslListener) ExitIntersection(_ *dslparser.IntersectionContext) {
 	right := l.pop()
 	left := l.pop()
 
@@ -150,7 +150,7 @@ func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
 	})
 }
 
-func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
+func (l *dslListener) ExitExclusion(_ *dslparser.ExclusionContext) {
 	subtract := l.pop()
 	base := l.pop()
 
@@ -164,11 +164,11 @@ func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	})
 }
 
-func (l *openFGAListener) push(u *pb.Userset) {
+func (l *dslListener) push(u *pb.Userset) {
 	l.rewrite = append(l.rewrite, u)
 }
 
-func (l *openFGAListener) pop() *pb.Userset {
+func (l *dslListener) pop() *pb.Userset {
 	if len(l.rewrite) < 1 {
 		l.errors = append(l.errors, errors.New("missing operand"))
 		return nil
@@ -180,7 +180,7 @@ func (l *openFGAListener) pop() *pb.Userset {
 	return result
 }
 
-func (l *openFGAListener) getRelations() map[string]*pb.Userset {
+func (l *dslListener) getRelations() map[string]*pb.Userset {
 	relations := map[string]*pb.Userset{}
 	for name, relation := range l.relations {
 		relations[name] = relation.GetRewrite()
@@ -188,7 +188,7 @@ func (l *openFGAListener) getRelations() map[string]*pb.Userset {
 	return relations
 }
 
-func (l *openFGAListener) getMetadata() *pb.Metadata {
+func (l *dslListener) getMetadata() *pb.Metadata {
 	relations := map[string]*pb.RelationMetadata{}
 	for name, relation := range l.relations {
 		directlyRelatedUserTypes := relation.GetTypeInfo().GetDirectlyRelatedUserTypes()
@@ -207,23 +207,23 @@ func Must(typeDefinitions []*pb.TypeDefinition, err error) []*pb.TypeDefinition 
 	return typeDefinitions
 }
 
-func Parse(data string) ([]*pb.TypeDefinition, error) {
+func ParseDSL(data string) ([]*pb.TypeDefinition, error) {
 	is := antlr.NewInputStream(data)
 
-	listener := newOpenFGAListener()
+	listener := newDSLListener()
 
-	lexer := parser.NewOpenFGALexer(is)
+	lexer := dslparser.NewDSLLexer(is)
 	lexer.RemoveErrorListeners()
 	lexer.AddErrorListener(listener)
 
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 
-	parser := parser.NewOpenFGAParser(stream)
+	parser := dslparser.NewDSLParser(stream)
 	parser.RemoveErrorListeners()
 	parser.AddErrorListener(listener)
 
 	// Finally parse the expression
-	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Start())
+	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Dsl())
 
 	if len(listener.errors) > 0 {
 		var err error
@@ -234,4 +234,9 @@ func Parse(data string) ([]*pb.TypeDefinition, error) {
 	}
 
 	return listener.typeDefinitions, nil
+}
+
+// Deprecated: please use ParseDSL instead.
+func Parse(data string) ([]*pb.TypeDefinition, error) {
+	return ParseDSL(data)
 }

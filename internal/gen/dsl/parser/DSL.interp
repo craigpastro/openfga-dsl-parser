@@ -43,7 +43,7 @@ ID
 WS
 
 rule names:
-start
+dsl
 typeDefinition
 relation
 typeRestriction

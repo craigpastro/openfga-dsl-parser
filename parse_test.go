@@ -35,7 +35,7 @@ func TestParser(t *testing.T) {
 		t.Run(test.Name, func(t *testing.T) {
 			model := &pb.AuthorizationModel{
 				SchemaVersion:   "1.1",
-				TypeDefinitions: Must(Parse(test.Model)),
+				TypeDefinitions: Must(ParseDSL(test.Model)),
 			}
 			bytes, err := protojson.Marshal(model)
 			require.NoError(t, err)
@@ -103,7 +103,7 @@ type document
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			_, err := Parse(test.model)
+			_, err := ParseDSL(test.model)
 			require.Error(t, err)
 		})
 	}

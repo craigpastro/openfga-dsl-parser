@@ -19,7 +19,7 @@ func parserWrapper() js.Func {
 			return "invalid no of arguments passed"
 		}
 
-		typeDefinitions, err := parser.Parse(args[0].String())
+		typeDefinitions, err := parser.ParseDSL(args[0].String())
 		if err != nil {
 			log.Printf("unable to parse: %s\n", err)
 			return err.Error()

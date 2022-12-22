@@ -25,8 +25,10 @@ type document
     define writer: [user] as self or writer
 `
 			
-	typeDefinitions, err := parser.Parse(model)
-	// handle error
+	typeDefinitions, err := parser.ParseDSL(model)
+	if err != nil {
+		panic(err)
+    }
 	
 	fmt.Println(typeDefinitions)
 }
@@ -34,7 +36,7 @@ type document
 
 ## Making changes to the grammar
 
-1. Change the grammar in `OpenFGA.g4`.
+1. Change the grammar in `DSL.g4` or `Tuple.g4`.
 2. Regenerate the `parser` package by `make gen`.
 3. Make the appropriate changes to the parsing function. 
 

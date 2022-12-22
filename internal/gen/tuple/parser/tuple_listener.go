@@ -11,6 +11,9 @@ type TupleListener interface {
 	// EnterTuple is called when entering the tuple production.
 	EnterTuple(c *TupleContext)
 
+	// EnterObject is called when entering the object production.
+	EnterObject(c *ObjectContext)
+
 	// EnterUserUserset is called when entering the userUserset production.
 	EnterUserUserset(c *UserUsersetContext)
 
@@ -22,6 +25,9 @@ type TupleListener interface {
 
 	// ExitTuple is called when exiting the tuple production.
 	ExitTuple(c *TupleContext)
+
+	// ExitObject is called when exiting the object production.
+	ExitObject(c *ObjectContext)
 
 	// ExitUserUserset is called when exiting the userUserset production.
 	ExitUserUserset(c *UserUsersetContext)

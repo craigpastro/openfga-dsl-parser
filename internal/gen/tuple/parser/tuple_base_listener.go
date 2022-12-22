@@ -27,6 +27,12 @@ func (s *BaseTupleListener) EnterTuple(ctx *TupleContext) {}
 // ExitTuple is called when production tuple is exited.
 func (s *BaseTupleListener) ExitTuple(ctx *TupleContext) {}
 
+// EnterObject is called when production object is entered.
+func (s *BaseTupleListener) EnterObject(ctx *ObjectContext) {}
+
+// ExitObject is called when production object is exited.
+func (s *BaseTupleListener) ExitObject(ctx *ObjectContext) {}
+
 // EnterUserUserset is called when production userUserset is entered.
 func (s *BaseTupleListener) EnterUserUserset(ctx *UserUsersetContext) {}
 

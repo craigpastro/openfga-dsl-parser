@@ -1,12 +1,13 @@
 grammar Tuple;
 
-tuple:
-	namespace = ID ':' objectID = ID '#' relation = ID '@' user EOF;
+tuple: obj = object '#' relation = ID '@' user EOF;
+
+object: namespace = ID ':' objectID = ID;
 
 user:
-	namespace = ID ':' objectID = ID '#' relation = ID	# userUserset
-	| namespace = ID ':' objectID = ID					# userObject
-	| userID = ID										# userID;
+	obj = object '#' relation = ID	# userUserset
+	| obj = object					# userObject
+	| ID							# userID;
 
 ID: [a-zA-Z0-9_-]+;
 WS: [ \t\n\r\f]+ -> skip;

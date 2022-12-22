@@ -15,14 +15,14 @@ var _ = fmt.Printf
 var _ = sync.Once{}
 var _ = unicode.IsLetter
 
-type OpenFGALexer struct {
+type DSLLexer struct {
 	*antlr.BaseLexer
 	channelNames []string
 	modeNames    []string
 	// TODO: EOF string
 }
 
-var openfgalexerLexerStaticData struct {
+var dsllexerLexerStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
 	channelNames           []string
@@ -35,8 +35,8 @@ var openfgalexerLexerStaticData struct {
 	decisionToDFA          []*antlr.DFA
 }
 
-func openfgalexerLexerInit() {
-	staticData := &openfgalexerLexerStaticData
+func dsllexerLexerInit() {
+	staticData := &dsllexerLexerStaticData
 	staticData.channelNames = []string{
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN",
 	}
@@ -121,52 +121,52 @@ func openfgalexerLexerInit() {
 	}
 }
 
-// OpenFGALexerInit initializes any static state used to implement OpenFGALexer. By default the
+// DSLLexerInit initializes any static state used to implement DSLLexer. By default the
 // static state used to implement the lexer is lazily initialized during the first call to
-// NewOpenFGALexer(). You can call this function if you wish to initialize the static state ahead
+// NewDSLLexer(). You can call this function if you wish to initialize the static state ahead
 // of time.
-func OpenFGALexerInit() {
-	staticData := &openfgalexerLexerStaticData
-	staticData.once.Do(openfgalexerLexerInit)
+func DSLLexerInit() {
+	staticData := &dsllexerLexerStaticData
+	staticData.once.Do(dsllexerLexerInit)
 }
 
-// NewOpenFGALexer produces a new lexer instance for the optional input antlr.CharStream.
-func NewOpenFGALexer(input antlr.CharStream) *OpenFGALexer {
-	OpenFGALexerInit()
-	l := new(OpenFGALexer)
+// NewDSLLexer produces a new lexer instance for the optional input antlr.CharStream.
+func NewDSLLexer(input antlr.CharStream) *DSLLexer {
+	DSLLexerInit()
+	l := new(DSLLexer)
 	l.BaseLexer = antlr.NewBaseLexer(input)
-	staticData := &openfgalexerLexerStaticData
+	staticData := &dsllexerLexerStaticData
 	l.Interpreter = antlr.NewLexerATNSimulator(l, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
 	l.channelNames = staticData.channelNames
 	l.modeNames = staticData.modeNames
 	l.RuleNames = staticData.ruleNames
 	l.LiteralNames = staticData.literalNames
 	l.SymbolicNames = staticData.symbolicNames
-	l.GrammarFileName = "OpenFGA.g4"
+	l.GrammarFileName = "DSL.g4"
 	// TODO: l.EOF = antlr.TokenEOF
 
 	return l
 }
 
-// OpenFGALexer tokens.
+// DSLLexer tokens.
 const (
-	OpenFGALexerT__0  = 1
-	OpenFGALexerT__1  = 2
-	OpenFGALexerT__2  = 3
-	OpenFGALexerT__3  = 4
-	OpenFGALexerT__4  = 5
-	OpenFGALexerT__5  = 6
-	OpenFGALexerT__6  = 7
-	OpenFGALexerT__7  = 8
-	OpenFGALexerT__8  = 9
-	OpenFGALexerT__9  = 10
-	OpenFGALexerT__10 = 11
-	OpenFGALexerT__11 = 12
-	OpenFGALexerT__12 = 13
-	OpenFGALexerT__13 = 14
-	OpenFGALexerT__14 = 15
-	OpenFGALexerT__15 = 16
-	OpenFGALexerT__16 = 17
-	OpenFGALexerID    = 18
-	OpenFGALexerWS    = 19
+	DSLLexerT__0  = 1
+	DSLLexerT__1  = 2
+	DSLLexerT__2  = 3
+	DSLLexerT__3  = 4
+	DSLLexerT__4  = 5
+	DSLLexerT__5  = 6
+	DSLLexerT__6  = 7
+	DSLLexerT__7  = 8
+	DSLLexerT__8  = 9
+	DSLLexerT__9  = 10
+	DSLLexerT__10 = 11
+	DSLLexerT__11 = 12
+	DSLLexerT__12 = 13
+	DSLLexerT__13 = 14
+	DSLLexerT__14 = 15
+	DSLLexerT__15 = 16
+	DSLLexerT__16 = 17
+	DSLLexerID    = 18
+	DSLLexerWS    = 19
 )

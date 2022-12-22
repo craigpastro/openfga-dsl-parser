@@ -1,15 +1,15 @@
 // Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
 
-package parser // OpenFGA
+package parser // DSL
 
 import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
 
-// OpenFGAListener is a complete listener for a parse tree produced by OpenFGAParser.
-type OpenFGAListener interface {
+// DSLListener is a complete listener for a parse tree produced by DSLParser.
+type DSLListener interface {
 	antlr.ParseTreeListener
 
-	// EnterStart is called when entering the start production.
-	EnterStart(c *StartContext)
+	// EnterDsl is called when entering the dsl production.
+	EnterDsl(c *DslContext)
 
 	// EnterTypeDefinition is called when entering the typeDefinition production.
 	EnterTypeDefinition(c *TypeDefinitionContext)
@@ -53,8 +53,8 @@ type OpenFGAListener interface {
 	// EnterGrouping is called when entering the grouping production.
 	EnterGrouping(c *GroupingContext)
 
-	// ExitStart is called when exiting the start production.
-	ExitStart(c *StartContext)
+	// ExitDsl is called when exiting the dsl production.
+	ExitDsl(c *DslContext)
 
 	// ExitTypeDefinition is called when exiting the typeDefinition production.
 	ExitTypeDefinition(c *TypeDefinitionContext)

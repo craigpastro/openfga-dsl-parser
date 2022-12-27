@@ -24,12 +24,12 @@ type document
     define viewer: [user] as self
     define writer: [user] as self or writer
 `
-			
-	typeDefinitions, err := parser.ParseDSL(model)
+
+	typeDefinitions, err := parser.Parse(model)
 	if err != nil {
 		panic(err)
-    }
-	
+	}
+
 	fmt.Println(typeDefinitions)
 }
 ```

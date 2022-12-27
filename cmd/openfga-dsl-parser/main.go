@@ -12,19 +12,14 @@ import (
 )
 
 func main() {
-	var readFile string
-	flag.StringVar(&readFile, "f", "", "specify a file to read")
-
-	var prettyPrint bool
-	flag.BoolVar(&prettyPrint, "p", false, "pretty print the output")
-
-	var outFile string
-	flag.StringVar(&outFile, "o", "", "output to a file")
+	readFile := flag.String("f", "", "specify a file to read")
+	prettyPrint := flag.Bool("p", false, "pretty print the output")
+	outFile := flag.String("o", "", "output to a file")
 	flag.Parse()
 
 	var data string
-	if readFile != "" {
-		bytes, err := os.ReadFile(readFile)
+	if *readFile != "" {
+		bytes, err := os.ReadFile(*readFile)
 		if err != nil {
 			panic(err)
 		}
@@ -44,14 +39,14 @@ func main() {
 	}
 
 	var output string
-	if prettyPrint {
+	if *prettyPrint {
 		output = protojson.MarshalOptions{Multiline: true}.Format(model)
 	} else {
 		output = protojson.MarshalOptions{}.Format(model)
 	}
 
-	if outFile != "" {
-		if err := os.WriteFile(outFile, []byte(output), 0644); err != nil {
+	if *outFile != "" {
+		if err := os.WriteFile(*outFile, []byte(output), 0644); err != nil {
 			log.Fatalln(err)
 		}
 	} else {

@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
-	dslparser "github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/dsl/parser"
-	tupleparser "github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/tuple/parser"
+	"github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/dsl/parser"
 	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"go.uber.org/multierr"
 )
@@ -21,7 +20,7 @@ func (e *syntaxError) Error() string {
 }
 
 type dslListener struct {
-	*dslparser.BaseDSLListener
+	*parser.BaseDSLListener
 	*antlr.DefaultErrorListener
 
 	typeDefinitions []*pb.TypeDefinition
@@ -47,7 +46,7 @@ func (l *dslListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol i
 	})
 }
 
-func (l *dslListener) ExitTypeDefinition(ctx *dslparser.TypeDefinitionContext) {
+func (l *dslListener) ExitTypeDefinition(ctx *parser.TypeDefinitionContext) {
 	objectType := ctx.GetObjectType().GetText()
 
 	l.typeDefinitions = append(l.typeDefinitions, &pb.TypeDefinition{
@@ -60,7 +59,7 @@ func (l *dslListener) ExitTypeDefinition(ctx *dslparser.TypeDefinitionContext) {
 	l.relations = map[string]*pb.Relation{}
 }
 
-func (l *dslListener) ExitRelation(ctx *dslparser.RelationContext) {
+func (l *dslListener) ExitRelation(ctx *parser.RelationContext) {
 	name := ctx.GetName().GetText()
 
 	var typeInfo *pb.RelationTypeInfo
@@ -78,13 +77,13 @@ func (l *dslListener) ExitRelation(ctx *dslparser.RelationContext) {
 	l.typeInfo = nil
 }
 
-func (l *dslListener) ExitRrType(ctx *dslparser.RrTypeContext) {
+func (l *dslListener) ExitRrType(ctx *parser.RrTypeContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 	})
 }
 
-func (l *dslListener) ExitRrTypeAndRelation(ctx *dslparser.RrTypeAndRelationContext) {
+func (l *dslListener) ExitRrTypeAndRelation(ctx *parser.RrTypeAndRelationContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 		RelationOrWildcard: &pb.RelationReference_Relation{
@@ -93,7 +92,7 @@ func (l *dslListener) ExitRrTypeAndRelation(ctx *dslparser.RrTypeAndRelationCont
 	})
 }
 
-func (l *dslListener) ExitRrTypeAndWildcard(ctx *dslparser.RrTypeAndWildcardContext) {
+func (l *dslListener) ExitRrTypeAndWildcard(ctx *parser.RrTypeAndWildcardContext) {
 	l.typeInfo = append(l.typeInfo, &pb.RelationReference{
 		Type: ctx.GetT().GetText(),
 		RelationOrWildcard: &pb.RelationReference_Wildcard{
@@ -102,11 +101,11 @@ func (l *dslListener) ExitRrTypeAndWildcard(ctx *dslparser.RrTypeAndWildcardCont
 	})
 }
 
-func (l *dslListener) ExitThis(_ *dslparser.ThisContext) {
+func (l *dslListener) ExitThis(_ *parser.ThisContext) {
 	l.push(&pb.Userset{Userset: &pb.Userset_This{}})
 }
 
-func (l *dslListener) ExitTupleToUserset(ctx *dslparser.TupleToUsersetContext) {
+func (l *dslListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) {
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_TupleToUserset{
 			TupleToUserset: &pb.TupleToUserset{
@@ -117,7 +116,7 @@ func (l *dslListener) ExitTupleToUserset(ctx *dslparser.TupleToUsersetContext) {
 	})
 }
 
-func (l *dslListener) ExitComputedUserset(ctx *dslparser.ComputedUsersetContext) {
+func (l *dslListener) ExitComputedUserset(ctx *parser.ComputedUsersetContext) {
 	l.push(&pb.Userset{
 		Userset: &pb.Userset_ComputedUserset{
 			ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
@@ -125,7 +124,7 @@ func (l *dslListener) ExitComputedUserset(ctx *dslparser.ComputedUsersetContext)
 	})
 }
 
-func (l *dslListener) ExitUnion(_ *dslparser.UnionContext) {
+func (l *dslListener) ExitUnion(_ *parser.UnionContext) {
 	right := l.pop()
 	left := l.pop()
 
@@ -138,7 +137,7 @@ func (l *dslListener) ExitUnion(_ *dslparser.UnionContext) {
 	})
 }
 
-func (l *dslListener) ExitIntersection(_ *dslparser.IntersectionContext) {
+func (l *dslListener) ExitIntersection(_ *parser.IntersectionContext) {
 	right := l.pop()
 	left := l.pop()
 
@@ -151,7 +150,7 @@ func (l *dslListener) ExitIntersection(_ *dslparser.IntersectionContext) {
 	})
 }
 
-func (l *dslListener) ExitExclusion(_ *dslparser.ExclusionContext) {
+func (l *dslListener) ExitExclusion(_ *parser.ExclusionContext) {
 	subtract := l.pop()
 	base := l.pop()
 
@@ -201,8 +200,8 @@ func (l *dslListener) getMetadata() *pb.Metadata {
 	return &pb.Metadata{Relations: relations}
 }
 
-func MustParseDSL(s string) []*pb.TypeDefinition {
-	typeDefinitions, err := ParseDSL(s)
+func MustParse(s string) []*pb.TypeDefinition {
+	typeDefinitions, err := Parse(s)
 	if err != nil {
 		panic(err)
 	}
@@ -210,18 +209,18 @@ func MustParseDSL(s string) []*pb.TypeDefinition {
 	return typeDefinitions
 }
 
-func ParseDSL(s string) ([]*pb.TypeDefinition, error) {
+func Parse(s string) ([]*pb.TypeDefinition, error) {
 	is := antlr.NewInputStream(s)
 
 	listener := newDSLListener()
 
-	lexer := dslparser.NewDSLLexer(is)
+	lexer := parser.NewDSLLexer(is)
 	lexer.RemoveErrorListeners()
 	lexer.AddErrorListener(listener)
 
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 
-	parser := dslparser.NewDSLParser(stream)
+	parser := parser.NewDSLParser(stream)
 	parser.RemoveErrorListeners()
 	parser.AddErrorListener(listener)
 
@@ -236,105 +235,4 @@ func ParseDSL(s string) ([]*pb.TypeDefinition, error) {
 	}
 
 	return listener.typeDefinitions, nil
-}
-
-// Deprecated: please use ParseDSL instead.
-func Parse(s string) ([]*pb.TypeDefinition, error) {
-	return ParseDSL(s)
-}
-
-// Deprecated: please use MustParseDSL instead.
-func MustParse(s string) []*pb.TypeDefinition {
-	return MustParseDSL(s)
-}
-
-type tupleListener struct {
-	*tupleparser.BaseTupleListener
-	*antlr.DefaultErrorListener
-
-	tuple *pb.TupleKey
-
-	errors []error
-}
-
-func newTupleListener() *tupleListener {
-	return &tupleListener{
-		tuple: &pb.TupleKey{},
-	}
-}
-
-func (l *tupleListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol interface{}, line, column int, msg string, e antlr.RecognitionException) {
-	l.errors = append(l.errors, &syntaxError{
-		line:   line,
-		column: column,
-		msg:    msg,
-	})
-}
-
-func (l *tupleListener) ExitTuple(ctx *tupleparser.TupleContext) {
-	if len(l.errors) > 0 {
-		return
-	}
-
-	l.tuple.Object = fmt.Sprintf("%s:%s",
-		ctx.GetObj().GetNamespace().GetText(),
-		ctx.GetObj().GetObjectID().GetText(),
-	)
-
-	l.tuple.Relation = ctx.GetRelation().GetText()
-}
-
-func (l *tupleListener) ExitUserID(ctx *tupleparser.UserIDContext) {
-	l.tuple.User = ctx.GetText()
-}
-
-func (l *tupleListener) ExitUserObject(ctx *tupleparser.UserObjectContext) {
-	l.tuple.User = fmt.Sprintf("%s:%s",
-		ctx.GetObj().GetNamespace().GetText(),
-		ctx.GetObj().GetObjectID().GetText(),
-	)
-}
-
-func (l *tupleListener) ExitUserUserset(ctx *tupleparser.UserUsersetContext) {
-	l.tuple.User = fmt.Sprintf("%s:%s#%s",
-		ctx.GetObj().GetNamespace().GetText(),
-		ctx.GetObj().GetObjectID().GetText(),
-		ctx.GetRelation().GetText(),
-	)
-}
-
-func ParseTuple(s string) (*pb.TupleKey, error) {
-	is := antlr.NewInputStream(s)
-
-	listener := newTupleListener()
-
-	lexer := tupleparser.NewTupleLexer(is)
-	lexer.RemoveErrorListeners()
-	lexer.AddErrorListener(listener)
-
-	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
-	parser := tupleparser.NewTupleParser(stream)
-	parser.RemoveErrorListeners()
-	parser.AddErrorListener(listener)
-
-	antlr.ParseTreeWalkerDefault.Walk(listener, parser.Tuple())
-
-	if len(listener.errors) > 0 {
-		var err error
-		for _, e := range listener.errors {
-			err = multierr.Append(err, e)
-		}
-		return nil, err
-	}
-
-	return listener.tuple, nil
-}
-
-func MustParseTuple(s string) *pb.TupleKey {
-	tuple, err := ParseTuple(s)
-	if err != nil {
-		panic(err)
-	}
-	return tuple
 }

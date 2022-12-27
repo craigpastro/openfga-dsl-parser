@@ -33,7 +33,7 @@ func main() {
 		data = os.Args[len(os.Args)-1]
 	}
 
-	typeDefinitions, err := parser.ParseDSL(data)
+	typeDefinitions, err := parser.Parse(data)
 	if err != nil {
 		log.Fatalf("error parsing: %s", err)
 	}

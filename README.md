@@ -2,7 +2,16 @@
 
 OpenFGA DSL Parser is a parser for the OpenFGA DSL.
 
-v2 parses models with type restrictions (1.1 models).
+{% note %}
+
+**Note:** This library parses an unofficial version of the OpenFGA DSL. Some differences:
+- No `schema version` field
+- Still expects `self`
+- Add brackets (possibly at the expense of more "deeply" generated JSON)
+
+See [./parser_test.go] for some examples.
+
+{% endnote %}
 
 ## Example usage
 
@@ -34,7 +43,7 @@ type document
 }
 ```
 
-## Making changes to the grammar
+## Contributing
 
 1. Change the grammar in `DSL.g4` or `Tuple.g4`.
 2. Regenerate the `parser` package by `make gen`.

@@ -7,7 +7,7 @@ OpenFGA DSL Parser is a parser for the OpenFGA DSL.
 > - Still expects `self`
 > - Add brackets (possibly at the expense of more "deeply" generated JSON)
 >
-> See [parser_test.go](./parser_test.go) for some examples.
+> See the [tests](./testdata/tests.yaml) for some examples.
 
 ## Example usage
 

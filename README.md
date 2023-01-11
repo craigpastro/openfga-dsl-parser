@@ -2,16 +2,12 @@
 
 OpenFGA DSL Parser is a parser for the OpenFGA DSL.
 
-{% note %}
-
-**Note:** This library parses an unofficial version of the OpenFGA DSL. Some differences:
-- No `schema version` field
-- Still expects `self`
-- Add brackets (possibly at the expense of more "deeply" generated JSON)
-
-See [./parser_test.go] for some examples.
-
-{% endnote %}
+> **Note:** This library parses an unofficial version of the OpenFGA DSL. Some differences:
+> - No `schema version` field
+> - Still expects `self`
+> - Add brackets (possibly at the expense of more "deeply" generated JSON)
+>
+> See [./parser_test.go] for some examples.
 
 ## Example usage
 

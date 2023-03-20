@@ -7,7 +7,7 @@ require (
 	github.com/stretchr/testify v1.8.2
 	go.buf.build/openfga/go/openfga/api v1.2.49
 	go.uber.org/multierr v1.10.0
-	google.golang.org/protobuf v1.29.0
+	google.golang.org/protobuf v1.30.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 

@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230305170008-8188dc5388df
 	github.com/stretchr/testify v1.8.4
-	go.buf.build/openfga/go/openfga/api v1.2.56
+	go.buf.build/openfga/go/openfga/api v1.2.58
 	go.uber.org/multierr v1.11.0
 	google.golang.org/protobuf v1.31.0
 	gopkg.in/yaml.v3 v3.0.1

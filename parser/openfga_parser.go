@@ -1,4 +1,4 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from OpenFGA.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser // OpenFGA
 
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -19,30 +19,30 @@ type OpenFGAParser struct {
 	*antlr.BaseParser
 }
 
-var openfgaParserStaticData struct {
+var OpenFGAParserStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func openfgaParserInit() {
-	staticData := &openfgaParserStaticData
-	staticData.literalNames = []string{
+	staticData := &OpenFGAParserStaticData
+	staticData.LiteralNames = []string{
 		"", "'type'", "'relations'", "'define'", "'as'", "'self'", "'from'",
 		"'or'", "'and'", "'but not'", "'('", "')'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "", "", "", "", "", "", "", "", "", "", "", "ID", "WS",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"prog", "typedef", "relations", "rewrite",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 1, 13, 58, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 5,
 		0, 10, 8, 0, 10, 0, 12, 0, 13, 9, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -84,7 +84,7 @@ func openfgaParserInit() {
 // NewOpenFGAParser(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func OpenFGAParserInit() {
-	staticData := &openfgaParserStaticData
+	staticData := &OpenFGAParserStaticData
 	staticData.once.Do(openfgaParserInit)
 }
 
@@ -93,12 +93,12 @@ func NewOpenFGAParser(input antlr.TokenStream) *OpenFGAParser {
 	OpenFGAParserInit()
 	this := new(OpenFGAParser)
 	this.BaseParser = antlr.NewBaseParser(input)
-	staticData := &openfgaParserStaticData
-	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	this.RuleNames = staticData.ruleNames
-	this.LiteralNames = staticData.literalNames
-	this.SymbolicNames = staticData.symbolicNames
-	this.GrammarFileName = "java-escape"
+	staticData := &OpenFGAParserStaticData
+	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	this.RuleNames = staticData.RuleNames
+	this.LiteralNames = staticData.LiteralNames
+	this.SymbolicNames = staticData.SymbolicNames
+	this.GrammarFileName = "OpenFGA.g4"
 
 	return this
 }
@@ -136,20 +136,30 @@ type IProgContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	EOF() antlr.TerminalNode
+	AllTypedef() []ITypedefContext
+	Typedef(i int) ITypedefContext
+
 	// IsProgContext differentiates from other interfaces.
 	IsProgContext()
 }
 
 type ProgContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyProgContext() *ProgContext {
 	var p = new(ProgContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = OpenFGAParserRULE_prog
 	return p
+}
+
+func InitEmptyProgContext(p *ProgContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = OpenFGAParserRULE_prog
 }
 
 func (*ProgContext) IsProgContext() {}
@@ -157,7 +167,7 @@ func (*ProgContext) IsProgContext() {}
 func NewProgContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ProgContext {
 	var p = new(ProgContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = OpenFGAParserRULE_prog
@@ -233,32 +243,16 @@ func (s *ProgContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *OpenFGAParser) Prog() (localctx IProgContext) {
-	this := p
-	_ = this
-
 	localctx = NewProgContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, OpenFGAParserRULE_prog)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(11)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == OpenFGAParserT__0 {
@@ -269,14 +263,31 @@ func (p *OpenFGAParser) Prog() (localctx IProgContext) {
 
 		p.SetState(13)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(14)
 		p.Match(OpenFGAParserEOF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ITypedefContext is an interface to support dynamic dispatch.
@@ -292,21 +303,31 @@ type ITypedefContext interface {
 	// SetObjectType sets the objectType token.
 	SetObjectType(antlr.Token)
 
+	// Getter signatures
+	ID() antlr.TerminalNode
+	AllRelations() []IRelationsContext
+	Relations(i int) IRelationsContext
+
 	// IsTypedefContext differentiates from other interfaces.
 	IsTypedefContext()
 }
 
 type TypedefContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser     antlr.Parser
 	objectType antlr.Token
 }
 
 func NewEmptyTypedefContext() *TypedefContext {
 	var p = new(TypedefContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = OpenFGAParserRULE_typedef
 	return p
+}
+
+func InitEmptyTypedefContext(p *TypedefContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = OpenFGAParserRULE_typedef
 }
 
 func (*TypedefContext) IsTypedefContext() {}
@@ -314,7 +335,7 @@ func (*TypedefContext) IsTypedefContext() {}
 func NewTypedefContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypedefContext {
 	var p = new(TypedefContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = OpenFGAParserRULE_typedef
@@ -394,33 +415,18 @@ func (s *TypedefContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *OpenFGAParser) Typedef() (localctx ITypedefContext) {
-	this := p
-	_ = this
-
 	localctx = NewTypedefContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, OpenFGAParserRULE_typedef)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(16)
 		p.Match(OpenFGAParserT__0)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(17)
@@ -428,18 +434,32 @@ func (p *OpenFGAParser) Typedef() (localctx ITypedefContext) {
 		var _m = p.Match(OpenFGAParserID)
 
 		localctx.(*TypedefContext).objectType = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(24)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == OpenFGAParserT__1 {
 		{
 			p.SetState(18)
 			p.Match(OpenFGAParserT__1)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		p.SetState(20)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 
 		for ok := true; ok; ok = _la == OpenFGAParserT__2 {
@@ -450,12 +470,25 @@ func (p *OpenFGAParser) Typedef() (localctx ITypedefContext) {
 
 			p.SetState(22)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_la = p.GetTokenStream().LA(1)
 		}
 
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRelationsContext is an interface to support dynamic dispatch.
@@ -471,21 +504,30 @@ type IRelationsContext interface {
 	// SetRelation sets the relation token.
 	SetRelation(antlr.Token)
 
+	// Getter signatures
+	Rewrite() IRewriteContext
+	ID() antlr.TerminalNode
+
 	// IsRelationsContext differentiates from other interfaces.
 	IsRelationsContext()
 }
 
 type RelationsContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser   antlr.Parser
 	relation antlr.Token
 }
 
 func NewEmptyRelationsContext() *RelationsContext {
 	var p = new(RelationsContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = OpenFGAParserRULE_relations
 	return p
+}
+
+func InitEmptyRelationsContext(p *RelationsContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = OpenFGAParserRULE_relations
 }
 
 func (*RelationsContext) IsRelationsContext() {}
@@ -493,7 +535,7 @@ func (*RelationsContext) IsRelationsContext() {}
 func NewRelationsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RelationsContext {
 	var p = new(RelationsContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = OpenFGAParserRULE_relations
@@ -548,32 +590,16 @@ func (s *RelationsContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *OpenFGAParser) Relations() (localctx IRelationsContext) {
-	this := p
-	_ = this
-
 	localctx = NewRelationsContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, OpenFGAParserRULE_relations)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(26)
 		p.Match(OpenFGAParserT__2)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(27)
@@ -581,17 +607,35 @@ func (p *OpenFGAParser) Relations() (localctx IRelationsContext) {
 		var _m = p.Match(OpenFGAParserID)
 
 		localctx.(*RelationsContext).relation = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(28)
 		p.Match(OpenFGAParserT__3)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(29)
 		p.rewrite(0)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRewriteContext is an interface to support dynamic dispatch.
@@ -600,21 +644,25 @@ type IRewriteContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsRewriteContext differentiates from other interfaces.
 	IsRewriteContext()
 }
 
 type RewriteContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyRewriteContext() *RewriteContext {
 	var p = new(RewriteContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = OpenFGAParserRULE_rewrite
 	return p
+}
+
+func InitEmptyRewriteContext(p *RewriteContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = OpenFGAParserRULE_rewrite
 }
 
 func (*RewriteContext) IsRewriteContext() {}
@@ -622,7 +670,7 @@ func (*RewriteContext) IsRewriteContext() {}
 func NewRewriteContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RewriteContext {
 	var p = new(RewriteContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = OpenFGAParserRULE_rewrite
@@ -632,8 +680,8 @@ func NewRewriteContext(parser antlr.Parser, parent antlr.ParserRuleContext, invo
 
 func (s *RewriteContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *RewriteContext) CopyFrom(ctx *RewriteContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *RewriteContext) CopyAll(ctx *RewriteContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *RewriteContext) GetRuleContext() antlr.RuleContext {
@@ -645,16 +693,16 @@ func (s *RewriteContext) ToStringTree(ruleNames []string, recog antlr.Recognizer
 }
 
 type ComputedUsersetContext struct {
-	*RewriteContext
+	RewriteContext
 	computedUserset antlr.Token
 }
 
 func NewComputedUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ComputedUsersetContext {
 	var p = new(ComputedUsersetContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -684,15 +732,15 @@ func (s *ComputedUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type IntersectionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewIntersectionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *IntersectionContext {
 	var p = new(IntersectionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -755,15 +803,15 @@ func (s *IntersectionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ThisContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewThisContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ThisContext {
 	var p = new(ThisContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -785,15 +833,15 @@ func (s *ThisContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExclusionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewExclusionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExclusionContext {
 	var p = new(ExclusionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -856,15 +904,15 @@ func (s *ExclusionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type UnionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionContext {
 	var p = new(UnionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -927,7 +975,7 @@ func (s *UnionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type TupleToUsersetContext struct {
-	*RewriteContext
+	RewriteContext
 	computedUserset antlr.Token
 	tupleset        antlr.Token
 }
@@ -935,9 +983,9 @@ type TupleToUsersetContext struct {
 func NewTupleToUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TupleToUsersetContext {
 	var p = new(TupleToUsersetContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -975,15 +1023,15 @@ func (s *TupleToUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type GroupingContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewGroupingContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *GroupingContext {
 	var p = new(GroupingContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1025,39 +1073,24 @@ func (p *OpenFGAParser) Rewrite() (localctx IRewriteContext) {
 }
 
 func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
-	this := p
-	_ = this
-
 	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+
 	_parentState := p.GetState()
 	localctx = NewRewriteContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IRewriteContext = localctx
 	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
 	_startState := 6
 	p.EnterRecursionRule(localctx, 6, OpenFGAParserRULE_rewrite, _p)
-
-	defer func() {
-		p.UnrollRecursionContexts(_parentctx)
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(41)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 3, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewThisContext(p, localctx)
 		p.SetParserRuleContext(localctx)
@@ -1066,6 +1099,10 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(32)
 			p.Match(OpenFGAParserT__4)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 2:
@@ -1078,10 +1115,18 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(OpenFGAParserID)
 
 			localctx.(*TupleToUsersetContext).computedUserset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(34)
 			p.Match(OpenFGAParserT__5)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(35)
@@ -1089,6 +1134,10 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(OpenFGAParserID)
 
 			localctx.(*TupleToUsersetContext).tupleset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 3:
@@ -1101,6 +1150,10 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(OpenFGAParserID)
 
 			localctx.(*ComputedUsersetContext).computedUserset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 4:
@@ -1110,6 +1163,10 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(37)
 			p.Match(OpenFGAParserT__9)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(38)
@@ -1118,14 +1175,25 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(39)
 			p.Match(OpenFGAParserT__10)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
 	p.SetState(54)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			if p.GetParseListeners() != nil {
@@ -1134,18 +1202,27 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 			_prevctx = localctx
 			p.SetState(52)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext()) {
+			if p.HasError() {
+				goto errorExit
+			}
+
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewUnionContext(p, NewRewriteContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, OpenFGAParserRULE_rewrite)
 				p.SetState(43)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(44)
 					p.Match(OpenFGAParserT__6)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(45)
@@ -1158,11 +1235,16 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 				p.SetState(46)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(47)
 					p.Match(OpenFGAParserT__7)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(48)
@@ -1175,26 +1257,49 @@ func (p *OpenFGAParser) rewrite(_p int) (localctx IRewriteContext) {
 				p.SetState(49)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(50)
 					p.Match(OpenFGAParserT__8)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(51)
 					p.rewrite(4)
 				}
 
+			case antlr.ATNInvalidAltNumber:
+				goto errorExit
 			}
 
 		}
 		p.SetState(56)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.UnrollRecursionContexts(_parentctx)
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 func (p *OpenFGAParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
@@ -1212,9 +1317,6 @@ func (p *OpenFGAParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex
 }
 
 func (p *OpenFGAParser) Rewrite_Sempred(localctx antlr.RuleContext, predIndex int) bool {
-	this := p
-	_ = this
-
 	switch predIndex {
 	case 0:
 		return p.Precpred(p.GetParserRuleContext(), 5)

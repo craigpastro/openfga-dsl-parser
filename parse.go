@@ -3,30 +3,30 @@ package parser
 import (
 	"errors"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
+	"github.com/antlr4-go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/parser"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 )
 
 type openFGAListener struct {
 	*parser.BaseOpenFGAListener
 
-	typeDefinitions []*pb.TypeDefinition
-	relations       map[string]*pb.Userset
-	stack           []*pb.Userset
+	typeDefinitions []*openfgav1.TypeDefinition
+	relations       map[string]*openfgav1.Userset
+	stack           []*openfgav1.Userset
 }
 
 func newOpenFGAListener() *openFGAListener {
 	return &openFGAListener{
-		relations: map[string]*pb.Userset{},
+		relations: map[string]*openfgav1.Userset{},
 	}
 }
 
-func (l *openFGAListener) push(u *pb.Userset) {
+func (l *openFGAListener) push(u *openfgav1.Userset) {
 	l.stack = append(l.stack, u)
 }
 
-func (l *openFGAListener) pop() *pb.Userset {
+func (l *openFGAListener) pop() *openfgav1.Userset {
 	if len(l.stack) < 1 {
 		panic("stack is empty unable to pop")
 	}
@@ -40,13 +40,13 @@ func (l *openFGAListener) pop() *pb.Userset {
 func (l *openFGAListener) ExitTypedef(ctx *parser.TypedefContext) {
 	objectType := ctx.GetObjectType().GetText()
 
-	l.typeDefinitions = append(l.typeDefinitions, &pb.TypeDefinition{
+	l.typeDefinitions = append(l.typeDefinitions, &openfgav1.TypeDefinition{
 		Type:      objectType,
 		Relations: l.relations,
 	})
 
 	// Clear the relations map
-	l.relations = map[string]*pb.Userset{}
+	l.relations = map[string]*openfgav1.Userset{}
 }
 
 func (l *openFGAListener) ExitRelations(ctx *parser.RelationsContext) {
@@ -55,24 +55,24 @@ func (l *openFGAListener) ExitRelations(ctx *parser.RelationsContext) {
 }
 
 func (l *openFGAListener) ExitThis(_ *parser.ThisContext) {
-	l.push(&pb.Userset{Userset: &pb.Userset_This{}})
+	l.push(&openfgav1.Userset{Userset: &openfgav1.Userset_This{}})
 }
 
 func (l *openFGAListener) ExitTupleToUserset(ctx *parser.TupleToUsersetContext) {
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_TupleToUserset{
-			TupleToUserset: &pb.TupleToUserset{
-				Tupleset:        &pb.ObjectRelation{Relation: ctx.GetTupleset().GetText()},
-				ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
+	l.push(&openfgav1.Userset{
+		Userset: &openfgav1.Userset_TupleToUserset{
+			TupleToUserset: &openfgav1.TupleToUserset{
+				Tupleset:        &openfgav1.ObjectRelation{Relation: ctx.GetTupleset().GetText()},
+				ComputedUserset: &openfgav1.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
 			},
 		},
 	})
 }
 
 func (l *openFGAListener) ExitComputedUserset(ctx *parser.ComputedUsersetContext) {
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_ComputedUserset{
-			ComputedUserset: &pb.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
+	l.push(&openfgav1.Userset{
+		Userset: &openfgav1.Userset_ComputedUserset{
+			ComputedUserset: &openfgav1.ObjectRelation{Relation: ctx.GetComputedUserset().GetText()},
 		},
 	})
 }
@@ -81,10 +81,10 @@ func (l *openFGAListener) ExitUnion(_ *parser.UnionContext) {
 	right := l.pop()
 	left := l.pop()
 
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_Union{
-			Union: &pb.Usersets{
-				Child: []*pb.Userset{left, right},
+	l.push(&openfgav1.Userset{
+		Userset: &openfgav1.Userset_Union{
+			Union: &openfgav1.Usersets{
+				Child: []*openfgav1.Userset{left, right},
 			},
 		},
 	})
@@ -94,10 +94,10 @@ func (l *openFGAListener) ExitIntersection(_ *parser.IntersectionContext) {
 	right := l.pop()
 	left := l.pop()
 
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_Intersection{
-			Intersection: &pb.Usersets{
-				Child: []*pb.Userset{left, right},
+	l.push(&openfgav1.Userset{
+		Userset: &openfgav1.Userset_Intersection{
+			Intersection: &openfgav1.Usersets{
+				Child: []*openfgav1.Userset{left, right},
 			},
 		},
 	})
@@ -107,9 +107,9 @@ func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	subtract := l.pop()
 	base := l.pop()
 
-	l.push(&pb.Userset{
-		Userset: &pb.Userset_Difference{
-			Difference: &pb.Difference{
+	l.push(&openfgav1.Userset{
+		Userset: &openfgav1.Userset_Difference{
+			Difference: &openfgav1.Difference{
 				Base:     base,
 				Subtract: subtract,
 			},
@@ -117,7 +117,7 @@ func (l *openFGAListener) ExitExclusion(_ *parser.ExclusionContext) {
 	})
 }
 
-func MustParse(data string) []*pb.TypeDefinition {
+func MustParse(data string) []*openfgav1.TypeDefinition {
 	is := antlr.NewInputStream(data)
 
 	// Create the Lexer
@@ -134,7 +134,7 @@ func MustParse(data string) []*pb.TypeDefinition {
 	return l.typeDefinitions
 }
 
-func Parse(data string) (typeDefinitions []*pb.TypeDefinition, err error) {
+func Parse(data string) (typeDefinitions []*openfgav1.TypeDefinition, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			switch x := r.(type) {

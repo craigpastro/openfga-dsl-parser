@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	parser "github.com/craigpastro/openfga-dsl-parser"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("error parsing: %s", err)
 	}
 
-	model := &pb.AuthorizationModel{
+	model := &openfgav1.AuthorizationModel{
 		SchemaVersion:   "1.0",
 		TypeDefinitions: typeDefinitions,
 	}

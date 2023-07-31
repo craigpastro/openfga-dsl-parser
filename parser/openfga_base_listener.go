@@ -1,8 +1,8 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from OpenFGA.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser // OpenFGA
 
-import "github.com/antlr/antlr4/runtime/Go/antlr/v4"
+import "github.com/antlr4-go/antlr/v4"
 
 // BaseOpenFGAListener is a complete listener for a parse tree produced by OpenFGAParser.
 type BaseOpenFGAListener struct{}

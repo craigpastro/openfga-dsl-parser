@@ -3,19 +3,19 @@ package parser
 import (
 	"testing"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 )
 
 var opts = cmpopts.IgnoreUnexported(
-	pb.TypeDefinition{},
-	pb.Userset{},
-	pb.ObjectRelation{},
-	pb.Userset_Union{},
-	pb.Usersets{},
-	pb.TupleToUserset{},
-	pb.Difference{},
+	openfgav1.TypeDefinition{},
+	openfgav1.Userset{},
+	openfgav1.ObjectRelation{},
+	openfgav1.Userset_Union{},
+	openfgav1.Usersets{},
+	openfgav1.TupleToUserset{},
+	openfgav1.Difference{},
 )
 
 // Only testing one type definition as don't want to deal with ordering
@@ -23,7 +23,7 @@ func TestParser(t *testing.T) {
 	tests := []struct {
 		name   string
 		input  string
-		output []*pb.TypeDefinition
+		output []*openfgav1.TypeDefinition
 	}{
 		{
 			name: "Test1",
@@ -33,25 +33,25 @@ type document
 		define parent as self
 		define viewer as self or viewer from parent
 `,
-			output: []*pb.TypeDefinition{
+			output: []*openfgav1.TypeDefinition{
 				{
 					Type: "document",
-					Relations: map[string]*pb.Userset{
+					Relations: map[string]*openfgav1.Userset{
 						"parent": {
-							Userset: &pb.Userset_This{},
+							Userset: &openfgav1.Userset_This{},
 						},
 						"viewer": {
-							Userset: &pb.Userset_Union{
-								Union: &pb.Usersets{
-									Child: []*pb.Userset{
+							Userset: &openfgav1.Userset_Union{
+								Union: &openfgav1.Usersets{
+									Child: []*openfgav1.Userset{
 										{
-											Userset: &pb.Userset_This{},
+											Userset: &openfgav1.Userset_This{},
 										},
 										{
-											Userset: &pb.Userset_TupleToUserset{
-												TupleToUserset: &pb.TupleToUserset{
-													Tupleset:        &pb.ObjectRelation{Relation: "parent"},
-													ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
+											Userset: &openfgav1.Userset_TupleToUserset{
+												TupleToUserset: &openfgav1.TupleToUserset{
+													Tupleset:        &openfgav1.ObjectRelation{Relation: "parent"},
+													ComputedUserset: &openfgav1.ObjectRelation{Relation: "viewer"},
 												},
 											},
 										},
@@ -70,26 +70,26 @@ type document
 	relations
 		define parent as (reader and writer) or (viewer and editor)
 `,
-			output: []*pb.TypeDefinition{
+			output: []*openfgav1.TypeDefinition{
 				{
 					Type: "document",
-					Relations: map[string]*pb.Userset{
+					Relations: map[string]*openfgav1.Userset{
 						"parent": {
-							Userset: &pb.Userset_Union{
-								Union: &pb.Usersets{
-									Child: []*pb.Userset{
+							Userset: &openfgav1.Userset_Union{
+								Union: &openfgav1.Usersets{
+									Child: []*openfgav1.Userset{
 										{
-											Userset: &pb.Userset_Intersection{
-												Intersection: &pb.Usersets{
-													Child: []*pb.Userset{
+											Userset: &openfgav1.Userset_Intersection{
+												Intersection: &openfgav1.Usersets{
+													Child: []*openfgav1.Userset{
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "reader"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "reader"},
 															},
 														},
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "writer"},
 															},
 														},
 													},
@@ -97,17 +97,17 @@ type document
 											},
 										},
 										{
-											Userset: &pb.Userset_Intersection{
-												Intersection: &pb.Usersets{
-													Child: []*pb.Userset{
+											Userset: &openfgav1.Userset_Intersection{
+												Intersection: &openfgav1.Usersets{
+													Child: []*openfgav1.Userset{
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "viewer"},
 															},
 														},
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "editor"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "editor"},
 															},
 														},
 													},
@@ -129,26 +129,26 @@ type document
 	relations
 		define parent as (reader or writer) and (viewer or editor)
 `,
-			output: []*pb.TypeDefinition{
+			output: []*openfgav1.TypeDefinition{
 				{
 					Type: "document",
-					Relations: map[string]*pb.Userset{
+					Relations: map[string]*openfgav1.Userset{
 						"parent": {
-							Userset: &pb.Userset_Intersection{
-								Intersection: &pb.Usersets{
-									Child: []*pb.Userset{
+							Userset: &openfgav1.Userset_Intersection{
+								Intersection: &openfgav1.Usersets{
+									Child: []*openfgav1.Userset{
 										{
-											Userset: &pb.Userset_Union{
-												Union: &pb.Usersets{
-													Child: []*pb.Userset{
+											Userset: &openfgav1.Userset_Union{
+												Union: &openfgav1.Usersets{
+													Child: []*openfgav1.Userset{
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "reader"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "reader"},
 															},
 														},
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "writer"},
 															},
 														},
 													},
@@ -156,17 +156,17 @@ type document
 											},
 										},
 										{
-											Userset: &pb.Userset_Union{
-												Union: &pb.Usersets{
-													Child: []*pb.Userset{
+											Userset: &openfgav1.Userset_Union{
+												Union: &openfgav1.Usersets{
+													Child: []*openfgav1.Userset{
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "viewer"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "viewer"},
 															},
 														},
 														{
-															Userset: &pb.Userset_ComputedUserset{
-																ComputedUserset: &pb.ObjectRelation{Relation: "editor"},
+															Userset: &openfgav1.Userset_ComputedUserset{
+																ComputedUserset: &openfgav1.ObjectRelation{Relation: "editor"},
 															},
 														},
 													},
@@ -187,21 +187,21 @@ type document
 type document
 	relations
 		define viewer as writer but not banned`,
-			output: []*pb.TypeDefinition{
+			output: []*openfgav1.TypeDefinition{
 				{
 					Type: "document",
-					Relations: map[string]*pb.Userset{
+					Relations: map[string]*openfgav1.Userset{
 						"viewer": {
-							Userset: &pb.Userset_Difference{
-								Difference: &pb.Difference{
-									Base: &pb.Userset{
-										Userset: &pb.Userset_ComputedUserset{
-											ComputedUserset: &pb.ObjectRelation{Relation: "writer"},
+							Userset: &openfgav1.Userset_Difference{
+								Difference: &openfgav1.Difference{
+									Base: &openfgav1.Userset{
+										Userset: &openfgav1.Userset_ComputedUserset{
+											ComputedUserset: &openfgav1.ObjectRelation{Relation: "writer"},
 										},
 									},
-									Subtract: &pb.Userset{
-										Userset: &pb.Userset_ComputedUserset{
-											ComputedUserset: &pb.ObjectRelation{Relation: "banned"},
+									Subtract: &openfgav1.Userset{
+										Userset: &openfgav1.Userset_ComputedUserset{
+											ComputedUserset: &openfgav1.ObjectRelation{Relation: "banned"},
 										},
 									},
 								},

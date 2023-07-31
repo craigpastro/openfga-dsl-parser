@@ -7,8 +7,8 @@ import (
 	"log"
 	"syscall/js"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	parser "github.com/craigpastro/openfga-dsl-parser/v2"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
@@ -25,7 +25,7 @@ func parserWrapper() js.Func {
 			return err.Error()
 		}
 
-		model := &pb.AuthorizationModel{
+		model := &openfgav1.AuthorizationModel{
 			SchemaVersion:   "1.1",
 			TypeDefinitions: typeDefinitions,
 		}

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/dsl/parser"
 
 	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"

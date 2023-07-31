@@ -3,9 +3,9 @@ package tuple
 import (
 	"fmt"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/v2/internal/gen/tuple/parser"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"go.uber.org/multierr"
 )
 
@@ -22,14 +22,14 @@ type tupleListener struct {
 	*parser.BaseTupleListener
 	*antlr.DefaultErrorListener
 
-	tuple *pb.TupleKey
+	tuple *openfgav1.TupleKey
 
 	errors []error
 }
 
 func newTupleListener() *tupleListener {
 	return &tupleListener{
-		tuple: &pb.TupleKey{},
+		tuple: &openfgav1.TupleKey{},
 	}
 }
 
@@ -73,7 +73,7 @@ func (l *tupleListener) ExitUserUserset(ctx *parser.UserUsersetContext) {
 	)
 }
 
-func Parse(s string) (*pb.TupleKey, error) {
+func Parse(s string) (*openfgav1.TupleKey, error) {
 	is := antlr.NewInputStream(s)
 
 	listener := newTupleListener()
@@ -101,7 +101,7 @@ func Parse(s string) (*pb.TupleKey, error) {
 	return listener.tuple, nil
 }
 
-func MustParseTuple(s string) *pb.TupleKey {
+func MustParseTuple(s string) *openfgav1.TupleKey {
 	tuple, err := Parse(s)
 	if err != nil {
 		panic(err)

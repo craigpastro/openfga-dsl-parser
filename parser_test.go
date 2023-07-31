@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/stretchr/testify/require"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 	"gopkg.in/yaml.v3"
 )
@@ -33,7 +33,7 @@ func TestDSLParser(t *testing.T) {
 
 	for _, test := range tests.Tests {
 		t.Run(test.Name, func(t *testing.T) {
-			model := &pb.AuthorizationModel{
+			model := &openfgav1.AuthorizationModel{
 				SchemaVersion:   "1.1",
 				TypeDefinitions: MustParse(test.Model),
 			}

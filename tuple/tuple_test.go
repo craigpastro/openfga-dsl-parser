@@ -3,20 +3,20 @@ package tuple
 import (
 	"testing"
 
+	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/stretchr/testify/require"
-	pb "go.buf.build/openfga/go/openfga/api/openfga/v1"
 )
 
 func TestTupleParser(t *testing.T) {
 	tests := []struct {
 		name string
 		in   string
-		out  *pb.TupleKey
+		out  *openfgav1.TupleKey
 	}{
 		{
 			name: "userID",
 			in:   "document:1#viewer@aardvark",
-			out: &pb.TupleKey{
+			out: &openfgav1.TupleKey{
 				Object:   "document:1",
 				Relation: "viewer",
 				User:     "aardvark",
@@ -25,7 +25,7 @@ func TestTupleParser(t *testing.T) {
 		{
 			name: "userObject",
 			in:   "document:1#viewer@folder:x",
-			out: &pb.TupleKey{
+			out: &openfgav1.TupleKey{
 				Object:   "document:1",
 				Relation: "viewer",
 				User:     "folder:x",
@@ -34,7 +34,7 @@ func TestTupleParser(t *testing.T) {
 		{
 			name: "userUserset",
 			in:   "document:1#viewer@group:k#viewer",
-			out: &pb.TupleKey{
+			out: &openfgav1.TupleKey{
 				Object:   "document:1",
 				Relation: "viewer",
 				User:     "group:k#viewer",

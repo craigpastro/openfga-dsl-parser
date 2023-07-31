@@ -1,4 +1,4 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from DSL.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser // DSL
 
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -19,33 +19,33 @@ type DSLParser struct {
 	*antlr.BaseParser
 }
 
-var dslParserStaticData struct {
+var DSLParserStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func dslParserInit() {
-	staticData := &dslParserStaticData
-	staticData.literalNames = []string{
+	staticData := &DSLParserStaticData
+	staticData.LiteralNames = []string{
 		"", "'type'", "'relations'", "'define'", "'as'", "':'", "'['", "']'",
 		"','", "'#'", "':*'", "'self'", "'from'", "'or'", "'and'", "'but not'",
 		"'('", "')'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
 		"", "ID", "WS",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"dsl", "typeDefinition", "relation", "typeRestriction", "relationReferences",
 		"relationReference", "rewrite",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 1, 19, 87, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 1, 0, 4, 0, 16, 8, 0, 11, 0, 12, 0, 17, 1, 0,
@@ -98,7 +98,7 @@ func dslParserInit() {
 // NewDSLParser(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func DSLParserInit() {
-	staticData := &dslParserStaticData
+	staticData := &DSLParserStaticData
 	staticData.once.Do(dslParserInit)
 }
 
@@ -107,12 +107,12 @@ func NewDSLParser(input antlr.TokenStream) *DSLParser {
 	DSLParserInit()
 	this := new(DSLParser)
 	this.BaseParser = antlr.NewBaseParser(input)
-	staticData := &dslParserStaticData
-	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	this.RuleNames = staticData.ruleNames
-	this.LiteralNames = staticData.literalNames
-	this.SymbolicNames = staticData.symbolicNames
-	this.GrammarFileName = "java-escape"
+	staticData := &DSLParserStaticData
+	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	this.RuleNames = staticData.RuleNames
+	this.LiteralNames = staticData.LiteralNames
+	this.SymbolicNames = staticData.SymbolicNames
+	this.GrammarFileName = "DSL.g4"
 
 	return this
 }
@@ -159,20 +159,30 @@ type IDslContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	EOF() antlr.TerminalNode
+	AllTypeDefinition() []ITypeDefinitionContext
+	TypeDefinition(i int) ITypeDefinitionContext
+
 	// IsDslContext differentiates from other interfaces.
 	IsDslContext()
 }
 
 type DslContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyDslContext() *DslContext {
 	var p = new(DslContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_dsl
 	return p
+}
+
+func InitEmptyDslContext(p *DslContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_dsl
 }
 
 func (*DslContext) IsDslContext() {}
@@ -180,7 +190,7 @@ func (*DslContext) IsDslContext() {}
 func NewDslContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *DslContext {
 	var p = new(DslContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_dsl
@@ -256,32 +266,16 @@ func (s *DslContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) Dsl() (localctx IDslContext) {
-	this := p
-	_ = this
-
 	localctx = NewDslContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, DSLParserRULE_dsl)
 	var _la int
 
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(15)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	for ok := true; ok; ok = _la == DSLParserT__0 {
@@ -292,14 +286,31 @@ func (p *DSLParser) Dsl() (localctx IDslContext) {
 
 		p.SetState(17)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
 		p.SetState(19)
 		p.Match(DSLParserEOF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ITypeDefinitionContext is an interface to support dynamic dispatch.
@@ -315,21 +326,31 @@ type ITypeDefinitionContext interface {
 	// SetObjectType sets the objectType token.
 	SetObjectType(antlr.Token)
 
+	// Getter signatures
+	ID() antlr.TerminalNode
+	AllRelation() []IRelationContext
+	Relation(i int) IRelationContext
+
 	// IsTypeDefinitionContext differentiates from other interfaces.
 	IsTypeDefinitionContext()
 }
 
 type TypeDefinitionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser     antlr.Parser
 	objectType antlr.Token
 }
 
 func NewEmptyTypeDefinitionContext() *TypeDefinitionContext {
 	var p = new(TypeDefinitionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_typeDefinition
 	return p
+}
+
+func InitEmptyTypeDefinitionContext(p *TypeDefinitionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_typeDefinition
 }
 
 func (*TypeDefinitionContext) IsTypeDefinitionContext() {}
@@ -337,7 +358,7 @@ func (*TypeDefinitionContext) IsTypeDefinitionContext() {}
 func NewTypeDefinitionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypeDefinitionContext {
 	var p = new(TypeDefinitionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_typeDefinition
@@ -417,33 +438,18 @@ func (s *TypeDefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) TypeDefinition() (localctx ITypeDefinitionContext) {
-	this := p
-	_ = this
-
 	localctx = NewTypeDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, DSLParserRULE_typeDefinition)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(21)
 		p.Match(DSLParserT__0)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(22)
@@ -451,18 +457,32 @@ func (p *DSLParser) TypeDefinition() (localctx ITypeDefinitionContext) {
 		var _m = p.Match(DSLParserID)
 
 		localctx.(*TypeDefinitionContext).objectType = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(29)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == DSLParserT__1 {
 		{
 			p.SetState(23)
 			p.Match(DSLParserT__1)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		p.SetState(25)
 		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
 		_la = p.GetTokenStream().LA(1)
 
 		for ok := true; ok; ok = _la == DSLParserT__2 {
@@ -473,12 +493,25 @@ func (p *DSLParser) TypeDefinition() (localctx ITypeDefinitionContext) {
 
 			p.SetState(27)
 			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
 			_la = p.GetTokenStream().LA(1)
 		}
 
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRelationContext is an interface to support dynamic dispatch.
@@ -494,21 +527,31 @@ type IRelationContext interface {
 	// SetName sets the name token.
 	SetName(antlr.Token)
 
+	// Getter signatures
+	Rewrite() IRewriteContext
+	ID() antlr.TerminalNode
+	TypeRestriction() ITypeRestrictionContext
+
 	// IsRelationContext differentiates from other interfaces.
 	IsRelationContext()
 }
 
 type RelationContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 	name   antlr.Token
 }
 
 func NewEmptyRelationContext() *RelationContext {
 	var p = new(RelationContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_relation
 	return p
+}
+
+func InitEmptyRelationContext(p *RelationContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_relation
 }
 
 func (*RelationContext) IsRelationContext() {}
@@ -516,7 +559,7 @@ func (*RelationContext) IsRelationContext() {}
 func NewRelationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RelationContext {
 	var p = new(RelationContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_relation
@@ -587,33 +630,18 @@ func (s *RelationContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) Relation() (localctx IRelationContext) {
-	this := p
-	_ = this
-
 	localctx = NewRelationContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, DSLParserRULE_relation)
 	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
 
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(31)
 		p.Match(DSLParserT__2)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(32)
@@ -621,9 +649,16 @@ func (p *DSLParser) Relation() (localctx IRelationContext) {
 		var _m = p.Match(DSLParserID)
 
 		localctx.(*RelationContext).name = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	p.SetState(34)
 	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == DSLParserT__4 {
@@ -636,13 +671,27 @@ func (p *DSLParser) Relation() (localctx IRelationContext) {
 	{
 		p.SetState(36)
 		p.Match(DSLParserT__3)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(37)
 		p.rewrite(0)
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // ITypeRestrictionContext is an interface to support dynamic dispatch.
@@ -652,20 +701,28 @@ type ITypeRestrictionContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	RelationReferences() IRelationReferencesContext
+
 	// IsTypeRestrictionContext differentiates from other interfaces.
 	IsTypeRestrictionContext()
 }
 
 type TypeRestrictionContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyTypeRestrictionContext() *TypeRestrictionContext {
 	var p = new(TypeRestrictionContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_typeRestriction
 	return p
+}
+
+func InitEmptyTypeRestrictionContext(p *TypeRestrictionContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_typeRestriction
 }
 
 func (*TypeRestrictionContext) IsTypeRestrictionContext() {}
@@ -673,7 +730,7 @@ func (*TypeRestrictionContext) IsTypeRestrictionContext() {}
 func NewTypeRestrictionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TypeRestrictionContext {
 	var p = new(TypeRestrictionContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_typeRestriction
@@ -720,36 +777,24 @@ func (s *TypeRestrictionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) TypeRestriction() (localctx ITypeRestrictionContext) {
-	this := p
-	_ = this
-
 	localctx = NewTypeRestrictionContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 6, DSLParserRULE_typeRestriction)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(39)
 		p.Match(DSLParserT__4)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(40)
 		p.Match(DSLParserT__5)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(41)
@@ -758,9 +803,23 @@ func (p *DSLParser) TypeRestriction() (localctx ITypeRestrictionContext) {
 	{
 		p.SetState(42)
 		p.Match(DSLParserT__6)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRelationReferencesContext is an interface to support dynamic dispatch.
@@ -770,20 +829,30 @@ type IRelationReferencesContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// Getter signatures
+	RelationReference() IRelationReferenceContext
+	AllRelationReferences() []IRelationReferencesContext
+	RelationReferences(i int) IRelationReferencesContext
+
 	// IsRelationReferencesContext differentiates from other interfaces.
 	IsRelationReferencesContext()
 }
 
 type RelationReferencesContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyRelationReferencesContext() *RelationReferencesContext {
 	var p = new(RelationReferencesContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_relationReferences
 	return p
+}
+
+func InitEmptyRelationReferencesContext(p *RelationReferencesContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_relationReferences
 }
 
 func (*RelationReferencesContext) IsRelationReferencesContext() {}
@@ -791,7 +860,7 @@ func (*RelationReferencesContext) IsRelationReferencesContext() {}
 func NewRelationReferencesContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RelationReferencesContext {
 	var p = new(RelationReferencesContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_relationReferences
@@ -879,28 +948,8 @@ func (s *RelationReferencesContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) RelationReferences() (localctx IRelationReferencesContext) {
-	this := p
-	_ = this
-
 	localctx = NewRelationReferencesContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, DSLParserRULE_relationReferences)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
@@ -910,13 +959,22 @@ func (p *DSLParser) RelationReferences() (localctx IRelationReferencesContext) {
 	}
 	p.SetState(49)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			{
 				p.SetState(45)
 				p.Match(DSLParserT__7)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
 			}
 			{
 				p.SetState(46)
@@ -926,10 +984,26 @@ func (p *DSLParser) RelationReferences() (localctx IRelationReferencesContext) {
 		}
 		p.SetState(51)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRelationReferenceContext is an interface to support dynamic dispatch.
@@ -938,21 +1012,25 @@ type IRelationReferenceContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsRelationReferenceContext differentiates from other interfaces.
 	IsRelationReferenceContext()
 }
 
 type RelationReferenceContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyRelationReferenceContext() *RelationReferenceContext {
 	var p = new(RelationReferenceContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_relationReference
 	return p
+}
+
+func InitEmptyRelationReferenceContext(p *RelationReferenceContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_relationReference
 }
 
 func (*RelationReferenceContext) IsRelationReferenceContext() {}
@@ -960,7 +1038,7 @@ func (*RelationReferenceContext) IsRelationReferenceContext() {}
 func NewRelationReferenceContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RelationReferenceContext {
 	var p = new(RelationReferenceContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_relationReference
@@ -970,8 +1048,8 @@ func NewRelationReferenceContext(parser antlr.Parser, parent antlr.ParserRuleCon
 
 func (s *RelationReferenceContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *RelationReferenceContext) CopyFrom(ctx *RelationReferenceContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *RelationReferenceContext) CopyAll(ctx *RelationReferenceContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *RelationReferenceContext) GetRuleContext() antlr.RuleContext {
@@ -983,7 +1061,7 @@ func (s *RelationReferenceContext) ToStringTree(ruleNames []string, recog antlr.
 }
 
 type RrTypeAndRelationContext struct {
-	*RelationReferenceContext
+	RelationReferenceContext
 	t antlr.Token
 	r antlr.Token
 }
@@ -991,9 +1069,9 @@ type RrTypeAndRelationContext struct {
 func NewRrTypeAndRelationContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *RrTypeAndRelationContext {
 	var p = new(RrTypeAndRelationContext)
 
-	p.RelationReferenceContext = NewEmptyRelationReferenceContext()
+	InitEmptyRelationReferenceContext(&p.RelationReferenceContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RelationReferenceContext))
+	p.CopyAll(ctx.(*RelationReferenceContext))
 
 	return p
 }
@@ -1031,16 +1109,16 @@ func (s *RrTypeAndRelationContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type RrTypeAndWildcardContext struct {
-	*RelationReferenceContext
+	RelationReferenceContext
 	t antlr.Token
 }
 
 func NewRrTypeAndWildcardContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *RrTypeAndWildcardContext {
 	var p = new(RrTypeAndWildcardContext)
 
-	p.RelationReferenceContext = NewEmptyRelationReferenceContext()
+	InitEmptyRelationReferenceContext(&p.RelationReferenceContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RelationReferenceContext))
+	p.CopyAll(ctx.(*RelationReferenceContext))
 
 	return p
 }
@@ -1070,16 +1148,16 @@ func (s *RrTypeAndWildcardContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type RrTypeContext struct {
-	*RelationReferenceContext
+	RelationReferenceContext
 	t antlr.Token
 }
 
 func NewRrTypeContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *RrTypeContext {
 	var p = new(RrTypeContext)
 
-	p.RelationReferenceContext = NewEmptyRelationReferenceContext()
+	InitEmptyRelationReferenceContext(&p.RelationReferenceContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RelationReferenceContext))
+	p.CopyAll(ctx.(*RelationReferenceContext))
 
 	return p
 }
@@ -1109,31 +1187,15 @@ func (s *RrTypeContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *DSLParser) RelationReference() (localctx IRelationReferenceContext) {
-	this := p
-	_ = this
-
 	localctx = NewRelationReferenceContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 10, DSLParserRULE_relationReference)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(58)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewRrTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
@@ -1143,6 +1205,10 @@ func (p *DSLParser) RelationReference() (localctx IRelationReferenceContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*RrTypeContext).t = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 2:
@@ -1154,10 +1220,18 @@ func (p *DSLParser) RelationReference() (localctx IRelationReferenceContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*RrTypeAndRelationContext).t = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(54)
 			p.Match(DSLParserT__8)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(55)
@@ -1165,6 +1239,10 @@ func (p *DSLParser) RelationReference() (localctx IRelationReferenceContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*RrTypeAndRelationContext).r = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 3:
@@ -1176,15 +1254,35 @@ func (p *DSLParser) RelationReference() (localctx IRelationReferenceContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*RrTypeAndWildcardContext).t = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(57)
 			p.Match(DSLParserT__9)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IRewriteContext is an interface to support dynamic dispatch.
@@ -1193,21 +1291,25 @@ type IRewriteContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsRewriteContext differentiates from other interfaces.
 	IsRewriteContext()
 }
 
 type RewriteContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyRewriteContext() *RewriteContext {
 	var p = new(RewriteContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = DSLParserRULE_rewrite
 	return p
+}
+
+func InitEmptyRewriteContext(p *RewriteContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = DSLParserRULE_rewrite
 }
 
 func (*RewriteContext) IsRewriteContext() {}
@@ -1215,7 +1317,7 @@ func (*RewriteContext) IsRewriteContext() {}
 func NewRewriteContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RewriteContext {
 	var p = new(RewriteContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = DSLParserRULE_rewrite
@@ -1225,8 +1327,8 @@ func NewRewriteContext(parser antlr.Parser, parent antlr.ParserRuleContext, invo
 
 func (s *RewriteContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *RewriteContext) CopyFrom(ctx *RewriteContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *RewriteContext) CopyAll(ctx *RewriteContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *RewriteContext) GetRuleContext() antlr.RuleContext {
@@ -1238,16 +1340,16 @@ func (s *RewriteContext) ToStringTree(ruleNames []string, recog antlr.Recognizer
 }
 
 type ComputedUsersetContext struct {
-	*RewriteContext
+	RewriteContext
 	computedUserset antlr.Token
 }
 
 func NewComputedUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ComputedUsersetContext {
 	var p = new(ComputedUsersetContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1277,15 +1379,15 @@ func (s *ComputedUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type IntersectionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewIntersectionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *IntersectionContext {
 	var p = new(IntersectionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1348,15 +1450,15 @@ func (s *IntersectionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ThisContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewThisContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ThisContext {
 	var p = new(ThisContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1378,15 +1480,15 @@ func (s *ThisContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type ExclusionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewExclusionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ExclusionContext {
 	var p = new(ExclusionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1449,15 +1551,15 @@ func (s *ExclusionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type UnionContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewUnionContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UnionContext {
 	var p = new(UnionContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1520,7 +1622,7 @@ func (s *UnionContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type TupleToUsersetContext struct {
-	*RewriteContext
+	RewriteContext
 	computedUserset antlr.Token
 	tupleset        antlr.Token
 }
@@ -1528,9 +1630,9 @@ type TupleToUsersetContext struct {
 func NewTupleToUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *TupleToUsersetContext {
 	var p = new(TupleToUsersetContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1568,15 +1670,15 @@ func (s *TupleToUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type GroupingContext struct {
-	*RewriteContext
+	RewriteContext
 }
 
 func NewGroupingContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *GroupingContext {
 	var p = new(GroupingContext)
 
-	p.RewriteContext = NewEmptyRewriteContext()
+	InitEmptyRewriteContext(&p.RewriteContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*RewriteContext))
+	p.CopyAll(ctx.(*RewriteContext))
 
 	return p
 }
@@ -1618,39 +1720,24 @@ func (p *DSLParser) Rewrite() (localctx IRewriteContext) {
 }
 
 func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
-	this := p
-	_ = this
-
 	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+
 	_parentState := p.GetState()
 	localctx = NewRewriteContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IRewriteContext = localctx
 	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
 	_startState := 12
 	p.EnterRecursionRule(localctx, 12, DSLParserRULE_rewrite, _p)
-
-	defer func() {
-		p.UnrollRecursionContexts(_parentctx)
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	p.SetState(70)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 6, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewThisContext(p, localctx)
 		p.SetParserRuleContext(localctx)
@@ -1659,6 +1746,10 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(61)
 			p.Match(DSLParserT__10)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 2:
@@ -1671,10 +1762,18 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*TupleToUsersetContext).computedUserset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(63)
 			p.Match(DSLParserT__11)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(64)
@@ -1682,6 +1781,10 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*TupleToUsersetContext).tupleset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 3:
@@ -1694,6 +1797,10 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 			var _m = p.Match(DSLParserID)
 
 			localctx.(*ComputedUsersetContext).computedUserset = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 4:
@@ -1703,6 +1810,10 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(66)
 			p.Match(DSLParserT__15)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(67)
@@ -1711,14 +1822,25 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 		{
 			p.SetState(68)
 			p.Match(DSLParserT__16)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
 	p.SetState(83)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
-
+	if p.HasError() {
+		goto errorExit
+	}
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 8, p.GetParserRuleContext())
+	if p.HasError() {
+		goto errorExit
+	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
 			if p.GetParseListeners() != nil {
@@ -1727,18 +1849,27 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 			_prevctx = localctx
 			p.SetState(81)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext()) {
+			if p.HasError() {
+				goto errorExit
+			}
+
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 7, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewUnionContext(p, NewRewriteContext(p, _parentctx, _parentState))
 				p.PushNewRecursionContext(localctx, _startState, DSLParserRULE_rewrite)
 				p.SetState(72)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 5)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 5)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(73)
 					p.Match(DSLParserT__12)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(74)
@@ -1751,11 +1882,16 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 				p.SetState(75)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 4)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(76)
 					p.Match(DSLParserT__13)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(77)
@@ -1768,26 +1904,49 @@ func (p *DSLParser) rewrite(_p int) (localctx IRewriteContext) {
 				p.SetState(78)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+					goto errorExit
 				}
 				{
 					p.SetState(79)
 					p.Match(DSLParserT__14)
+					if p.HasError() {
+						// Recognition error - abort rule
+						goto errorExit
+					}
 				}
 				{
 					p.SetState(80)
 					p.rewrite(4)
 				}
 
+			case antlr.ATNInvalidAltNumber:
+				goto errorExit
 			}
 
 		}
 		p.SetState(85)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 8, p.GetParserRuleContext())
+		if p.HasError() {
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.UnrollRecursionContexts(_parentctx)
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 func (p *DSLParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
@@ -1805,9 +1964,6 @@ func (p *DSLParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int
 }
 
 func (p *DSLParser) Rewrite_Sempred(localctx antlr.RuleContext, predIndex int) bool {
-	this := p
-	_ = this
-
 	switch predIndex {
 	case 0:
 		return p.Precpred(p.GetParserRuleContext(), 5)

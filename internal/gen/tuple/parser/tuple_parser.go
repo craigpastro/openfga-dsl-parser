@@ -1,4 +1,4 @@
-// Code generated from java-escape by ANTLR 4.11.1. DO NOT EDIT.
+// Code generated from Tuple.g4 by ANTLR 4.13.0. DO NOT EDIT.
 
 package parser // Tuple
 
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
+	"github.com/antlr4-go/antlr/v4"
 )
 
 // Suppress unused import errors
@@ -19,29 +19,29 @@ type TupleParser struct {
 	*antlr.BaseParser
 }
 
-var tupleParserStaticData struct {
+var TupleParserStaticData struct {
 	once                   sync.Once
 	serializedATN          []int32
-	literalNames           []string
-	symbolicNames          []string
-	ruleNames              []string
-	predictionContextCache *antlr.PredictionContextCache
+	LiteralNames           []string
+	SymbolicNames          []string
+	RuleNames              []string
+	PredictionContextCache *antlr.PredictionContextCache
 	atn                    *antlr.ATN
 	decisionToDFA          []*antlr.DFA
 }
 
 func tupleParserInit() {
-	staticData := &tupleParserStaticData
-	staticData.literalNames = []string{
+	staticData := &TupleParserStaticData
+	staticData.LiteralNames = []string{
 		"", "'#'", "'@'", "':'",
 	}
-	staticData.symbolicNames = []string{
+	staticData.SymbolicNames = []string{
 		"", "", "", "", "ID", "WS",
 	}
-	staticData.ruleNames = []string{
+	staticData.RuleNames = []string{
 		"tuple", "object", "user",
 	}
-	staticData.predictionContextCache = antlr.NewPredictionContextCache()
+	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
 		4, 1, 5, 26, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 1, 0, 1, 0, 1, 0, 1, 0,
 		1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
@@ -69,7 +69,7 @@ func tupleParserInit() {
 // NewTupleParser(). You can call this function if you wish to initialize the static state ahead
 // of time.
 func TupleParserInit() {
-	staticData := &tupleParserStaticData
+	staticData := &TupleParserStaticData
 	staticData.once.Do(tupleParserInit)
 }
 
@@ -78,12 +78,12 @@ func NewTupleParser(input antlr.TokenStream) *TupleParser {
 	TupleParserInit()
 	this := new(TupleParser)
 	this.BaseParser = antlr.NewBaseParser(input)
-	staticData := &tupleParserStaticData
-	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.predictionContextCache)
-	this.RuleNames = staticData.ruleNames
-	this.LiteralNames = staticData.literalNames
-	this.SymbolicNames = staticData.symbolicNames
-	this.GrammarFileName = "java-escape"
+	staticData := &TupleParserStaticData
+	this.Interpreter = antlr.NewParserATNSimulator(this, staticData.atn, staticData.decisionToDFA, staticData.PredictionContextCache)
+	this.RuleNames = staticData.RuleNames
+	this.LiteralNames = staticData.LiteralNames
+	this.SymbolicNames = staticData.SymbolicNames
+	this.GrammarFileName = "Tuple.g4"
 
 	return this
 }
@@ -124,12 +124,18 @@ type ITupleContext interface {
 	// SetObj sets the obj rule contexts.
 	SetObj(IObjectContext)
 
+	// Getter signatures
+	User() IUserContext
+	EOF() antlr.TerminalNode
+	Object() IObjectContext
+	ID() antlr.TerminalNode
+
 	// IsTupleContext differentiates from other interfaces.
 	IsTupleContext()
 }
 
 type TupleContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser   antlr.Parser
 	obj      IObjectContext
 	relation antlr.Token
@@ -137,9 +143,14 @@ type TupleContext struct {
 
 func NewEmptyTupleContext() *TupleContext {
 	var p = new(TupleContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = TupleParserRULE_tuple
 	return p
+}
+
+func InitEmptyTupleContext(p *TupleContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = TupleParserRULE_tuple
 }
 
 func (*TupleContext) IsTupleContext() {}
@@ -147,7 +158,7 @@ func (*TupleContext) IsTupleContext() {}
 func NewTupleContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TupleContext {
 	var p = new(TupleContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = TupleParserRULE_tuple
@@ -226,28 +237,8 @@ func (s *TupleContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *TupleParser) Tuple() (localctx ITupleContext) {
-	this := p
-	_ = this
-
 	localctx = NewTupleContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 0, TupleParserRULE_tuple)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(6)
@@ -259,6 +250,10 @@ func (p *TupleParser) Tuple() (localctx ITupleContext) {
 	{
 		p.SetState(7)
 		p.Match(TupleParserT__0)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(8)
@@ -266,10 +261,18 @@ func (p *TupleParser) Tuple() (localctx ITupleContext) {
 		var _m = p.Match(TupleParserID)
 
 		localctx.(*TupleContext).relation = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(9)
 		p.Match(TupleParserT__1)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(10)
@@ -278,9 +281,23 @@ func (p *TupleParser) Tuple() (localctx ITupleContext) {
 	{
 		p.SetState(11)
 		p.Match(TupleParserEOF)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IObjectContext is an interface to support dynamic dispatch.
@@ -302,12 +319,16 @@ type IObjectContext interface {
 	// SetObjectID sets the objectID token.
 	SetObjectID(antlr.Token)
 
+	// Getter signatures
+	AllID() []antlr.TerminalNode
+	ID(i int) antlr.TerminalNode
+
 	// IsObjectContext differentiates from other interfaces.
 	IsObjectContext()
 }
 
 type ObjectContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser    antlr.Parser
 	namespace antlr.Token
 	objectID  antlr.Token
@@ -315,9 +336,14 @@ type ObjectContext struct {
 
 func NewEmptyObjectContext() *ObjectContext {
 	var p = new(ObjectContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = TupleParserRULE_object
 	return p
+}
+
+func InitEmptyObjectContext(p *ObjectContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = TupleParserRULE_object
 }
 
 func (*ObjectContext) IsObjectContext() {}
@@ -325,7 +351,7 @@ func (*ObjectContext) IsObjectContext() {}
 func NewObjectContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ObjectContext {
 	var p = new(ObjectContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = TupleParserRULE_object
@@ -372,28 +398,8 @@ func (s *ObjectContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *TupleParser) Object() (localctx IObjectContext) {
-	this := p
-	_ = this
-
 	localctx = NewObjectContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, TupleParserRULE_object)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(13)
@@ -401,10 +407,18 @@ func (p *TupleParser) Object() (localctx IObjectContext) {
 		var _m = p.Match(TupleParserID)
 
 		localctx.(*ObjectContext).namespace = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(14)
 		p.Match(TupleParserT__2)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 	{
 		p.SetState(15)
@@ -412,9 +426,23 @@ func (p *TupleParser) Object() (localctx IObjectContext) {
 		var _m = p.Match(TupleParserID)
 
 		localctx.(*ObjectContext).objectID = _m
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
 // IUserContext is an interface to support dynamic dispatch.
@@ -423,21 +451,25 @@ type IUserContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
 	// IsUserContext differentiates from other interfaces.
 	IsUserContext()
 }
 
 type UserContext struct {
-	*antlr.BaseParserRuleContext
+	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
 func NewEmptyUserContext() *UserContext {
 	var p = new(UserContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
 	p.RuleIndex = TupleParserRULE_user
 	return p
+}
+
+func InitEmptyUserContext(p *UserContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = TupleParserRULE_user
 }
 
 func (*UserContext) IsUserContext() {}
@@ -445,7 +477,7 @@ func (*UserContext) IsUserContext() {}
 func NewUserContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *UserContext {
 	var p = new(UserContext)
 
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
 	p.RuleIndex = TupleParserRULE_user
@@ -455,8 +487,8 @@ func NewUserContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokin
 
 func (s *UserContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *UserContext) CopyFrom(ctx *UserContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
+func (s *UserContext) CopyAll(ctx *UserContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
 }
 
 func (s *UserContext) GetRuleContext() antlr.RuleContext {
@@ -468,7 +500,7 @@ func (s *UserContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) s
 }
 
 type UserUsersetContext struct {
-	*UserContext
+	UserContext
 	obj      IObjectContext
 	relation antlr.Token
 }
@@ -476,9 +508,9 @@ type UserUsersetContext struct {
 func NewUserUsersetContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserUsersetContext {
 	var p = new(UserUsersetContext)
 
-	p.UserContext = NewEmptyUserContext()
+	InitEmptyUserContext(&p.UserContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*UserContext))
+	p.CopyAll(ctx.(*UserContext))
 
 	return p
 }
@@ -528,16 +560,16 @@ func (s *UserUsersetContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type UserObjectContext struct {
-	*UserContext
+	UserContext
 	obj IObjectContext
 }
 
 func NewUserObjectContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserObjectContext {
 	var p = new(UserObjectContext)
 
-	p.UserContext = NewEmptyUserContext()
+	InitEmptyUserContext(&p.UserContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*UserContext))
+	p.CopyAll(ctx.(*UserContext))
 
 	return p
 }
@@ -579,15 +611,15 @@ func (s *UserObjectContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 type UserIDContext struct {
-	*UserContext
+	UserContext
 }
 
 func NewUserIDContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *UserIDContext {
 	var p = new(UserIDContext)
 
-	p.UserContext = NewEmptyUserContext()
+	InitEmptyUserContext(&p.UserContext)
 	p.parser = parser
-	p.CopyFrom(ctx.(*UserContext))
+	p.CopyAll(ctx.(*UserContext))
 
 	return p
 }
@@ -613,31 +645,15 @@ func (s *UserIDContext) ExitRule(listener antlr.ParseTreeListener) {
 }
 
 func (p *TupleParser) User() (localctx IUserContext) {
-	this := p
-	_ = this
-
 	localctx = NewUserContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 4, TupleParserRULE_user)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
 	p.SetState(23)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 0, p.GetParserRuleContext()) {
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 0, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewUserUsersetContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
@@ -651,6 +667,10 @@ func (p *TupleParser) User() (localctx IUserContext) {
 		{
 			p.SetState(18)
 			p.Match(TupleParserT__0)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 		{
 			p.SetState(19)
@@ -658,6 +678,10 @@ func (p *TupleParser) User() (localctx IUserContext) {
 			var _m = p.Match(TupleParserID)
 
 			localctx.(*UserUsersetContext).relation = _m
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
 	case 2:
@@ -677,9 +701,25 @@ func (p *TupleParser) User() (localctx IUserContext) {
 		{
 			p.SetState(22)
 			p.Match(TupleParserID)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
 
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
 	}
 
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
 	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
 }

@@ -3,9 +3,9 @@ package parser
 import (
 	"errors"
 
-	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/craigpastro/openfga-dsl-parser/parser"
+	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 )
 
 type openFGAListener struct {

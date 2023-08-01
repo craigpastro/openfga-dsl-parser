@@ -4,8 +4,8 @@ import (
 	"log"
 	"syscall/js"
 
-	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	parser "github.com/craigpastro/openfga-dsl-parser"
+	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 

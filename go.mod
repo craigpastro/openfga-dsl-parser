@@ -3,15 +3,25 @@ module github.com/craigpastro/openfga-dsl-parser
 go 1.19
 
 require (
-	buf.build/gen/go/openfga/api/protocolbuffers/go v1.31.0-20230717171250-faa56cb1c8d1.1
 	github.com/antlr4-go/antlr/v4 v4.13.0
-	github.com/google/go-cmp v0.5.8
+	github.com/google/go-cmp v0.5.9
 	google.golang.org/protobuf v1.31.0
 )
 
 require (
-	buf.build/gen/go/envoyproxy/protoc-gen-validate/protocolbuffers/go v1.31.0-20221025150516-6607b10f00ed.1 // indirect
-	buf.build/gen/go/grpc-ecosystem/grpc-gateway/protocolbuffers/go v1.31.0-20221127060915-a1ecdc58eccd.1 // indirect
+	github.com/envoyproxy/protoc-gen-validate v1.0.2 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.2 // indirect
+	golang.org/x/net v0.12.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230726155614-23370e0ffb3e // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230726155614-23370e0ffb3e // indirect
+	google.golang.org/grpc v1.57.0 // indirect
+)
+
+require (
+	github.com/openfga/api/proto v0.0.0-20230801154117-db20ad164368
 	golang.org/x/exp v0.0.0-20230728194245-b0cb94b80691 // indirect
-	google.golang.org/genproto v0.0.0-20220719170305-83ca9fad585f // indirect
+	google.golang.org/genproto v0.0.0-20230706204954-ccb25ca9f130 // indirect
 )

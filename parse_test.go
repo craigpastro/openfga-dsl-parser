@@ -3,9 +3,9 @@ package parser
 import (
 	"testing"
 
-	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
+	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 )
 
 var opts = cmpopts.IgnoreUnexported(

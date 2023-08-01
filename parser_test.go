@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	openfgav1 "buf.build/gen/go/openfga/api/protocolbuffers/go/openfga/v1"
+	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/encoding/protojson"
 	"gopkg.in/yaml.v3"

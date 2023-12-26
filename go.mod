@@ -7,7 +7,7 @@ require (
 	github.com/openfga/api/proto v0.0.0-20230801154117-db20ad164368
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/multierr v1.11.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.32.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 

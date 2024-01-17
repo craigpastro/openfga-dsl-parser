@@ -1,5 +1,9 @@
 # OpenFGA DSL Parser
 
+Archived: as there is now an [official parser](https://github.com/openfga/language).
+
+## Archived version
+
 OpenFGA DSL Parser is a parser for the OpenFGA DSL.
 
 > **Note:** This library parses an unofficial version of the OpenFGA DSL. Some differences:
